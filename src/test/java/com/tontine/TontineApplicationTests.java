@@ -1,4 +1,4 @@
-package com.tontine.tontine;
+package com.tontine;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
