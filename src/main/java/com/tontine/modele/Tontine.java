@@ -1,7 +1,8 @@
 package com.tontine.modele;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,15 +16,13 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @Entity
-public class MembreTontine {
+public class Tontine {
     @Id
     @GeneratedValue
     private int id;
-    @NotBlank
-    @Column(nullable = false)
-    private Date dateadhesion;
-    @OneToOne
-    private Utilisateur utilisateur;
-
-
+    private Date dateApproveTontine;
+//    private enum {
+//
+//    }
+    private int tourCourant;
 }
