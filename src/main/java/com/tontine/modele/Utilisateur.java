@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Entity
 public class Utilisateur {
     @Id
-    @GeneratedValue
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank
     @Column(length = 50, nullable = false)

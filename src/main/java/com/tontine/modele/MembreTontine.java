@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 public class MembreTontine {
     @Id
-    @GeneratedValue
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank
     @Column(nullable = false)

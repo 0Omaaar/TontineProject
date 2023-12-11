@@ -2,6 +2,7 @@ package com.tontine.modele;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +17,9 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @Entity
-public class Tontine {
+public class Tontine extends Demandetontine{
     @Id
-    @GeneratedValue
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
     private Date dateApproveTontine;
 //    private enum {
