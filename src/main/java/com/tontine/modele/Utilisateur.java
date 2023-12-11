@@ -18,21 +18,30 @@ public class Utilisateur {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
+
     @NotBlank
     @Column(length = 50, nullable = false)
     private String nomComplet;
+
     @NotBlank
     @Column(length = 100, nullable = false, unique = true)
     @Email
     private String email;
+
     @NotBlank
     @Column(nullable = false)
     //missing validation
-    private String motDePass;
+    private String motDePasse;
     // a verifier @Column()
-    private enum role {
-        admin,
-        user
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public enum Role {
+        ADMIN,
+        USER
     }
 
 

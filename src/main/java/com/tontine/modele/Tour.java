@@ -20,6 +20,8 @@ public class Tour {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
+
     private Date dateTour;
+
     private int nbrTour;
 }

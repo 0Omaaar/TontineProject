@@ -19,11 +19,12 @@ public class MembreTontine {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
+
     @NotBlank
     @Column(nullable = false)
     private Date dateadhesion;
+
     @OneToOne
     private Utilisateur utilisateur;
-
 
 }

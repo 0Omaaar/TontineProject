@@ -1,9 +1,6 @@
 package com.tontine.modele;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,23 +13,31 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-@Entity
+@MappedSuperclass
 public class Demandetontine {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
+
     private String nom;
+
     private int montantPeriode;
+
     private int maxMembre;
+
     private Date dateDebut;
+
     private Date dateFin;
+
     private enum typeOrdre{
-        manuel,
-        automatique
+        MANUEL,
+        AUTOMATIQUE
     }
     private enum statut{
-        approve,
-        refuse
+        APPROUVE,
+        REFUSE
     }
+
+    @Column(nullable = false)
     private String frequence;
 }
