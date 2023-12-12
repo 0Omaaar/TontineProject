@@ -43,6 +43,8 @@ public class Utilisateur {
         ADMIN,
         USER
     }
+    @OneToOne(mappedBy = "utilisateur", fetch = FetchType.LAZY)
+    MembreTontine membreTontine;
 
 
 }

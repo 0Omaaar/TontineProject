@@ -28,4 +28,7 @@ public class DemandeJointure {
 
     @Column(nullable = true)
     private Date date_approuve;
+
+    @ManyToOne
+    MembreTontine membreTontine;
 }

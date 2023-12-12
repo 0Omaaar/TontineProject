@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Collection;
 import java.util.Date;
 
 
@@ -26,5 +27,11 @@ public class MembreTontine {
 
     @OneToOne
     private Utilisateur utilisateur;
+
+    @OneToOne
+    Tour tour;
+
+    @OneToMany(mappedBy = "membreTontine")
+    private Collection<DemandeJointure> demandeJointures;
 
 }
