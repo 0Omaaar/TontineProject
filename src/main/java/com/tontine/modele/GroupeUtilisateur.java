@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @ToString
@@ -19,4 +21,7 @@ public class GroupeUtilisateur {
     @Column(nullable = true)
     private Float pourcentageCotisation;
 
+
+    @OneToMany(mappedBy = "groupeUtilisateur")
+    private List<Utilisateur> utilisateur;
 }

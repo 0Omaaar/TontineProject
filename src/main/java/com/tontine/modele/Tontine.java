@@ -17,11 +17,15 @@ import java.util.Date;
 public class Tontine extends Demandetontine{
     @Column(nullable = true)
     private Date dateApprouveTontine;
-    private enum status {
+
+    private enum Statut {
         ENATTENTE,
         ENCOURS,
         TERMINE
     }
+
+    @Enumerated(EnumType.STRING)
+    private Statut statut;
 
     @Column(nullable = true)
     private int tourCourant;

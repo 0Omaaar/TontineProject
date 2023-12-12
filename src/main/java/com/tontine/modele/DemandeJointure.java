@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.util.Date;
 
+
 @Data
 @AllArgsConstructor
 @ToString
@@ -21,14 +22,23 @@ public class DemandeJointure {
     @Column(nullable = false)
     private Date date;
 
-    private enum statut{
+    private enum Statut {
         APPROUVE,
         REFUSE
     }
+
+
+    @Enumerated(EnumType.STRING)
+    private Statut statut;
 
     @Column(nullable = true)
     private Date date_approuve;
 
     @ManyToOne
-    MembreTontine membreTontine;
+    private MembreTontine membreTontine;
+
+    @OneToOne
+    private Tontine tontine;
 }
+
+

@@ -35,16 +35,20 @@ public class Utilisateur {
     // a verifier @Column()
 
 
+    private enum Role {
+        ADMIN,
+        USER
+    }
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    public enum Role {
-        ADMIN,
-        USER
-    }
     @OneToOne(mappedBy = "utilisateur", fetch = FetchType.LAZY)
     MembreTontine membreTontine;
 
+
+    @OneToMany
+    private GroupeUtilisateur groupeUtilisateur;
 
 }

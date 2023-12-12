@@ -29,7 +29,10 @@ public class MembreTontine {
     private Utilisateur utilisateur;
 
     @OneToOne
-    Tour tour;
+    private GroupeUtilisateur groupeUtilisateur;
+
+    @OneToOne
+    private Tour tour;
 
     @OneToMany(mappedBy = "membreTontine")
     private Collection<DemandeJointure> demandeJointures;
