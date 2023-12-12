@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -35,6 +36,6 @@ public class MembreTontine {
     private Tour tour;
 
     @OneToMany(mappedBy = "membreTontine")
-    private Collection<DemandeJointure> demandeJointures;
+    private List<DemandeJointure> demandeJointures;
 
 }

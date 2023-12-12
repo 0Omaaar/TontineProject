@@ -22,6 +22,6 @@ public class GroupeUtilisateur {
     private Float pourcentageCotisation;
 
 
-    @OneToMany(mappedBy = "groupeUtilisateur")
-    private List<Utilisateur> utilisateur;
+    @ManyToMany(mappedBy = "groupeUtilisateurs")
+    private List<Utilisateur> utilisateurs;
 }

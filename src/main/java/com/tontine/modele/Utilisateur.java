@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @ToString
@@ -48,7 +50,12 @@ public class Utilisateur {
     MembreTontine membreTontine;
 
 
-    @OneToMany
-    private GroupeUtilisateur groupeUtilisateur;
+    @ManyToMany
+    @JoinTable(
+            name = "Utilisateur_GroupeUtilisateur",
+            joinColumns = @JoinColumn(name = "utilisateur_id"),
+            inverseJoinColumns = @JoinColumn(name = "groupeUtilisateur_id")
+    )
+    private List<GroupeUtilisateur> groupeUtilisateurs;
 
 }
