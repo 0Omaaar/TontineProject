@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,5 +42,5 @@ public class Demandetontine {
     private String frequence;
 
     @OneToOne
-    private Utilisateur utilisateur;
+    private User user;
 }

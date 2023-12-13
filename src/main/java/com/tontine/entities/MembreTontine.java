@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class MembreTontine {
     private Date dateadhesion;
 
     @OneToOne
-    private Utilisateur utilisateur;
+    private User user;
 
     @OneToOne
     private GroupeUtilisateur groupeUtilisateur;

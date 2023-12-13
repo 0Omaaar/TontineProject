@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,5 +23,5 @@ public class GroupeUtilisateur {
 
 
     @ManyToMany(mappedBy = "groupeUtilisateurs")
-    private List<Utilisateur> utilisateurs;
+    private List<User> users;
 }

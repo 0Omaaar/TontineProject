@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -16,14 +16,14 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Entity
-public class Utilisateur {
+public class User {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotBlank
     @Column(length = 50, nullable = false)
-    private String nomComplet;
+    private String username;
 
     @NotBlank
     @Column(length = 100, nullable = false, unique = true)
@@ -33,20 +33,13 @@ public class Utilisateur {
     @NotBlank
     @Column(nullable = false)
     //missing validation
-    private String motDePasse;
+    private String password;
     // a verifier @Column()
 
+    @ManyToMany
+    private Collection<Role> roles;
 
-    private enum Role {
-        ADMIN,
-        USER
-    }
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
-    @OneToOne(mappedBy = "utilisateur", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     MembreTontine membreTontine;
 
 
