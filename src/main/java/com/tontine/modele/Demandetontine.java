@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
@@ -14,10 +15,11 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Demandetontine {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String nom;
 
@@ -38,9 +40,12 @@ public class Demandetontine {
         REFUSE
     }
 
-    @Column(nullable = false)
-    private String frequence;
-
-    @OneToOne
-    private Utilisateur utilisateur;
+//    @Column(nullable = false)
+//    private String frequence;
+//
+//    @ManyToOne
+//    private Utilisateur utilisateur;
+//
+//    @ManyToOne
+//    private Tontine tontine;
 }

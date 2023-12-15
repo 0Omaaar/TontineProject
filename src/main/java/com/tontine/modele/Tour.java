@@ -16,7 +16,7 @@ import java.util.Date;
 public class Tour {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private Date dateTour;
 

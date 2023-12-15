@@ -17,7 +17,7 @@ import java.util.Date;
 public class DemandeJointure {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(nullable = false)
     private Date date;
@@ -37,8 +37,11 @@ public class DemandeJointure {
     @ManyToOne
     private MembreTontine membreTontine;
 
-    @OneToOne
+    @ManyToOne
     private Tontine tontine;
+
+    @ManyToOne
+    private Utilisateur utilisateur;
 }
 
 

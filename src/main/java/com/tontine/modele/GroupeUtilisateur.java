@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,12 +19,18 @@ import java.util.List;
 public class GroupeUtilisateur {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    @Column(nullable = true)
-    private Float pourcentageCotisation;
+//    @Column(nullable = true)
+//    private Float pourcentageCotisation;
+
+    @OneToMany(mappedBy = "groupeUtilisateur")
+    private Collection<Utilisateur_GroupeUtilisateur> utilisateurGroupeUtilisateurs;
 
 
-    @ManyToMany(mappedBy = "groupeUtilisateurs")
-    private List<Utilisateur> utilisateurs;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private List<Utilisateur> utilisateurs = new ArrayList<>();
+
+    @OneToOne(mappedBy = "groupeUtilisateur")
+    private MembreTontine membreTontine;
 }

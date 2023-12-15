@@ -20,7 +20,7 @@ import java.util.List;
 public class MembreTontine {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @NotBlank
     @Column(nullable = false)
@@ -32,10 +32,14 @@ public class MembreTontine {
     @OneToOne
     private GroupeUtilisateur groupeUtilisateur;
 
-    @OneToOne
+    @OneToOne(mappedBy = "membreTontine")
     private Tour tour;
 
-    @OneToMany(mappedBy = "membreTontine")
+    @OneToMany(mappedBy = "membreTontine", fetch = FetchType.EAGER)
     private List<DemandeJointure> demandeJointures;
+
+
+    @ManyToMany
+    private Collection<Tontine> tontines;
 
 }
