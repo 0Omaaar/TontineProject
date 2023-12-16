@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,7 +14,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Entity
-public class GroupeUtilisateur {
+public class GroupeUser {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,13 +22,16 @@ public class GroupeUtilisateur {
 //    @Column(nullable = true)
 //    private Float pourcentageCotisation;
 
-    @OneToMany(mappedBy = "groupeUtilisateur")
-    private Collection<Utilisateur_GroupeUtilisateur> utilisateurGroupeUtilisateurs;
+    @OneToMany(mappedBy = "groupeUser")
+    private Collection<User_GroupeUser> UserGroupeUsers;
+
 
 
 //    @ManyToMany(fetch = FetchType.EAGER)
-//    private List<Utilisateur> utilisateurs = new ArrayList<>();
+//    private List<User> Users = new ArrayList<>();
 
-    @OneToOne(mappedBy = "groupeUtilisateur")
+    @OneToOne(mappedBy = "groupeUser")
     private MembreTontine membreTontine;
+    @ManyToMany(mappedBy = "groupeUsers")
+    private List<User> users;
 }

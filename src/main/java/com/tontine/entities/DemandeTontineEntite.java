@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,11 +13,9 @@ public class DemandeTontineEntite extends Demandetontine {
 
 //    @Id
 //    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private String frequence;
 
     @ManyToOne
-    private Utilisateur utilisateur;
+    private User user;
 
 
 }

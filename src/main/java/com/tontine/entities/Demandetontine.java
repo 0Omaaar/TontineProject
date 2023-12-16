@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,6 +40,7 @@ public class Demandetontine {
         REFUSE
     }
 
+
 //    @Column(nullable = false)
 //    private String frequence;
 //
@@ -48,4 +49,10 @@ public class Demandetontine {
 //
 //    @ManyToOne
 //    private Tontine tontine;
+
+    @Column(nullable = false)
+    private String frequence;
+
+    @OneToOne
+    private User user;
 }

@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -7,9 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -18,14 +18,14 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Entity
-public class Utilisateur {
+public class User {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank
     @Column(length = 50, nullable = false)
-    private String nomComplet;
+    private String username;
 
     @NotBlank
     @Column(length = 15, nullable = false, unique = true)
@@ -39,8 +39,9 @@ public class Utilisateur {
     @NotBlank
     @Column(nullable = false)
     //missing validation
-    private String motDePasse;
+    private String password;
     // a verifier @Column()
+
 
     @NotBlank
     @Column(length = 10, nullable = false, unique = true)
@@ -56,26 +57,28 @@ public class Utilisateur {
     @Column(nullable = false)
     private Role role;
 
-    @OneToOne(mappedBy = "utilisateur", fetch = FetchType.LAZY)
+
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     MembreTontine membreTontine;
 
-    @OneToMany(mappedBy = "utilisateur", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "User", fetch = FetchType.LAZY)
     private List<DemandeJointure> demandeJointures;
 
-    @OneToMany(mappedBy = "utilisateur")
-    private Collection<Utilisateur_GroupeUtilisateur> utilisateur_groupeUtilisateurs;
+    @OneToMany(mappedBy = "User")
+    private Collection<User_GroupeUser> User_groupeUsers;
 
 
 //    @ManyToMany
-//            (mappedBy = "utilisateurs", fetch = FetchType.LAZY)
+//            (mappedBy = "Users", fetch = FetchType.LAZY)
 //    @JoinTable(
 //            name = "GroupeOfUser",
-//            joinColumns = @JoinColumn(name = "utilisateurId"),
+//            joinColumns = @JoinColumn(name = "UserId"),
 //            inverseJoinColumns = @JoinColumn(name = "groupeId")
 //    )
-//    private List<GroupeUtilisateur> groupeUtilisateurs;
+//    private List<GroupeUser> groupeUsers;
 
-    @OneToMany(mappedBy = "utilisateur")
-    private List<DemandeTontineEntite> demandeTontineEntites;
+    @OneToMany(mappedBy = "User")
+    private List<com.tontine.entities.DemandeTontineEntite> demandeTontineEntites;
 
 }

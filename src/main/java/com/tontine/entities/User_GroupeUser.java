@@ -1,6 +1,8 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 
+import com.tontine.entities.GroupeUser;
+import com.tontine.entities.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,17 +12,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Utilisateur_GroupeUtilisateur {
+public class User_GroupeUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
-    private Utilisateur utilisateur;
+    private User user;
 
     @ManyToOne
-    private GroupeUtilisateur groupeUtilisateur;
+    private GroupeUser groupeUser;
 
     @Column(length = 10, nullable = true) //cotisation se fait par 0.1, 0.2 ...
     private Float pourcentageCotisation;

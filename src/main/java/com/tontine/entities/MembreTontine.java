@@ -1,4 +1,4 @@
-package com.tontine.modele;
+package com.tontine.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -27,10 +27,10 @@ public class MembreTontine {
     private Date dateadhesion;
 
     @OneToOne
-    private Utilisateur utilisateur;
+    private User user;
 
     @OneToOne
-    private GroupeUtilisateur groupeUtilisateur;
+    private GroupeUser groupeUser;
 
     @OneToOne(mappedBy = "membreTontine")
     private Tour tour;
