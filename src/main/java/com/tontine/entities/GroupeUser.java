@@ -32,6 +32,5 @@ public class GroupeUser {
 
     @OneToOne(mappedBy = "groupeUser")
     private MembreTontine membreTontine;
-    @ManyToMany(mappedBy = "groupeUsers")
-    private List<User> users;
+
 }
