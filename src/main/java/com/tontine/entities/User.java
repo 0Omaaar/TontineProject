@@ -62,10 +62,10 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     MembreTontine membreTontine;
 
-    @OneToMany(mappedBy = "User", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<DemandeJointure> demandeJointures;
 
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "user")
     private Collection<User_GroupeUser> User_groupeUsers;
 
 
@@ -78,7 +78,7 @@ public class User {
 //    )
 //    private List<GroupeUser> groupeUsers;
 
-    @OneToMany(mappedBy = "User")
-    private List<com.tontine.entities.DemandeTontineEntite> demandeTontineEntites;
+    @OneToMany(mappedBy = "user")
+    private List<DemandeTontineEntite> demandeTontineEntites;
 
 }

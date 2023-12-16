@@ -1,7 +1,6 @@
 package com.tontine;
 
 import com.tontine.entities.User;
-import com.tontine.modele.User;
 import com.tontine.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
