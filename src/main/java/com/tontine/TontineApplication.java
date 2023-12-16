@@ -1,7 +1,6 @@
 package com.tontine;
 
 import com.tontine.entities.User;
-import com.tontine.modele.User;
 import com.tontine.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +15,7 @@ public class TontineApplication implements CommandLineRunner {
 	private UserRepository UserRepository;
 
 	public static void main(String[] args) {
-		SpringApplication.run(TontineApplication.class, args);
+		SpringApplication.run(com.tontine.TontineApplication.class, args);
 	}
 
 	@Override
