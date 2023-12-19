@@ -53,6 +53,5 @@ public class Demandetontine {
     @Column(nullable = false)
     private String frequence;
 
-    @OneToOne
-    private User user;
+
 }

@@ -2,6 +2,7 @@ package com.tontine.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,16 +32,17 @@ public class User {
 
     @Column(unique = true)
     @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
+    @Column(length = 10, nullable = false, unique = true)
+    private String numTele;
 
     @NotBlank
     @Column(nullable = false)
     private String password;
 
-
-    @NotBlank
-    @Column(length = 10, nullable = false, unique = true)
-    private String numTele;
 
     @Column(nullable = false)
     private String roles;

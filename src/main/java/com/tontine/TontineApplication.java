@@ -1,30 +1,31 @@
 package com.tontine;
 
-import com.tontine.repositories.UserRepository;
+import com.tontine.entities.User;
+import com.tontine.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TontineApplication
-//		implements CommandLineRunner
+public class TontineApplication implements CommandLineRunner
 {
 	@Autowired
-	private UserRepository UserRepository;
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TontineApplication.class, args);
 	}
 
-//	@Override
-//	public void run(String... args) throws Exception {
-////		User User = new User();
-////		User.setNomComplet("Yassir el haj");
-////		User.setEmail("Yassir@elhaj.com");
-////		User.setCin("AYB1888");
-////		User.setMotDePasse("YassirP@ssw0rdelhaj");
-////		User.setRole(User.Role.USER);
-////		User.setNumTele("0666666666");
-////		UserRepository.save(User);
-//	}
+	@Override
+	public void run(String... args) throws Exception {
+		User user = new User();
+		user.setNom_prenom("Yassir el haj");
+		user.setEmail("Yassir@elhaj.com");
+		user.setCin("AYB1888");
+		user.setPassword("YassirP@ssw0rdelhaj");
+		user.setRoles("USER");
+		user.setNumTele("0666666666");
+		userRepository.save(user);
+	}
 }
