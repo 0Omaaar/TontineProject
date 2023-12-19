@@ -6,14 +6,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TontineApplicationCopy
+public class TontineApplication
 //		implements CommandLineRunner
 {
 	@Autowired
 	private UserRepository UserRepository;
 
 	public static void main(String[] args) {
-		SpringApplication.run(TontineApplicationCopy.class, args);
+		SpringApplication.run(TontineApplication.class, args);
 	}
 
 //	@Override
