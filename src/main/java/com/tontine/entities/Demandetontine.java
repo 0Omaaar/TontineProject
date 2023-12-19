@@ -53,6 +53,10 @@ public class Demandetontine {
     @Column(nullable = false)
     private String frequence;
 
+<<<<<<< HEAD
 //    @OneToOne
 //    private User user;
+=======
+
+>>>>>>> 110e6286feb6c21d1c53058edf7655c017e17457
 }

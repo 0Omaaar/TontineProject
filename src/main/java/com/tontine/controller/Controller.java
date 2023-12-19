@@ -3,9 +3,8 @@ package com.tontine.controller;
 
 
 import com.tontine.entities.User;
-import com.tontine.repository.OurUserRepo;
+import com.tontine.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,10 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class Controller {
     @Autowired
-    private OurUserRepo ourUserRepo;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
 
     @GetMapping("/")
     public ModelAndView index(){
@@ -50,7 +51,7 @@ public class Controller {
     @PostMapping("/user/save")
     public ModelAndView saveUSer(@ModelAttribute("User") User ourUser){
         ourUser.setPassword(passwordEncoder.encode(ourUser.getPassword()));
-        User result = ourUserRepo.save(ourUser);
+        User result = userRepository.save(ourUser);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/");
 
@@ -59,12 +60,12 @@ public class Controller {
     @GetMapping("/users/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Object> getAllUSers(){
-        return ResponseEntity.ok(ourUserRepo.findAll());
+        return ResponseEntity.ok(userRepository.findAll());
     }
     @GetMapping("/users/single")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<Object> getMyDetails(){
-        return ResponseEntity.ok(ourUserRepo.findByEmail(getLoggedInUserDetails().getUsername()));
+        return ResponseEntity.ok(userRepository.findByEmail(getLoggedInUserDetails().getUsername()));
     }
 
     public UserDetails getLoggedInUserDetails(){
