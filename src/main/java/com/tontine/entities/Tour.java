@@ -23,5 +23,5 @@ public class Tour {
     private int nbrTour;
 
     @OneToOne
-    MembreTontine membreTontine;
+    private MembreTontine membreTontine;
 }

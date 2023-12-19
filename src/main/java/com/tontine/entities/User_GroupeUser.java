@@ -1,8 +1,6 @@
 package com.tontine.entities;
 
 
-import com.tontine.entities.GroupeUser;
-import com.tontine.entities.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
