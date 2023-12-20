@@ -1,6 +1,7 @@
 package com.tontine.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,16 +20,14 @@ public class GroupeUser {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @Column(nullable = true)
-//    private Float pourcentageCotisation;
+    @Column(nullable = false, unique = true)
+    @NotBlank
+    private String nomGroupe;
+
 
     @OneToMany(mappedBy = "groupeUser")
-    private Collection<User_GroupeUser> UserGroupeUsers;
+    private Collection<User_GroupeUser> userGroupeUsers;
 
-
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private List<User> Users = new ArrayList<>();
 
     @OneToOne(mappedBy = "groupeUser")
     private MembreTontine membreTontine;

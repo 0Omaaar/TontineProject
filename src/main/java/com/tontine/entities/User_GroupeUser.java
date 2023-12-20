@@ -22,7 +22,7 @@ public class User_GroupeUser {
     @ManyToOne
     private GroupeUser groupeUser;
 
-    @Column(length = 10, nullable = true) //cotisation se fait par 0.1, 0.2 ...
+    @Column(length = 10, nullable = false) //cotisation se fait par 0.1, 0.2 ...
     private Float pourcentageCotisation;
 
 }
