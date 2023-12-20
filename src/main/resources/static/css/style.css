@@ -11,6 +11,15 @@ body{
     background-color: #f0f0f0;
 }
 
+.texto{
+    color: white;
+    text-decoration: none;
+}
+
+.texto:hover{
+    color: gray;
+}
+
 .login-section {
     text-align: right;
 }

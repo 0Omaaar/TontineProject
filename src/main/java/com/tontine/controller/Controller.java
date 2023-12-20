@@ -2,8 +2,10 @@ package com.tontine.controller;
 
 
 
+import com.tontine.entities.Tontine;
 import com.tontine.entities.User;
 import com.tontine.repository.UserRepository;
+import com.tontine.service.TontineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,11 +13,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
+
 @RestController
-@org.springframework.stereotype.Controller
+//@org.springframework.stereotype.Controller
 //@ResponseBody
 @RequestMapping
 public class Controller {
@@ -25,11 +31,14 @@ public class Controller {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    @Autowired
+    private TontineService tontineService;
 
     @GetMapping("/")
-    public ModelAndView index(){
+    public ModelAndView index(Model model){
         ModelAndView modelAndView = new ModelAndView();
+        List<Tontine> tontines = tontineService.findAll();
+        model.addAttribute("tontines", tontines);
         modelAndView.setViewName("home");
         return modelAndView;
     }
