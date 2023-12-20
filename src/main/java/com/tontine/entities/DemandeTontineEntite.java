@@ -17,5 +17,4 @@ public class DemandeTontineEntite extends Demandetontine {
     @ManyToOne
     private User user;
 
-
 }

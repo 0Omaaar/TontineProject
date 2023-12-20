@@ -22,8 +22,8 @@ public class Tontine extends Demandetontine{
     private Date dateApprouveTontine;
 
     private enum Statut {
-        ENATTENTE,
-        ENCOURS,
+        EN_ATTENTE,
+        EN_COURS,
         TERMINE
     }
 

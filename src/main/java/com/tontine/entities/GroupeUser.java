@@ -24,10 +24,11 @@ public class GroupeUser {
     @NotBlank
     private String nomGroupe;
 
+    @OneToMany(mappedBy = "groupeUser")
+    private Collection<DemandeJointure> demandeJointures;
 
     @OneToMany(mappedBy = "groupeUser")
     private Collection<User_GroupeUser> userGroupeUsers;
-
 
     @OneToOne(mappedBy = "groupeUser")
     private MembreTontine membreTontine;

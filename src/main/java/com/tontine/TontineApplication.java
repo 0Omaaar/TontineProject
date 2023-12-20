@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TontineApplication implements CommandLineRunner
+public class TontineApplication
 {
 	@Autowired
 	private UserRepository userRepository;
@@ -17,15 +17,15 @@ public class TontineApplication implements CommandLineRunner
 		SpringApplication.run(TontineApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		User user = new User();
-		user.setNom_prenom("Yassir el haj");
-		user.setEmail("Yassir@elhaj.com");
-		user.setCin("AYB1888");
-		user.setPassword("YassirP@ssw0rdelhaj");
-		user.setRoles("USER");
-		user.setNumTele("0666666666");
-		userRepository.save(user);
-	}
+//	@Override
+//	public void run(String... args) throws Exception {
+//		User user = new User();
+//		user.setNom_prenom("Yassir el haj");
+//		user.setEmail("Yassir@elhaj.com");
+//		user.setCin("AYB1888");
+//		user.setPassword("YassirP@ssw0rdelhaj");
+//		user.setRoles("USER");
+//		user.setNumTele("0666666666");
+//		userRepository.save(user);
+//	}
 }
