@@ -20,6 +20,15 @@ body{
     color: gray;
 }
 
+.demande{
+    border: 1px solid gray;
+}
+
+.demande:hover{
+    background-color: #3c4142;
+    color: white;
+}
+
 .login-section {
     text-align: right;
 }
