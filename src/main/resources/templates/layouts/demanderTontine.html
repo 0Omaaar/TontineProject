@@ -7,22 +7,24 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <form class="form-group" action="/demander-jointure" method="POST" th:object="${DemandeJointure}">
             <div class="modal-body">
-                <!--khass nzido hta tontine_id so khass tzad hta f models (add tontine_id to demandeTontine)-->
-                <input type="hidden" th:name="'tontine_id'" th:value="${tontine.id}">
-                <input type="hidden" name="user_id" th:value="${user_id}">
-                <div class="form-group">
-                    <label>Type de Participation : </label>
-                    <select class="form-select">
-                        <option>Seul</option>
-                        <option>En Groupe</option>
-                    </select>
-                </div>
-                </div>
+                   <input type="text" th:name="tontine.id" th:value="${tontine.id}">
+                   <input type="hidden" th:name="user" th:value="${user_id}">
+<!--                   <div class="form-group">-->
+<!--                       <label for="participationType">Type de Participation :</label>-->
+<!--                       <select class="form-select" id="participationType" name="participationType">-->
+<!--                           <option value="SEUL">Seul</option>-->
+<!--                           <option value="EN_GROUPE">En Groupe</option>-->
+<!--                           <option>Cotisation</option>-->
+<!--                       </select>-->
+<!--                   </div>-->
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Demander</button>
+                <input type="submit" class="btn btn-success" value="Demander"></input>
             </div>
+            </form>
         </div>
     </div>
 </div>

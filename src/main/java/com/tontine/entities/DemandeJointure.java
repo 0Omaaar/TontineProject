@@ -1,5 +1,6 @@
 package com.tontine.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,8 @@ public class DemandeJointure {
     @Column(nullable = false)
     private Date date;
 
-    private enum Statut {
+    public enum Statut {
+        EN_ATTENTE,
         APPROUVE,
         REFUSE
     }
@@ -38,12 +40,15 @@ public class DemandeJointure {
 //    private MembreTontine membreTontine;
 
 
+    @JsonIgnore
     @ManyToOne
     private GroupeUser groupeUser;
 
+    @JsonIgnore
     @ManyToOne
     private Tontine tontine;
 
+    @JsonIgnore
     @ManyToOne
     private User user;
 }
