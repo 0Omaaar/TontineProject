@@ -45,6 +45,4 @@ public class Tontine extends Demandetontine{
 //    )
     private Collection<DemandeJointure> demandeJointures;
 
-
-
 }
