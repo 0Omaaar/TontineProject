@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -35,10 +36,23 @@ public class Controller {
     private TontineService tontineService;
 
     @GetMapping("/")
-    public ModelAndView index(Model model){
+    public ModelAndView index(Model model, Authentication authentication){
         ModelAndView modelAndView = new ModelAndView();
         List<Tontine> tontines = tontineService.findAll();
+
+        int user_id = 0;
+        User authenticated_user = null;
+
+        if(authentication != null){
+            authenticated_user = userRepository.findByEmail(getLoggedInUserDetails().getUsername()).orElse(null);
+        }
+
+        if(authenticated_user != null){
+            user_id = authenticated_user.getId();
+        }
+
         model.addAttribute("tontines", tontines);
+        model.addAttribute("user_id", user_id);
         modelAndView.setViewName("home");
         return modelAndView;
     }
@@ -62,7 +76,7 @@ public class Controller {
         ourUser.setPassword(passwordEncoder.encode(ourUser.getPassword()));
         User result = userRepository.save(ourUser);
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/");
+        ModelAndView modelAndView = new ModelAndView("redirect:/login");
 
         return modelAndView;
     }

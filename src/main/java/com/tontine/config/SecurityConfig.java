@@ -29,6 +29,11 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
                 .formLogin(form -> form
                         .loginPage("/login"))
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"))
                 .csrf(csrf -> csrf.disable());
 
         return http.build();

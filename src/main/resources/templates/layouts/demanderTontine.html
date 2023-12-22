@@ -1,4 +1,4 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" th:id="'exampleModal' + ${tontine.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,10 +9,16 @@
             </div>
             <div class="modal-body">
                 <!--khass nzido hta tontine_id so khass tzad hta f models (add tontine_id to demandeTontine)-->
-<!--                <input type="hidden" name="tontine_id">-->
-                <label>test</label>
-                <input type="text" class="form-control">
-            </div>
+                <input type="hidden" th:name="'tontine_id'" th:value="${tontine.id}">
+                <input type="hidden" name="user_id" th:value="${user_id}">
+                <div class="form-group">
+                    <label>Type de Participation : </label>
+                    <select class="form-select">
+                        <option>Seul</option>
+                        <option>En Groupe</option>
+                    </select>
+                </div>
+                </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal">Demander</button>

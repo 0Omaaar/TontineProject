@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -18,16 +19,19 @@
 </head>
 <body>
 <!--    Nav Section   -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-0 header">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Liste Des Tontines</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="login-section">
+        <div class="login-section" th:if="${not #authorization.expression('isAuthenticated()')}">
             <a href="/login" class="texto">Se connecter</a>
             <span class="separator">|</span>
             <a href="/register" class="texto">Créer un compte</a>
+        </div>
+        <div class="login-section" th:if="${#authorization.expression('isAuthenticated()')}">
+            <a href="/logout" class="texto">Se deconnecter</a>
         </div>
     </div>
 </nav>
@@ -58,20 +62,22 @@
                             <li class="widget-49-meeting-item"><b>Max Membres : </b><span th:text="${tontine.maxMembre}"></span></li>
                             <li class="widget-49-meeting-item"><b>Nombre de Places Restantes : </b><span>99</span></li>
                         </ol>
-                        <div class="widget-49-meeting-action">
-                            <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-flash-border-primary demande">
+                        <div class="widget-49-meeting-action" th:if="${#authorization.expression('isAuthenticated()')}">
+                            <button type="button" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}" class="btn btn-sm btn-flash-border-primary demande">
                                 Demander Tontine
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
+            <!--Modal Pour demander une tontine-->
+            <div th:replace="layouts/demanderTontine"></div>
         </div>
     </div>
 </div>
 
-<!--Modal Pour demander une tontine-->
-<div th:replace="layouts/demanderTontine"></div>
+
 
 
 </body>
