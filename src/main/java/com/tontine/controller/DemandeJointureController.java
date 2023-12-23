@@ -1,6 +1,7 @@
 package com.tontine.controller;
 
 import com.tontine.entities.DemandeJointure;
+import com.tontine.service.DemandeJointureService;
 import com.tontine.service.DemandeJointureServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,13 +15,13 @@ import java.util.Date;
 public class DemandeJointureController {
 
     @Autowired
-    private DemandeJointureServiceImp demandeJointureServiceImp;
+    private DemandeJointureService demandeJointureService;
 
     @PostMapping("/demander-jointure")
     public DemandeJointure saveDemandeJointure(@ModelAttribute("DemandeJointure") DemandeJointure demandeJointure){
         demandeJointure.setDate(new Date());
         demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
-        return demandeJointureServiceImp.saveDemandeJointure(demandeJointure);
+        return demandeJointureService.saveDemandeJointure(demandeJointure);
     }
 
 }
