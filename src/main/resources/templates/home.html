@@ -38,6 +38,10 @@
 
 
 <div class="container mt-5">
+
+<!--    <p th:if="${errorMessage != null and errorMessage.isEmpty() == false}">Error: <span th:text="${errorMessage}"></span></p>-->
+<!--    <p th:if="${successMessage != null and successMessage.isEmpty() == false}">Success: <span th:text="${successMessage}"></span></p>-->
+
     <div class="row">
         <div class="col-lg-4" th:each="tontine, iStat : ${tontines}">
             <div class="card card-margin">
@@ -79,6 +83,18 @@
 
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('participationType').addEventListener('change', function() {
+            var cotisationDiv = document.getElementById('cotisationDiv');
+            if (this.value === 'EN_GROUPE') {
+                cotisationDiv.style.display = 'block';
+            } else {
+                cotisationDiv.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
