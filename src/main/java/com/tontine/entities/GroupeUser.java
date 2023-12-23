@@ -33,4 +33,7 @@ public class GroupeUser {
     @OneToOne(mappedBy = "groupeUser")
     private MembreTontine membreTontine;
 
+    public GroupeUser(String nomGroupe) {
+        this.nomGroupe=nomGroupe;
+    }
 }

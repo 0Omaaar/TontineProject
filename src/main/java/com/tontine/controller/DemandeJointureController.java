@@ -1,12 +1,14 @@
 package com.tontine.controller;
 
 import com.tontine.entities.DemandeJointure;
+import com.tontine.entities.GroupeUser;
 import com.tontine.service.DemandeJointureService;
 import com.tontine.service.DemandeJointureServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @RestController
@@ -24,9 +26,12 @@ public class DemandeJointureController {
         demandeJointure.setDate(new Date());
         demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
 
-        if(participationType == "SEUL"){
+        if("EN_GROUPE".equals(participationType)){
 
-        }else{
+            String nomGroupe = demandeJointure.getTontine().getNom() + "G1";
+            demandeJointure.setGroupeUser(new GroupeUser(nomGroupe));
+            demandeJointure.getUser().setUser_groupeUsers(new ArrayList<>());
+
 
         }
 
