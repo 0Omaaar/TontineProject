@@ -17,4 +17,9 @@ public class TontineServiceImp implements TontineService {
     public List<Tontine> findAll(){
         return tontineRepository.findAll();
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        tontineRepository.deleteById(id);
+    }
 }

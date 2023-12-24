@@ -6,6 +6,7 @@ import com.tontine.service.TontineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +36,18 @@ public class AdminController {
         model.addAttribute("tontines", tontines);
 
         modelAndView.setViewName("admin/tontines");
+        return modelAndView;
+    }
+
+    @GetMapping("/supprimer-tontine-{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView supprimerTontine(@PathVariable Integer id){
+        tontineService.deleteById(id);
+
+        // ajouter traitment de suppression des demandes jointures de cette tontine
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/tontines");
         return modelAndView;
     }
 

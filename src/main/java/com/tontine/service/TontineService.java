@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TontineService {
     public List<Tontine> findAll();
+
+    public void deleteById(Integer id);
 }
