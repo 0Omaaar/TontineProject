@@ -21,14 +21,14 @@ public class Tontine extends Demandetontine{
     @Column(nullable = true)
     private Date dateApprouveTontine;
 
-    private enum Statut {
+    private enum StatutTontine {
         EN_ATTENTE,
         EN_COURS,
         TERMINE
     }
 
     @Enumerated(EnumType.STRING)
-    private Statut statut;
+    private StatutTontine statutTontine;
 
     @Column(nullable = true)
     private int tourCourant;

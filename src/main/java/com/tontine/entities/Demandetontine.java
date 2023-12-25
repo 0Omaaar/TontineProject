@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -27,18 +28,29 @@ public class Demandetontine {
 
     private int maxMembre;
 
-    private Date dateDebut;
+    private LocalDate dateDebut;
 
-    private Date dateFin;
+    private LocalDate dateFin;
 
-    private enum typeOrdre{
-        MANUEL,
-        AUTOMATIQUE
+    private enum TypeOrdre{
+        ALEATOIRE,
+        ORDER
     }
-    private enum statut{
+    private Demandetontine.TypeOrdre typeOrdre;
+    public enum StatutDemande{
         APPROUVE,
         REFUSE
     }
+    @Enumerated(EnumType.STRING)
+    private Demandetontine.StatutDemande statutDemande;
+
+    public enum Frequence {
+        HEBDOMADAIRE,
+        MENTUEL,
+        TRIMENTUEL
+    }
+    @Enumerated(EnumType.STRING)
+    private Demandetontine.Frequence frequence;
 
 
 //    @Column(nullable = false)
@@ -49,8 +61,5 @@ public class Demandetontine {
 //
 //    @ManyToOne
 //    private Tontine tontine;
-
-    @Column(nullable = false)
-    private String frequence;
 
 }

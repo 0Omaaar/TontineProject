@@ -26,7 +26,7 @@ public class DemandeJointureController {
     @Autowired
     private User_GroupeUserRepository userGroupeUserRepository;
 
-    @PostMapping("/demander-jointure")
+    @PostMapping("/tontine/demander-jointure")
     public ModelAndView saveDemandeJointure(@ModelAttribute("DemandeJointure") DemandeJointure demandeJointure,
                                             @RequestParam(name = "participationType", required = false) String participationType,
                                             @RequestParam(name = "cotisation", required = false) Float cotisation) {
