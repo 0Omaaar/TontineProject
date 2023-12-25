@@ -28,9 +28,9 @@ public class Demandetontine {
 
     private int maxMembre;
 
-    private LocalDate dateDebut;
+    private Date dateDebut;
 
-    private LocalDate dateFin;
+    private Date dateFin;
 
 
     private enum TypeOrdre{
@@ -40,6 +40,7 @@ public class Demandetontine {
     @Enumerated(EnumType.STRING)
     private TypeOrdre typeOrdre;
     public enum StatutDemande{
+        EN_ATTENTE,
         APPROUVE,
         REFUSE
     }

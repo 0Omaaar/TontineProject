@@ -1,5 +1,7 @@
 package com.tontine.controller;
 
+import com.tontine.entities.DemandeTontineEntite;
+import com.tontine.service.DemandeTontineService;
 import org.springframework.ui.Model;
 import com.tontine.entities.Tontine;
 import com.tontine.service.TontineService;
@@ -17,6 +19,9 @@ public class AdminController {
 
     @Autowired
     private TontineService tontineService;
+
+    @Autowired
+    private DemandeTontineService demandeTontineService;
 
     @GetMapping("/dashboard")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -36,6 +41,16 @@ public class AdminController {
         model.addAttribute("tontines", tontines);
 
         modelAndView.setViewName("admin/tontines");
+        return modelAndView;
+    }
+
+    @GetMapping("/demandesTontine")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView demandesTontines(Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        List<DemandeTontineEntite> demandesTontines = demandeTontineService.findAll();
+        model.addAttribute("demandes", demandesTontines);
+        modelAndView.setViewName("admin/demandesTontines");
         return modelAndView;
     }
 

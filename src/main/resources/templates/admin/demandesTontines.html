@@ -213,7 +213,7 @@
                 <!-- Products Inventory -->
                 <div class="card card-default">
                     <div class="card-header">
-                        <h2>Liste des Tontines</h2>
+                        <h2>Liste des demandes Tontines</h2>
                     </div>
                     <div class="card-body">
                         <div class="collapse" id="collapse-data-tables">
@@ -224,48 +224,28 @@
                                 <th>Nom</th>
                                 <th>Date_Debut</th>
                                 <th>Date_Fin</th>
-                                <th>NbPlacesRestantes</th>
-                                <th>Status</th>
+                                <th>Utilisateur</th>
+                                <th>Frequence</th>
+                                <th>Membres</th>
+                                <th>Montant</th>
+                                <th>Statut</th>
                                 <th>Opérations</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="tontine, iStat : ${tontines}">
-                                <td th:text="${tontine.nom}"></td>
-                                <td th:text="${tontine.dateDebut}"></td>
-                                <td th:text="${tontine.dateFin}"></td>
-                                <td>??</td>
-                                <td th:text="${tontine.statutDemande}"></td>
-                                <td>
-                                    <a href="#" class="btn btn-primary" title="Afficher Tontine"><i class="mdi mdi-eye"></i></a>
-                                    <a href="#" class="btn btn-dark" title="Changer Statut"><i class="mdi mdi-circle-edit-outline"></i></a>
-<!--                                    <a th:href="@{/supprimer-tontine-{id}(id=${tontine.id})}" class="btn btn-danger" title="Supprimer Tontine"><i class="mdi mdi-delete"></i></a>-->
-                                    <button type="button" class="btn btn-danger" title="Supprimer Tontine" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}">
-                                        <i class="mdi mdi-delete"></i>
-                                    </button>
+                            <tr th:each="demande, iStat : ${demandes}">
+                                <td th:text="${demande.nom}"></td>
+                                <td th:text="${demande.dateDebut}"></td>
+                                <td th:text="${demande.dateFin}"></td>
+                                <td th:text="${demande.user.nom_prenom}"></td>
+                                <td th:text="${demande.frequence}"></td>
+                                <td th:text="${demande.maxMembre}"></td>
+                                <td th:text="${demande.montantPeriode}"></td>
+                                <td th:text="${demande.statutDemande}" style="background-color: gray"></td>
+                                <td th:if="${demande.statutDemande != null and demande.statutDemande == T(com.tontine.entities.Demandetontine.StatutDemande).EN_ATTENTE}">
+                                    <a href="/accepterDemande" class="btn btn-sm btn-primary" title="Statut Demande">Accepter</a>
+                                    <a href="/refuserDemande" class="btn btn-sm btn-danger" title="Statut Demande">Refuser</a>
                                 </td>
-
-
-                                <div class="modal fade" th:id="'exampleModal' + ${tontine.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Veuillez Confirmer La Suppression de la Tontine avec le Nom "<b th:text="${tontine.nom}"></b>"
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <a th:href="@{/supprimer-tontine-{id}(id=${tontine.id})}" class="btn btn-primary" >Supprimer</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </tr>
                             </tbody>
                         </table>
