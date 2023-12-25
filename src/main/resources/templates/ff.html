@@ -35,11 +35,14 @@
             <div class="text-center mb-5 text-dark">DARET</div>
             <div class="card my-5">
 
-                <form class="card-body cardbody-color p-lg-5" method="post" action="/tontine/demander-tontine" th:object="${DemandeTontineEntite}">
+                <form class="card-body cardbody-color p-lg-5" method="post" action="/tontine/demander-tontine" th:object="${demandeTontineEntine}">
 
                     <div class="mb-3">
                         <input type="text" class="form-control"  name="nom" placeholder="Nom Tontine" autofocus>
                     </div>
+
+                    <input type="hidden" th:name="user" th:value="${user_id}" >
+                    <input type="hidden" th:name="statutDemande" th:value="EN_ATTENTE" >
 
                     <div class="mb-3">
                         <input type="number" class="form-control" id="Montant" name="montantPeriode"  aria-describedby="emailHelp"

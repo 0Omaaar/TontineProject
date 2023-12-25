@@ -32,17 +32,19 @@ public class Demandetontine {
 
     private LocalDate dateFin;
 
+
     private enum TypeOrdre{
         ALEATOIRE,
         ORDER
     }
-    private Demandetontine.TypeOrdre typeOrdre;
+    @Enumerated(EnumType.STRING)
+    private TypeOrdre typeOrdre;
     public enum StatutDemande{
         APPROUVE,
         REFUSE
     }
     @Enumerated(EnumType.STRING)
-    private Demandetontine.StatutDemande statutDemande;
+    private StatutDemande statutDemande;
 
     public enum Frequence {
         HEBDOMADAIRE,
@@ -50,7 +52,7 @@ public class Demandetontine {
         TRIMENTUEL
     }
     @Enumerated(EnumType.STRING)
-    private Demandetontine.Frequence frequence;
+    private Frequence frequence;
 
 
 //    @Column(nullable = false)
