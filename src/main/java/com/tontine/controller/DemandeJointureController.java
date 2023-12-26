@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -26,11 +28,13 @@ public class DemandeJointureController {
     @Autowired
     private User_GroupeUserRepository userGroupeUserRepository;
 
-    @PostMapping("/tontine/demander-jointure")
+    @PostMapping("/demander-jointure")
     public ModelAndView saveDemandeJointure(@ModelAttribute("DemandeJointure") DemandeJointure demandeJointure,
                                             @RequestParam(name = "participationType", required = false) String participationType,
                                             @RequestParam(name = "cotisation", required = false) Float cotisation) {
-        demandeJointure.setDate(new Date());
+        Date date = new Date(); // Assuming this is the date you want to set
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        demandeJointure.setDate(localDate);
         demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
 
         if ("EN_GROUPE".equals(participationType)) {

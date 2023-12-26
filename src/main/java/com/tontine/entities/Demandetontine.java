@@ -28,9 +28,9 @@ public class Demandetontine {
 
     private int maxMembre;
 
-    private Date dateDebut;
+    private LocalDate dateDebut;
 
-    private Date dateFin;
+    private LocalDate dateFin;
 
 
     private enum TypeOrdre{

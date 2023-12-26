@@ -72,8 +72,9 @@
                         <div class="widget-49-title-wrapper">
                             <div class="widget-49-date-primary">
 
-                                <span class="widget-49-date-day" th:text="${#dates.format(tontine.dateDebut, 'dd')}"></span>
-                                <span class="widget-49-date-month" th:text="${#dates.format(tontine.dateDebut, 'MMM')}"></span>
+                                <span class="widget-49-date-day" th:text="${#temporals.format(tontine.dateDebut, 'dd')}"></span>
+                                <span class="widget-49-date-month" th:text="${#temporals.format(tontine.dateDebut, 'MMM')}"></span>
+
                             </div>
                             <div class="widget-49-meeting-info">
                                 <b>Montant Par Période: </b>

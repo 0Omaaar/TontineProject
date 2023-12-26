@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 
 //@SuperBuilder
@@ -19,9 +19,9 @@ import java.util.List;
 public class Tontine extends Demandetontine{
 
     @Column(nullable = true)
-    private Date dateApprouveTontine;
+    private LocalDate dateApprouveTontine;
 
-    private enum StatutTontine {
+    public enum StatutTontine {
         EN_ATTENTE,
         EN_COURS,
         TERMINE

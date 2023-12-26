@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,6 +26,8 @@ public class AdminController {
 
     @Autowired
     private DemandeTontineService demandeTontineService;
+
+
 
     @GetMapping("/dashboard")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -57,12 +62,26 @@ public class AdminController {
 
     @GetMapping("/accepterDemande/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView accepterDemande(@PathVariable Integer id){
+    public ModelAndView accepterDemande(@PathVariable int id){
         ModelAndView modelAndView = new ModelAndView();
 
         DemandeTontineEntite demandeTontineEntite = demandeTontineService.findById(id);
         demandeTontineEntite.setStatutDemande(Demandetontine.StatutDemande.APPROUVE);
         demandeTontineService.save(demandeTontineEntite);
+
+        Tontine tontine = new Tontine();
+        tontine.setNom(demandeTontineEntite.getNom());
+        tontine.setDateDebut(demandeTontineEntite.getDateDebut());
+        tontine.setFrequence(demandeTontineEntite.getFrequence());
+        tontine.setMaxMembre(demandeTontineEntite.getMaxMembre());
+        tontine.setMontantPeriode(demandeTontineEntite.getMontantPeriode());
+        tontine.setTypeOrdre(demandeTontineEntite.getTypeOrdre());
+        Date date = new Date(); // Assuming this is the date you want to set
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        tontine.setDateApprouveTontine(localDate);
+        tontine.setStatutTontine(Tontine.StatutTontine.EN_ATTENTE);
+        tontine.setTourCourant(0);
+        tontineService.save(tontine);
 
         modelAndView.setViewName("redirect:/demandesTontine");
         return modelAndView;
@@ -72,7 +91,7 @@ public class AdminController {
 
     @GetMapping("/supprimer-tontine-{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView supprimerTontine(@PathVariable Integer id){
+    public ModelAndView supprimerTontine(@PathVariable int id){
         tontineService.deleteById(id);
 
         // ajouter traitment de suppression des demandes jointures de cette tontine

@@ -22,4 +22,9 @@ public class TontineServiceImp implements TontineService {
     public void deleteById(Integer id) {
         tontineRepository.deleteById(id);
     }
+
+    @Override
+    public Tontine save(Tontine tontine) {
+        return tontineRepository.save(tontine);
+    }
 }

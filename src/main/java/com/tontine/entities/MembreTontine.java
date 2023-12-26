@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public class MembreTontine {
 
     @NotBlank
     @Column(nullable = false)
-    private Date dateadhesion;
+    private LocalDate dateadhesion;
 
     @OneToOne
     private User user;

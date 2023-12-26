@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,7 @@ public class Tour {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date dateTour;
+    private LocalDate dateTour;
 
     private int nbrTour;
 

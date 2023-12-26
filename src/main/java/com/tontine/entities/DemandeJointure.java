@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -21,7 +22,7 @@ public class DemandeJointure {
     private long id;
 
     @Column(nullable = false)
-    private Date date;
+    private LocalDate date;
 
     public enum Statut {
         EN_ATTENTE,
@@ -34,7 +35,7 @@ public class DemandeJointure {
     private Statut statut;
 
     @Column(nullable = true)
-    private Date date_approuve;
+    private LocalDate date_approuve;
 
 //    @ManyToOne
 //    private MembreTontine membreTontine;
