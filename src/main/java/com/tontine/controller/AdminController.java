@@ -76,7 +76,7 @@ public class AdminController {
         tontine.setMaxMembre(demandeTontineEntite.getMaxMembre());
         tontine.setMontantPeriode(demandeTontineEntite.getMontantPeriode());
         tontine.setTypeOrdre(demandeTontineEntite.getTypeOrdre());
-        Date date = new Date(); // Assuming this is the date you want to set
+        Date date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         tontine.setDateApprouveTontine(localDate);
         tontine.setStatutTontine(Tontine.StatutTontine.EN_ATTENTE);
@@ -87,6 +87,20 @@ public class AdminController {
         return modelAndView;
     }
 
+
+    @GetMapping("/refuserDemande/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView refuserDemande(@PathVariable int id){
+
+        DemandeTontineEntite demandeTontineEntite = demandeTontineService.findById(id);
+        demandeTontineEntite.setStatutDemande(Demandetontine.StatutDemande.REFUSE);
+        demandeTontineService.save(demandeTontineEntite);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/demandesTontine");
+
+        return modelAndView;
+    }
 
 
     @GetMapping("/supprimer-tontine-{id}")
