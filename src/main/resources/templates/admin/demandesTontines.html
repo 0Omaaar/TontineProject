@@ -243,10 +243,10 @@
                                 <td th:text="${demande.typeOrdre}"></td>
                                 <td th:text="${demande.maxMembre}"></td>
                                 <td th:text="${demande.montantPeriode}"></td>
-                                <td th:text="${demande.statutDemande}" style="background-color: gray"></td>
+                                <td th:text="${demande.statutDemande}"></td>
                                 <td th:if="${demande.statutDemande != null and demande.statutDemande == T(com.tontine.entities.Demandetontine.StatutDemande).EN_ATTENTE}">
-                                    <a href="/accepterDemande" class="btn btn-sm btn-primary" title="Statut Demande">Accepter</a>
-                                    <a href="/refuserDemande" class="btn btn-sm btn-danger" title="Statut Demande">Refuser</a>
+                                    <a th:href="@{/accepterDemande/{id}(id=${demande.id})}" class="btn btn-primary" title="Statut Demande">Accepter</a>
+                                    <a th:href="@{/refuserDemande/{id}(id=${demande.id})}" class="btn btn-danger" title="Statut Demande">Refuser</a>
                                 </td>
                             </tr>
                             </tbody>

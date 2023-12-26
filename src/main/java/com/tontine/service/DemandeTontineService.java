@@ -27,5 +27,13 @@ public class DemandeTontineService {
         return demanderTontineRepository.findAll();
     }
 
+    public DemandeTontineEntite findById(Integer id){
+        return demanderTontineRepository.findById(id).orElse(null);
+    }
+
+    public DemandeTontineEntite save(DemandeTontineEntite demandeTontineEntite){
+        return demanderTontineRepository.save(demandeTontineEntite);
+    }
+
 
 }

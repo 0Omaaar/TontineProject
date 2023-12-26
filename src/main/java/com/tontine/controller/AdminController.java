@@ -1,6 +1,7 @@
 package com.tontine.controller;
 
 import com.tontine.entities.DemandeTontineEntite;
+import com.tontine.entities.Demandetontine;
 import com.tontine.service.DemandeTontineService;
 import org.springframework.ui.Model;
 import com.tontine.entities.Tontine;
@@ -53,6 +54,21 @@ public class AdminController {
         modelAndView.setViewName("admin/demandesTontines");
         return modelAndView;
     }
+
+    @GetMapping("/accepterDemande/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView accepterDemande(@PathVariable Integer id){
+        ModelAndView modelAndView = new ModelAndView();
+
+        DemandeTontineEntite demandeTontineEntite = demandeTontineService.findById(id);
+        demandeTontineEntite.setStatutDemande(Demandetontine.StatutDemande.APPROUVE);
+        demandeTontineService.save(demandeTontineEntite);
+
+        modelAndView.setViewName("redirect:/demandesTontine");
+        return modelAndView;
+    }
+
+
 
     @GetMapping("/supprimer-tontine-{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
