@@ -8,15 +8,14 @@ import com.tontine.entities.Tontine;
 import com.tontine.service.TontineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AdminController {
@@ -50,13 +49,58 @@ public class AdminController {
         return modelAndView;
     }
 
+    @GetMapping("ajouterTontine")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView ajouterTontine(Model model){
+        Tontine tontine = new Tontine();
+        model.addAttribute("tontine", tontine);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/ajouterTontine");
+        return modelAndView;
+    }
+
+    @PostMapping("/saveTontine")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView saveTontine(@ModelAttribute("Tontine") Tontine tontine){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/tontines");
+
+        tontineService.save(tontine);
+
+        return modelAndView;
+    }
+
     @GetMapping("/demandesTontine")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView demandesTontines(Model model){
         ModelAndView modelAndView = new ModelAndView();
         List<DemandeTontineEntite> demandesTontines = demandeTontineService.findAll();
-        model.addAttribute("demandes", demandesTontines);
+
+        List<DemandeTontineEntite> demandesEnAttente = demandesTontines.stream()
+                        .filter(demandeTontineEntite ->
+                                demandeTontineEntite.getStatutDemande() == Demandetontine.StatutDemande.EN_ATTENTE)
+                                .collect(Collectors.toList());
+
+
+        model.addAttribute("demandes", demandesEnAttente);
         modelAndView.setViewName("admin/demandesTontines");
+        return modelAndView;
+    }
+
+    @GetMapping("/demandesTontineRefusees")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView demandesTontineRefusees(Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        List<DemandeTontineEntite> demandesTontines = demandeTontineService.findAll();
+
+        List<DemandeTontineEntite> demandesRefusees = demandesTontines.stream()
+                .filter(demandeTontineEntite ->
+                        demandeTontineEntite.getStatutDemande() == Demandetontine.StatutDemande.REFUSE)
+                .collect(Collectors.toList());
+
+
+        model.addAttribute("demandes", demandesRefusees);
+        modelAndView.setViewName("admin/demandesTontineRefusees");
         return modelAndView;
     }
 

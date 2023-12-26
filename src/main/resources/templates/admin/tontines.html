@@ -88,7 +88,7 @@
                                     </a>
                                 </li>
                                 <li >
-                                    <a class="sidenav-item-link" href="#">
+                                    <a class="sidenav-item-link" href="/ajouterTontine">
                                         <span class="nav-text">Ajouter Une Tontine</span>
                                     </a>
                                 </li>
@@ -132,6 +132,12 @@
                                     </a>
                                 </li>
 
+
+                                <li >
+                                    <a class="sidenav-item-link" href="/demandesTontineRefusees">
+                                        <span class="nav-text">Liste des demandes Refusées</span>
+                                    </a>
+                                </li>
                             </div>
                         </ul>
                     </li>
@@ -239,13 +245,12 @@
                                 <td>
                                     <a href="#" class="btn btn-primary" title="Afficher Tontine"><i class="mdi mdi-eye"></i></a>
                                     <a href="#" class="btn btn-dark" title="Changer Statut"><i class="mdi mdi-circle-edit-outline"></i></a>
-<!--                                    <a th:href="@{/supprimer-tontine-{id}(id=${tontine.id})}" class="btn btn-danger" title="Supprimer Tontine"><i class="mdi mdi-delete"></i></a>-->
                                     <button type="button" class="btn btn-danger" title="Supprimer Tontine" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}">
                                         <i class="mdi mdi-delete"></i>
                                     </button>
                                 </td>
 
-
+                    <!--                                Modal-->
                                 <div class="modal fade" th:id="'exampleModal' + ${tontine.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -259,12 +264,14 @@
                                                 Veuillez Confirmer La Suppression de la Tontine avec le Nom "<b th:text="${tontine.nom}"></b>"
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                                 <a th:href="@{/supprimer-tontine-{id}(id=${tontine.id})}" class="btn btn-primary" >Supprimer</a>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
+
 
                             </tr>
                             </tbody>

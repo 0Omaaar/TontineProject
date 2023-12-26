@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -214,53 +214,111 @@
         <!-- ====================================
         ——— CONTENT WRAPPER
         ===================================== -->
-        <div class="content-wrapper">
-            <div class="content"><!-- For Components documentaion -->
-                <!-- Products Inventory -->
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Liste des demandes Tontines</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="collapse" id="collapse-data-tables">
+                <div class="content-wrapper">
+                    <div class="content"><!-- For Components documentaion -->
+
+                        <!-- Masked Input -->
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h2>Ajouter Une Tontine</h2>
+                            </div>
+                            <div class="card-body">
+
+                               <form method="post" action="/saveTontine" th:object="${tontine}">
+                                   <div class="row">
+                                       <div class="col-xl-6">
+                                           <div class="mb-5">
+                                               <label class="text-dark font-weight-medium" >Date Debut</label>
+                                               <div class="input-group mb-3">
+                                                   <div class="input-group-prepend">
+                                                       <span class="input-group-text mdi mdi-calendar" id="basic-addon1"></span>
+                                                   </div>
+                                                   <input type="date" class="form-control" name="dateDebut">
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-xl-6">
+                                           <div class="mb-5">
+                                               <label class="text-dark font-weight-medium">Frequence</label>
+                                               <div class="input-group mb-3">
+                                                   <div class="input-group-prepend">
+                                                       <span class="input-group-text mdi mdi-clock-alert" id="basic-addon1"></span>
+                                                   </div>
+                                                   <select class="form-control" name="frequence">
+                                                       <option th:each="frequence : ${T(com.tontine.entities.Demandetontine.Frequence).values()}"
+                                                               th:value="${frequence}" th:text="${frequence}">
+                                                       </option>
+                                                   </select>
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-xl-6">
+                                           <div class="mb-5">
+                                               <label class="text-dark font-weight-medium">Max Membres</label>
+                                               <div class="input-group mb-3">
+                                                   <div class="input-group-prepend">
+                                                       <span class="input-group-text mdi mdi-human-male" id="basic-addon1"></span>
+                                                   </div>
+                                                   <input type="number" class="form-control" name="maxMembre">
+                                               </div>
+                                               <p style="font-size: 90%">ex. 10</p>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-xl-6">
+                                           <div class="mb-5">
+                                               <label class="text-dark font-weight-medium">Montant</label>
+                                               <div class="input-group mb-3">
+                                                   <div class="input-group-prepend">
+                                                       <span class="input-group-text mdi mdi-cash" id="basic-addon1"></span>
+                                                   </div>
+                                                   <input type="number" class="form-control" name="montantPeriode">
+                                               </div>
+                                               <p style="font-size: 90%">ex. 1000</p>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-xl-6">
+                                           <div class="mb-5">
+                                               <label class="text-dark font-weight-medium">Nom</label>
+                                               <div class="input-group mb-3">
+                                                   <div class="input-group-prepend">
+                                                       <span class="input-group-text mdi mdi-information" id="basic-addon1"></span>
+                                                   </div>
+                                                   <input type="text" class="form-control" name="nom">
+                                               </div>
+                                               <p style="font-size: 90%">ex. Daret...</p>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-xl-6">
+                                           <div class="mb-5">
+                                               <label class="text-dark font-weight-medium">Tyoe Ordre</label>
+                                               <div class="input-group mb-3">
+                                                   <div class="input-group-prepend">
+                                                       <span class="input-group-text mdi mdi-select" id="basic-addon1"></span>
+                                                   </div>
+                                                       <select class="form-control" name="typeOrdre">
+                                                           <option th:each="type : ${T(com.tontine.entities.Demandetontine.TypeOrdre).values()}"
+                                                                   th:value="${type}" th:text="${type}">
+                                                           </option>
+                                                       </select>
+                                                   </div>
+                                           </div>
+                                       </div>
+
+                                     <input type="hidden" name="statutTontine" th:value="EN_ATTENTE">
+                                   </div>
+                                    <div>
+                                        <input type="submit" value="Ajouter" class="btn btn-dark">
+                                    </div>
+                               </form>
+                            </div>
                         </div>
-                        <table id="productsTable" class="table table-hover table-product" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Date_Debut</th>
-                                <th>Date_Fin</th>
-                                <th>Utilisateur</th>
-                                <th>Frequence</th>
-                                <th>Type Ordre</th>
-                                <th>Membres</th>
-                                <th>Montant</th>
-                                <th>Statut</th>
-                                <th>Opérations</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="demande, iStat : ${demandes}">
-                                <td th:text="${demande.nom}"></td>
-                                <td th:text="${demande.dateDebut}"></td>
-                                <td th:text="${demande.dateFin}"></td>
-                                <td th:text="${demande.user.nom_prenom}"></td>
-                                <td th:text="${demande.frequence}"></td>
-                                <td th:text="${demande.typeOrdre}"></td>
-                                <td th:text="${demande.maxMembre}"></td>
-                                <td th:text="${demande.montantPeriode}"></td>
-                                <td th:text="${demande.statutDemande}" style="color: red; font-weight: bolder;"></td>
-                                <td th:if="${demande.statutDemande != null and demande.statutDemande == T(com.tontine.entities.Demandetontine.StatutDemande).EN_ATTENTE}">
-                                    <a th:href="@{/accepterDemande/{id}(id=${demande.id})}" class="btn btn-primary" title="Statut Demande">Accepter</a>
-                                    <a th:href="@{/refuserDemande/{id}(id=${demande.id})}" class="btn btn-danger" title="Statut Demande">Refuser</a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
 
                     </div>
-                </div>
-            </div>
 
         </div>
 

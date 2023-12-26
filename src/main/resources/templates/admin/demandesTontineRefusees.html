@@ -132,12 +132,12 @@
                                     </a>
                                 </li>
 
-
                                 <li >
                                     <a class="sidenav-item-link" href="/demandesTontineRefusees">
                                         <span class="nav-text">Liste des demandes Refusées</span>
                                     </a>
                                 </li>
+
                             </div>
                         </ul>
                     </li>
@@ -219,7 +219,7 @@
                 <!-- Products Inventory -->
                 <div class="card card-default">
                     <div class="card-header">
-                        <h2>Liste des demandes Tontines</h2>
+                        <h2>Liste des demandes De Tontines Refusées</h2>
                     </div>
                     <div class="card-body">
                         <div class="collapse" id="collapse-data-tables">
@@ -236,7 +236,6 @@
                                 <th>Membres</th>
                                 <th>Montant</th>
                                 <th>Statut</th>
-                                <th>Opérations</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -250,10 +249,6 @@
                                 <td th:text="${demande.maxMembre}"></td>
                                 <td th:text="${demande.montantPeriode}"></td>
                                 <td th:text="${demande.statutDemande}" style="color: red; font-weight: bolder;"></td>
-                                <td th:if="${demande.statutDemande != null and demande.statutDemande == T(com.tontine.entities.Demandetontine.StatutDemande).EN_ATTENTE}">
-                                    <a th:href="@{/accepterDemande/{id}(id=${demande.id})}" class="btn btn-primary" title="Statut Demande">Accepter</a>
-                                    <a th:href="@{/refuserDemande/{id}(id=${demande.id})}" class="btn btn-danger" title="Statut Demande">Refuser</a>
-                                </td>
                             </tr>
                             </tbody>
                         </table>
