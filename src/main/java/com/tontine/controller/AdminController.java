@@ -1,8 +1,11 @@
 package com.tontine.controller;
 
+import com.tontine.entities.DemandeJointure;
 import com.tontine.entities.DemandeTontineEntite;
 import com.tontine.entities.Demandetontine;
+import com.tontine.service.DemandeJointureService;
 import com.tontine.service.DemandeTontineService;
+import org.springframework.boot.Banner;
 import org.springframework.ui.Model;
 import com.tontine.entities.Tontine;
 import com.tontine.service.TontineService;
@@ -25,6 +28,9 @@ public class AdminController {
 
     @Autowired
     private DemandeTontineService demandeTontineService;
+
+    @Autowired
+    private DemandeJointureService demandeJointureService;
 
 
 
@@ -67,6 +73,33 @@ public class AdminController {
 
         tontineService.save(tontine);
 
+        return modelAndView;
+    }
+
+    @GetMapping("/demandesJointure")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView demandesJointure(Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        List<DemandeJointure> demandeJointures = demandeJointureService.findAll();
+
+        model.addAttribute("demandes", demandeJointures);
+        modelAndView.setViewName("admin/demandesJointure");
+        return modelAndView;
+    }
+
+    @GetMapping("/refuserDemandeJointure/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView refuserDemandeJointure(@PathVariable("id") int id){
+        ModelAndView modelAndView = new ModelAndView();
+
+        DemandeJointure demandeJointure = demandeJointureService.findById(id);
+
+        if(demandeJointure != null){
+            demandeJointure.setStatut(DemandeJointure.Statut.REFUSE);
+            demandeJointureService.saveDemandeJointure(demandeJointure);
+        }
+
+        modelAndView.setViewName("redirect:/demandesJointure");
         return modelAndView;
     }
 

@@ -38,11 +38,7 @@ public class Tontine extends Demandetontine{
 
 
     @OneToMany(mappedBy = "tontine")
-//    @JoinTable(
-//            name = "Tontine_Membre",
-//            joinColumns = @JoinColumn(name = "tontineId"),
-//            inverseJoinColumns = @JoinColumn(name = "membreId")
-//    )
+
     private Collection<DemandeJointure> demandeJointures;
 
 }

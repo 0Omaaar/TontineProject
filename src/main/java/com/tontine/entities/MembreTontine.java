@@ -36,9 +36,6 @@ public class MembreTontine {
     @OneToOne(mappedBy = "membreTontine")
     private Tour tour;
 
-//    @OneToMany(mappedBy = "membreTontine", fetch = FetchType.EAGER)
-//    private List<DemandeJointure> demandeJointures;
-
     @ManyToMany
     private Collection<Tontine> tontines;
 

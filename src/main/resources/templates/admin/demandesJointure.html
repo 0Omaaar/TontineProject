@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -214,111 +214,46 @@
         <!-- ====================================
         ——— CONTENT WRAPPER
         ===================================== -->
-                <div class="content-wrapper">
-                    <div class="content"><!-- For Components documentaion -->
-
-                        <!-- Masked Input -->
-                        <div class="card card-default">
-                            <div class="card-header">
-                                <h2>Ajouter Une Tontine</h2>
-                            </div>
-                            <div class="card-body">
-
-                               <form method="post" action="/saveTontine" th:object="${tontine}">
-                                   <div class="row">
-                                       <div class="col-xl-6">
-                                           <div class="mb-5">
-                                               <label class="text-dark font-weight-medium" >Date Debut</label>
-                                               <div class="input-group mb-3">
-                                                   <div class="input-group-prepend">
-                                                       <span class="input-group-text mdi mdi-calendar" id="basic-addon1"></span>
-                                                   </div>
-                                                   <input type="date" class="form-control" name="dateDebut" required>
-                                               </div>
-                                           </div>
-                                       </div>
-
-                                       <div class="col-xl-6">
-                                           <div class="mb-5">
-                                               <label class="text-dark font-weight-medium">Frequence</label>
-                                               <div class="input-group mb-3">
-                                                   <div class="input-group-prepend">
-                                                       <span class="input-group-text mdi mdi-clock-alert" id="basic-addon1"></span>
-                                                   </div>
-                                                   <select class="form-control" name="frequence" required>
-                                                       <option th:each="frequence : ${T(com.tontine.entities.Demandetontine.Frequence).values()}"
-                                                               th:value="${frequence}" th:text="${frequence}">
-                                                       </option>
-                                                   </select>
-                                               </div>
-                                           </div>
-                                       </div>
-
-                                       <div class="col-xl-6">
-                                           <div class="mb-5">
-                                               <label class="text-dark font-weight-medium">Max Membres</label>
-                                               <div class="input-group mb-3">
-                                                   <div class="input-group-prepend">
-                                                       <span class="input-group-text mdi mdi-human-male" id="basic-addon1"></span>
-                                                   </div>
-                                                   <input type="number" class="form-control" name="maxMembre" required>
-                                               </div>
-                                               <p style="font-size: 90%">ex. 10</p>
-                                           </div>
-                                       </div>
-
-                                       <div class="col-xl-6">
-                                           <div class="mb-5">
-                                               <label class="text-dark font-weight-medium">Montant</label>
-                                               <div class="input-group mb-3">
-                                                   <div class="input-group-prepend">
-                                                       <span class="input-group-text mdi mdi-cash" id="basic-addon1"></span>
-                                                   </div>
-                                                   <input type="number" class="form-control" name="montantPeriode" required>
-                                               </div>
-                                               <p style="font-size: 90%">ex. 1000</p>
-                                           </div>
-                                       </div>
-
-                                       <div class="col-xl-6">
-                                           <div class="mb-5">
-                                               <label class="text-dark font-weight-medium">Nom</label>
-                                               <div class="input-group mb-3">
-                                                   <div class="input-group-prepend">
-                                                       <span class="input-group-text mdi mdi-information" id="basic-addon1"></span>
-                                                   </div>
-                                                   <input type="text" class="form-control" name="nom" required>
-                                               </div>
-                                               <p style="font-size: 90%">ex. Daret...</p>
-                                           </div>
-                                       </div>
-
-                                       <div class="col-xl-6">
-                                           <div class="mb-5">
-                                               <label class="text-dark font-weight-medium">Tyoe Ordre</label>
-                                               <div class="input-group mb-3">
-                                                   <div class="input-group-prepend">
-                                                       <span class="input-group-text mdi mdi-select" id="basic-addon1"></span>
-                                                   </div>
-                                                       <select class="form-control" name="typeOrdre" required>
-                                                           <option th:each="type : ${T(com.tontine.entities.Demandetontine.TypeOrdre).values()}"
-                                                                   th:value="${type}" th:text="${type}">
-                                                           </option>
-                                                       </select>
-                                                   </div>
-                                           </div>
-                                       </div>
-
-                                     <input type="hidden" name="statutTontine" th:value="EN_ATTENTE">
-                                   </div>
-                                    <div>
-                                        <input type="submit" value="Ajouter" class="btn btn-dark">
-                                    </div>
-                               </form>
-                            </div>
+        <div class="content-wrapper">
+            <div class="content"><!-- For Components documentaion -->
+                <!-- Products Inventory -->
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h2>Liste des demandes Jointures</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse" id="collapse-data-tables">
                         </div>
+                        <table id="productsTable" class="table table-hover table-product" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Tontine</th>
+                                <th>Utilisateur</th>
+                                <th>GroupeUtilisateur</th>
+                                <th>Date Demande</th>
+                                <th>Statut</th>
+                                <th>Opérations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="demande, iStat : ${demandes}">
+                                <td th:text="${demande.tontine.nom}"></td>
+                                <td th:text="${demande.user.nom_prenom}"></td>
+                                <td th:if="${demande.groupeUser != null}" th:text="${demande.groupeUser.nomGroupe}"></td>
+                                <td th:if="${demande.groupeUser == null}">---</td>
+                                <td th:text="${demande.date}"></td>
+                                <td th:text="${demande.statut}" style="color: red; font-weight: bolder"></td>
+                                <td>
+                                    <a th:href="@{/accepterDemandeJointure/{id}(id=${demande.id})}" class="btn btn-primary" title="Accepter La Demande"><i class="mdi mdi-ticket-confirmation"></i></a>
+                                    <a th:href="@{/refuserDemandeJointure/{id}(id=${demande.id})}" class="btn btn-danger" title="Refuser La Demande"><i class="mdi mdi-delete-empty"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
 
                     </div>
+                </div>
+            </div>
 
         </div>
 
