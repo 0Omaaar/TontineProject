@@ -26,16 +26,16 @@ public class MembreTontine {
 
     private LocalDate dateadhesion;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private GroupeUser groupeUser;
 
     @OneToOne(mappedBy = "membreTontine")
     private Tour tour;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<Tontine> tontines = new ArrayList<>();
 
 }

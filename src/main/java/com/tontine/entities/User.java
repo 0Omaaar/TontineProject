@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,8 +48,8 @@ public class User {
     @Column(nullable = false)
     private String roles;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    MembreTontine membreTontine;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<MembreTontine> membreTontines = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<DemandeJointure> demandeJointures;

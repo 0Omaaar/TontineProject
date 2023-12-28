@@ -201,7 +201,7 @@ public class AdminController {
 //        Optional<Tontine> optionalTontine = tontineService.findById(idd);
 //        Tontine tontine = optionalTontine.get();
         MembreTontine membreTontine = new MembreTontine();
-        tontine.addMembre(membreTontine);
+        tontine.getMembreTontines().add(membreTontine);
 //        tontine.getMembreTontines().add(membreTontine);
 
         Date date = new Date();

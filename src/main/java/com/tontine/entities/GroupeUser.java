@@ -30,7 +30,7 @@ public class GroupeUser {
     @OneToMany(mappedBy = "groupeUser")
     private Collection<User_GroupeUser> userGroupeUsers;
 
-    @OneToOne(mappedBy = "groupeUser")
+    @OneToOne(mappedBy = "groupeUser", cascade = CascadeType.REMOVE)
     private MembreTontine membreTontine;
 
     public GroupeUser(String nomGroupe) {

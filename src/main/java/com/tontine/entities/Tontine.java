@@ -34,11 +34,7 @@ public class Tontine extends Demandetontine{
     @Column(nullable = true)
     private int tourCourant;
 
-    public void addMembre(MembreTontine membreTontine){
-        membreTontines.add(membreTontine);
-    }
-
-    @ManyToMany(mappedBy = "tontines", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "tontines", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<MembreTontine> membreTontines = new ArrayList<>();
 
 
