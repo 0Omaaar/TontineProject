@@ -35,7 +35,7 @@ public class MembreTontine {
     @OneToOne(mappedBy = "membreTontine")
     private Tour tour;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private Collection<Tontine> tontines = new ArrayList<>();
 
 }

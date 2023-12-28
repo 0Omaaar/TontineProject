@@ -39,7 +39,6 @@ public class Controller {
     public ModelAndView index(Model model, Authentication authentication){
         ModelAndView modelAndView = new ModelAndView();
         List<Tontine> tontines = tontineService.findAll();
-
         int user_id = 0;
         User authenticated_user = null;
 

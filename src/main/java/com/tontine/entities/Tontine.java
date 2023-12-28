@@ -38,12 +38,11 @@ public class Tontine extends Demandetontine{
         membreTontines.add(membreTontine);
     }
 
-    @ManyToMany(mappedBy = "tontines", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "tontines", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Collection<MembreTontine> membreTontines = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "tontine")
-
     private Collection<DemandeJointure> demandeJointures = new ArrayList<>();
 
 }

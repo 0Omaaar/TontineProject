@@ -209,6 +209,7 @@ public class AdminController {
         membreTontine.setDateadhesion(localDate);
         membreTontine.setUser(demandeJointure.getUser());
         membreTontine.getTontines().add(tontine);
+        demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
         membreService.save(membreTontine);
         tontineService.save(tontine);
         modelAndView.setViewName("redirect:/dashboard");
