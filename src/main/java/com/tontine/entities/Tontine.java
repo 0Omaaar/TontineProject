@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -33,12 +34,16 @@ public class Tontine extends Demandetontine{
     @Column(nullable = true)
     private int tourCourant;
 
+    public void addMembre(MembreTontine membreTontine){
+        membreTontines.add(membreTontine);
+    }
+
     @ManyToMany(mappedBy = "tontines", fetch = FetchType.EAGER)
-    private Collection<MembreTontine> membreTontines;
+    private Collection<MembreTontine> membreTontines = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "tontine")
 
-    private Collection<DemandeJointure> demandeJointures;
+    private Collection<DemandeJointure> demandeJointures = new ArrayList<>();
 
 }

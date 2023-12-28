@@ -244,8 +244,8 @@
                                 <td th:text="${demande.date}"></td>
                                 <td th:text="${demande.statut}" style="color: red; font-weight: bolder"></td>
                                 <td>
-                                    <a th:href="@{/accepterDemandeJointure/{id}(id=${demande.id})}" class="btn btn-primary" title="Accepter La Demande"><i class="mdi mdi-ticket-confirmation"></i></a>
-                                    <a th:href="@{/refuserDemandeJointure/{id}(id=${demande.id})}" class="btn btn-danger" title="Refuser La Demande"><i class="mdi mdi-delete-empty"></i></a>
+                                    <a th:href="@{/accepterDemandeJointure/{id}(id=${demande.id})}" class="btn btn-primary" title="Accepter La Demande">Accepter<i class="mdi mdi-ticket-confirmation"></i></a>
+                                    <a th:href="@{/refuserDemandeJointure/{id}(id=${demande.id})}" class="btn btn-danger" title="Refuser La Demande">Refuser<i class="mdi mdi-delete-empty"></i></a>
                                 </td>
                             </tr>
                             </tbody>

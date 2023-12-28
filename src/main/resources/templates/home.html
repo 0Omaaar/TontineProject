@@ -11,28 +11,53 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('[id^="participationType"]').forEach(function(select) {
-                select.addEventListener('change', function() {
-                    var tontineId = this.dataset.tontineId;
-                    var cotisationDiv = document.getElementById('cotisationDiv' + tontineId);
+<!--    <script>-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            document.querySelectorAll('[id^="participationType"]').forEach(function(select) {-->
+<!--                select.addEventListener('change', function() {-->
+<!--                    var tontineId = this.dataset.tontineId;-->
+<!--                    var cotisationDiv = document.getElementById('cotisationDiv' + tontineId);-->
 
-                    if (this.value === 'EN_GROUPE') {
-                        cotisationDiv.style.display = 'block';
-                    } else {
-                        cotisationDiv.style.display = 'none';
-                    }
-                });
+<!--                    if (this.value === 'EN_GROUPE') {-->
+<!--                        cotisationDiv.style.display = 'block';-->
+<!--                    } else {-->
+<!--                        cotisationDiv.style.display = 'none';-->
+<!--                    }-->
+<!--                });-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
+    <script th:inline="javascript">
+        /* When the document is ready */
+        $(document).ready(function () {
+            /* Disable the cotisation select by default */
+            $('[id^="cotisation"]').prop('disabled', true);
+
+            /* When the participationType select changes */
+            $('[id^="participationType"]').change(function () {
+                var tontineId = $(this).attr('id').replace('participationType', '');
+                var cotisationDiv = $('#cotisationDiv' + tontineId);
+
+                /* Enable/disable cotisation based on the selected value */
+                if ($(this).val() === 'EN_GROUPE') {
+                    cotisationDiv.find('select').prop('disabled', false);
+                } else {
+                    cotisationDiv.find('select').prop('disabled', true);
+                }
             });
         });
     </script>
+
     <title>Home Page</title>
 </head>
 <body>
 <!--    Nav Section   -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
+<!--        <a class="navbar-brand" href="/">-->
+<!--            <img src="/images/tontine.jpg" alt="Logo" width="50" height="50">-->
+<!--        </a>-->
         <a class="navbar-brand" href="/">Liste Des Tontines</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

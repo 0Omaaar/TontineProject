@@ -1,14 +1,8 @@
 package com.tontine.controller;
 
-import com.tontine.entities.DemandeJointure;
-import com.tontine.entities.DemandeTontineEntite;
-import com.tontine.entities.Demandetontine;
-import com.tontine.service.DemandeJointureService;
-import com.tontine.service.DemandeTontineService;
-import org.springframework.boot.Banner;
+import com.tontine.entities.*;
+import com.tontine.service.*;
 import org.springframework.ui.Model;
-import com.tontine.entities.Tontine;
-import com.tontine.service.TontineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +12,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 public class AdminController {
-
-    @Autowired
-    private TontineService tontineService;
 
     @Autowired
     private DemandeTontineService demandeTontineService;
@@ -32,6 +24,13 @@ public class AdminController {
     @Autowired
     private DemandeJointureService demandeJointureService;
 
+
+    @Autowired
+    private TontineService tontineService;
+
+
+    @Autowired
+    private MembreService membreService;
 
 
     @GetMapping("/dashboard")
@@ -192,4 +191,33 @@ public class AdminController {
         return modelAndView;
     }
 
-}
+    @GetMapping("/accepterDemandeJointure/{id}")
+    public ModelAndView saveMembre(@PathVariable int id) {
+        ModelAndView modelAndView = new ModelAndView();
+        DemandeJointure demandeJointure = demandeJointureService.findById(id);
+        Tontine tontine = demandeJointure.getTontine();
+        System.out.println(tontine.getId());
+//        int idd = (int) demandeJointure.getTontine().getId();
+//        Optional<Tontine> optionalTontine = tontineService.findById(idd);
+//        Tontine tontine = optionalTontine.get();
+        MembreTontine membreTontine = new MembreTontine();
+        tontine.addMembre(membreTontine);
+//        tontine.getMembreTontines().add(membreTontine);
+
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        membreTontine.setDateadhesion(localDate);
+        membreTontine.setUser(demandeJointure.getUser());
+        membreTontine.getTontines().add(tontine);
+        membreService.save(membreTontine);
+        tontineService.save(tontine);
+        modelAndView.setViewName("redirect:/dashboard");
+        return modelAndView;
+
+    }
+
+
+
+    }
+
+

@@ -1,15 +1,11 @@
 package com.tontine.service;
 
 import com.tontine.entities.Tontine;
+import com.tontine.repository.TontineRepository;
 
 import java.util.List;
-
-public interface TontineService {
-    public List<Tontine> findAll();
-
-    public void deleteById(Integer id);
-
-    public Tontine save(Tontine tontine);
+import java.util.Optional;
 
 
+public interface TontineService extends TontineRepository {
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,6 @@ public class MembreTontine {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank
-    @Column(nullable = false)
     private LocalDate dateadhesion;
 
     @OneToOne
@@ -37,6 +36,6 @@ public class MembreTontine {
     private Tour tour;
 
     @ManyToMany
-    private Collection<Tontine> tontines;
+    private Collection<Tontine> tontines = new ArrayList<>();
 
 }
