@@ -1,5 +1,6 @@
 package com.tontine.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,11 @@ public class MembreTontine {
 
     private LocalDate dateadhesion;
 
+
+//    @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     private User user;
+
 
     @OneToOne(cascade = CascadeType.REMOVE)
     private GroupeUser groupeUser;
@@ -35,7 +39,7 @@ public class MembreTontine {
     @OneToOne(mappedBy = "membreTontine")
     private Tour tour;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Tontine> tontines = new ArrayList<>();
 
 }

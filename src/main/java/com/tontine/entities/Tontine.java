@@ -1,5 +1,6 @@
 package com.tontine.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +35,8 @@ public class Tontine extends Demandetontine{
     @Column(nullable = true)
     private int tourCourant;
 
-    @ManyToMany(mappedBy = "tontines", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JsonIgnore
+    @ManyToMany(mappedBy = "tontines", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Collection<MembreTontine> membreTontines = new ArrayList<>();
 
 

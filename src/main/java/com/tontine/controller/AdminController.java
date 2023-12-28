@@ -2,6 +2,7 @@ package com.tontine.controller;
 
 import com.tontine.entities.*;
 import com.tontine.service.*;
+import org.springframework.security.core.parameters.P;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -215,6 +217,22 @@ public class AdminController {
         modelAndView.setViewName("redirect:/dashboard");
         return modelAndView;
 
+    }
+
+
+    @GetMapping("afficherMembres/{id}")
+    public ModelAndView afficherMembres(@PathVariable("id") int id, Model model){
+
+        Tontine tontine = tontineService.findById(id).orElse(null);
+
+        if(tontine != null){
+             Collection<MembreTontine> membreTontines =  tontine.getMembreTontines();
+             model.addAttribute("membresTontine", membreTontines);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/membresTontine");
+        return modelAndView;
     }
 
 
