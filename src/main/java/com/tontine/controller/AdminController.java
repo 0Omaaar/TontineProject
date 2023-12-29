@@ -221,17 +221,18 @@ public class AdminController {
 
 
     @GetMapping("afficherMembres/{id}")
-    public ModelAndView afficherMembres(@PathVariable("id") int id, Model model){
+    public ModelAndView afficherMembres(@PathVariable int id, Model model){
 
         Tontine tontine = tontineService.findById(id).orElse(null);
 
         if(tontine != null){
-             Collection<MembreTontine> membreTontines =  tontine.getMembreTontines();
+             List<MembreTontine> membreTontines =  (List<MembreTontine>) tontine.getMembreTontines();
              model.addAttribute("membresTontine", membreTontines);
         }
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/membresTontine");
+//        modelAndView.setViewName("membres");
         return modelAndView;
     }
 

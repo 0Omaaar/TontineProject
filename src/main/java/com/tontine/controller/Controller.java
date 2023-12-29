@@ -2,6 +2,7 @@ package com.tontine.controller;
 
 
 
+import com.tontine.entities.MembreTontine;
 import com.tontine.entities.Tontine;
 import com.tontine.entities.User;
 import com.tontine.repository.UserRepository;
@@ -44,6 +45,9 @@ public class Controller {
 
         if(authentication != null){
             authenticated_user = userRepository.findByEmail(getLoggedInUserDetails().getUsername()).orElse(null);
+            List<MembreTontine> membreTontines= authenticated_user.getMembreTontines();
+            model.addAttribute("membres", membreTontines);
+            model.addAttribute("user", authenticated_user);
         }
 
         if(authenticated_user != null){
@@ -55,6 +59,19 @@ public class Controller {
         modelAndView.setViewName("home");
         return modelAndView;
 //        return tontines;
+    }
+
+    @PostMapping("/updateProfile")
+    public ModelAndView updateProfile(Authentication authentication, User user, Model model){
+        ModelAndView modelAndView = new ModelAndView("redirect:/");
+        User userFinded = userRepository.findByEmail(getLoggedInUserDetails().getUsername()).orElse(null);
+        userFinded.setCin(user.getCin());
+        userFinded.setEmail(user.getEmail());
+        userFinded.setNom_prenom(user.getNom_prenom());
+        userFinded.setNumTele(user.getNumTele());
+        userRepository.save(userFinded);
+
+        return modelAndView;
     }
 
     @GetMapping("/login")
