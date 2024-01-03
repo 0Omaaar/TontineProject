@@ -40,6 +40,6 @@ public class MembreTontine {
     private Tour tour;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<Tontine> tontines = new ArrayList<>();
+    private Collection<Tontine> tontines = new ArrayList<>( );
 
 }

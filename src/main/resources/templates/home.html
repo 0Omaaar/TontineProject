@@ -261,8 +261,30 @@
 
 <div class="container mt-5">
 
-<!--    <p th:if="${errorMessage != null and errorMessage.isEmpty() == false}">Error: <span th:text="${errorMessage}"></span></p>-->
-<!--    <p th:if="${successMessage != null and successMessage.isEmpty() == false}">Success: <span th:text="${successMessage}"></span></p>-->
+    <div>
+        <form action="/" method="get">
+            <h4 class="text-center mb-4">Filtre De Recherche</h4>
+            <div class="form-group">
+                <input type="text" name="nom" th:value="${nom}" placeholder="Filtrer Par Nom" class="form-control">
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="frequence">
+                    <option selected disabled>Par Frequence</option>
+                    <option th:each="frequence : ${T(com.tontine.entities.Demandetontine.Frequence).values()}"
+                            th:value="${frequence}"  th:text="${frequence}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" name="prixMin" placeholder="Prix Min" th:value="${prixMin}">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" name="prixMax" placeholder="Prix Max" th:value="${prixMax}">
+            </div>
+
+            <button type="submit" class="btn btn-info mb-5" style="margin-left: 490px;">Chercher</button>
+        </form>
+    </div>
 
     <div class="row">
         <div class="col-lg-4" th:each="tontine, iStat : ${tontines}">

@@ -5,6 +5,7 @@ package com.tontine.controller;
 import com.tontine.entities.MembreTontine;
 import com.tontine.entities.Tontine;
 import com.tontine.entities.User;
+import com.tontine.repository.TontineRepository;
 import com.tontine.repository.UserRepository;
 import com.tontine.service.TontineService;
 import com.tontine.service.TontineServiceImp;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -31,15 +33,39 @@ public class Controller {
     private UserRepository userRepository;
 
     @Autowired
+    private TontineRepository tontineRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private TontineService tontineService;
 
     @GetMapping("/")
-    public ModelAndView index(Model model, Authentication authentication){
+    public ModelAndView index(Model model, Authentication authentication
+                            , @RequestParam(name="nom", defaultValue = "") String nom
+                            , @RequestParam(name ="frequence", defaultValue = "")   String frequence
+                            , @RequestParam(name = "prixMin", defaultValue = "0") int prixMin
+                            , @RequestParam(name = "prixMax", defaultValue = "100000") int prixMax){
         ModelAndView modelAndView = new ModelAndView();
-        List<Tontine> tontines = tontineService.findAll();
+        List<Tontine> tontines = tontineRepository.findByNomContains(nom);
+
+        if (!frequence.isEmpty() || prixMin > 0 || prixMax < 100000) {
+            if(!frequence.isEmpty()){
+                tontines = tontines.stream()
+                        .filter(tontine -> tontine.getFrequence().name().equalsIgnoreCase(frequence))
+                        .filter(tontine -> tontine.getMontantPeriode() >= prixMin && tontine.getMontantPeriode() <= prixMax)
+                        .collect(Collectors.toList());
+            }
+            else {
+                tontines = tontines.stream()
+                        .filter(tontine -> tontine.getMontantPeriode() >= prixMin && tontine.getMontantPeriode() <= prixMax)
+                        .collect(Collectors.toList());
+            }
+            model.addAttribute("prixMin", prixMin);
+            model.addAttribute("prixMax", prixMax);
+        }
+
         int user_id = 0;
         User authenticated_user = null;
 
@@ -56,6 +82,7 @@ public class Controller {
 
         model.addAttribute("tontines", tontines);
         model.addAttribute("user_id", user_id);
+        model.addAttribute("nom", nom);
         modelAndView.setViewName("home");
         return modelAndView;
 //        return tontines;
