@@ -2,10 +2,13 @@ package com.tontine.controller;
 
 import com.tontine.entities.*;
 import com.tontine.service.*;
+import jakarta.validation.Valid;
 import org.springframework.security.core.parameters.P;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+//@Validated
 public class AdminController {
 
     @Autowired
@@ -68,11 +72,18 @@ public class AdminController {
 
     @PostMapping("/saveTontine")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView saveTontine(@ModelAttribute("Tontine") Tontine tontine){
+    public ModelAndView saveTontine(@ModelAttribute("Tontine") @Valid Tontine tontine, BindingResult bindingResult
+                                                        , Model model){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/tontines");
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("errorMessage", "An error occurred during the creation of the Tontine. Please check the entered data.");
+            modelAndView.setViewName("redirect:/ajouterTontine");
+            return modelAndView;
+        }
 
         tontineService.save(tontine);
+        modelAndView.setViewName("redirect:/tontines");
 
         return modelAndView;
     }

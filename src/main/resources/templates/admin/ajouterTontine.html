@@ -221,6 +221,7 @@
                         <div class="card card-default">
                             <div class="card-header">
                                 <h2>Ajouter Une Tontine</h2>
+                                <div th:if="${errorMessage}" th:text="${errorMessage}" class="error"></div>
                             </div>
                             <div class="card-body">
 
@@ -290,6 +291,7 @@
                                                    <input type="text" class="form-control" name="nom" required>
                                                </div>
                                                <p style="font-size: 90%">ex. Daret...</p>
+                                               <span class="alert-danger" th:errors="${tontine.nom}"></span>
                                            </div>
                                        </div>
 

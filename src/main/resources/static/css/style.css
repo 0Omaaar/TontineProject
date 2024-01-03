@@ -31,15 +31,15 @@ body{
 }
 
 .texto:hover{
-  color: gray;
+  color: white;
 }
 
 .demande{
-  border: 1px solid gray;
+  border: 1px solid #04c7e0;
 }
 
 .demande:hover{
-  background-color: #3c4142;
+  background-color: #04c7e0;
   color: white;
 }
 

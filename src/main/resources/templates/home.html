@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
 
@@ -123,43 +123,22 @@
             }
         }
     </style>
-<!--    <script>-->
-<!--        document.addEventListener('DOMContentLoaded', function() {-->
-<!--            document.querySelectorAll('[id^="participationType"]').forEach(function(select) {-->
-<!--                select.addEventListener('change', function() {-->
-<!--                    var tontineId = this.dataset.tontineId;-->
-<!--                    var cotisationDiv = document.getElementById('cotisationDiv' + tontineId);-->
 
-<!--                    if (this.value === 'EN_GROUPE') {-->
-<!--                        cotisationDiv.style.display = 'block';-->
-<!--                    } else {-->
-<!--                        cotisationDiv.style.display = 'none';-->
-<!--                    }-->
-<!--                });-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
-
-    <script th:inline="javascript">
-        /* When the document is ready */
-        $(document).ready(function () {
-            /* Disable the cotisation select by default */
-            $('[id^="cotisation"]').prop('disabled', true);
-
-            /* When the participationType select changes */
-            $('[id^="participationType"]').change(function () {
-                var tontineId = $(this).attr('id').replace('participationType', '');
-                var cotisationDiv = $('#cotisationDiv' + tontineId);
-
-                /* Enable/disable cotisation based on the selected value */
-                if ($(this).val() === 'EN_GROUPE') {
-                    cotisationDiv.find('select').prop('disabled', false);
-                } else {
-                    cotisationDiv.find('select').prop('disabled', true);
+    <script>
+        $(document).ready(function(){
+            $(".x").hide();
+            $(".youssef").on("change",function(){
+                var v = $(this).val();
+                if(v == 'EN_GROUPE'){
+                    $(".x").show();
+                }else{
+                    $(".x").hide();
                 }
             });
         });
     </script>
+
+
 
     <title>Home Page</title>
 </head>
@@ -251,7 +230,7 @@
 
 </div>
 <!--    Nav Section   -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <div class="container-fluid">
 <!--        <a class="navbar-brand" href="/">-->
 <!--            <img src="/images/tontine.jpg" alt="Logo" width="50" height="50">-->

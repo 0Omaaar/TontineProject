@@ -236,8 +236,8 @@
                             <tbody>
                             <tr th:each="membre, iStat : ${membresTontine}">
                                 <td th:text="${membre.user.nom_prenom}"></td>
-                                <!--                                <td th:if="${membre.groupeUser != null}" th:text="${membre.groupeUser.nomGroupe}"></td>-->
-                                <td th:text="${membre.groupeUser}"></td>
+                                <td th:if="${membre.groupeUser != null}" th:text="${membre.groupeUser.nomGroupe}"></td>
+                                <td th:if="${membre.groupeUser == null}">-----</td>
                                 <td th:text="${membre.dateadhesion}"></td>
                                 <td>
                                     <a href="#" class="btn btn-outline-danger">Supprimer</a>
