@@ -248,7 +248,7 @@
                                     <button type="button" class="btn btn-danger" title="Supprimer Tontine" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}">
                                         <i class="mdi mdi-delete"></i>
                                     </button>
-                                    <a th:href="@{/afficherMembres/{id}(id=${tontine.id})}" title="Afficher Les Membres" class="btn btn-secondary"><i class="mdi mdi-wallet-membership"></i></a>
+                                    <a th:href="@{/afficherMembres(tontineId=${tontine.id})}" title="Afficher Les Membres" class="btn btn-secondary"><i class="mdi mdi-wallet-membership"></i></a>
                                 </td>
 
                     <!--                                Modal-->

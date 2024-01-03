@@ -220,10 +220,10 @@ public class AdminController {
     }
 
 
-    @GetMapping("afficherMembres/{id}")
-    public ModelAndView afficherMembres(@PathVariable int id, Model model){
+    @GetMapping("afficherMembres")
+    public ModelAndView afficherMembres(@RequestParam(name = "tontineId") int tontineId, Model model){
 
-        Tontine tontine = tontineService.findById(id).orElse(null);
+        Tontine tontine = tontineService.findById(tontineId).orElse(null);
 
         if(tontine != null){
              List<MembreTontine> membreTontines =  (List<MembreTontine>) tontine.getMembreTontines();
