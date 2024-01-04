@@ -26,17 +26,14 @@
                             <option value="0.50">50%</option>
                             <option value="0.75">75%</option>
                         </select>
-                        <ul>
-                           <li th:each="membre, iStat : ${tontine.getMembreTontines()}" th:if="${membre.groupeUser != null  }" th:text="${membre.groupeUser.nomGroupe}">
-<!--                               <th:block th:with="sumCotisations=0.0">-->
-<!--                                   <th:block th:each="userGroupeUser : ${membre.groupeUser.userGroupeUsers}">-->
-<!--                                       <th:block th:with="sumCotisations=${sumCotisations + userGroupeUser.pourcentageCotisation}">-->
-<!--                                       </th:block>-->
-<!--                                   </th:block>-->
-<!--                               </th:block>-->
+                    <div class="form-group">
+                        <label>Groupes : </label>
+                        <select class="form-control">
+                            <option th:each="membre, iStat : ${tontine.getMembreTontines()}" th:if="${membre.groupeUser != null  }" th:text="${membre.groupeUser.nomGroupe}"></option>
+                        </select>
+                    </div>
 
-<!--                               <p th:text="${sumCotisations}"></p>-->
-                           </li>
+
 
                         </ul>
 
