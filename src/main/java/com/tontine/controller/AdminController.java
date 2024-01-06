@@ -1,6 +1,7 @@
 package com.tontine.controller;
 
 import com.tontine.entities.*;
+import com.tontine.repository.GroupeUserRepository;
 import com.tontine.service.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.parameters.P;
@@ -37,6 +38,9 @@ public class AdminController {
 
     @Autowired
     private MembreService membreService;
+
+    @Autowired
+    private GroupeUserRepository groupeUserRepository;
 
 
     @GetMapping("/dashboard")
@@ -205,31 +209,29 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("/accepterDemandeJointure/{id}")
-    public ModelAndView saveMembre(@PathVariable int id) {
-        ModelAndView modelAndView = new ModelAndView();
-        DemandeJointure demandeJointure = demandeJointureService.findById(id);
-        Tontine tontine = demandeJointure.getTontine();
-        System.out.println(tontine.getId());
-//        int idd = (int) demandeJointure.getTontine().getId();
-//        Optional<Tontine> optionalTontine = tontineService.findById(idd);
-//        Tontine tontine = optionalTontine.get();
-        MembreTontine membreTontine = new MembreTontine();
-        tontine.getMembreTontines().add(membreTontine);
-//        tontine.getMembreTontines().add(membreTontine);
+//    @GetMapping("/accepterDemandeJointure/{id}")
+//    public ModelAndView saveMembre(@PathVariable int id) {
+//        DemandeJointure demandeJointure = demandeJointureService.findById(id);
+//        if (demandeJointure.getParticipationType().equals("EN_GROUPE_NEW")) {
+//            ModelAndView modelAndView = new ModelAndView();
+//        }
+//            int nbr = (int) groupeUserRepository.count() + 1;
+//            String nom = "goupe" + nbr;
+//            GroupeUser groupeUser = new GroupeUser(nom);
+//            groupeUserRepository.save(groupeUser);
+//        } else if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
+//            demandeJointure.
+//
+//        }
 
-        Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        membreTontine.setDateadhesion(localDate);
-        membreTontine.setUser(demandeJointure.getUser());
-        membreTontine.getTontines().add(tontine);
-        demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
-        membreService.save(membreTontine);
-        tontineService.save(tontine);
-        modelAndView.setViewName("redirect:/dashboard");
-        return modelAndView;
+//            membreService.save(membreTontine);
+//            tontineService.save(tontine);
+//            modelAndView.setViewName("redirect:/dashboard");
+//            return modelAndView;
+//
+//
+//        }
 
-    }
 
 
     @GetMapping("afficherMembres")

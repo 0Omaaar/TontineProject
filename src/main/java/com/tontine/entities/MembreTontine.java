@@ -39,6 +39,9 @@ public class MembreTontine {
     @OneToOne(mappedBy = "membreTontine")
     private Tour tour;
 
+    @Transient
+    Collection<GroupeUser> groupeUsersAvailable = new ArrayList<>();
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Tontine> tontines = new ArrayList<>( );
 

@@ -36,26 +36,8 @@ public class DemandeJointureController {
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         demandeJointure.setDate(localDate);
         demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
-
-        if ("EN_GROUPE".equals(participationType)) {
-
-            GroupeUser groupeUser = new GroupeUser("g1");
-
-            groupeUserRepository.save(groupeUser);
-
-
-            demandeJointure.setGroupeUser(groupeUser);
-
-            User_GroupeUser userGroupeUser = new User_GroupeUser();
-            userGroupeUser.setUser(demandeJointure.getUser());
-            userGroupeUser.setGroupeUser(demandeJointure.getGroupeUser());
-            userGroupeUser.setPourcentageCotisation(cotisation);
-
-            userGroupeUserRepository.save(userGroupeUser);
-        }
-
-
         demandeJointureService.saveDemandeJointure(demandeJointure);
+
 
         ModelAndView modelAndView = new ModelAndView("redirect:/");
         return modelAndView;
