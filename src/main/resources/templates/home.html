@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
 
@@ -248,7 +250,7 @@
         </div>
         <div class="login-section" th:if="${#authorization.expression('isAuthenticated()')}">
             <a href="/logout" class="texto">Se deconnecter</a>
-            <a href="/dashboard" class="texto">Espace Admin</a>
+            <a href="/dashboard" class="texto" sec:authorize="hasAuthority('ADMIN')">Espace Admin</a>
             <span class="separator">|</span>
             <a href="/créer-tontine" class="texto">Demander Tontine</a>
             <a th:if="${#authorization.expression('isAuthenticated()')}" href="#" class="openbtn texto" onclick="openNav()" style="color: grey">☰ Profil</a>
