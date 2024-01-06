@@ -24,6 +24,16 @@ public class DemandeJointure {
     @Column(nullable = false)
     private LocalDate date;
 
+    public enum ParticipationType {
+        SEUL,
+        EN_GROUPE_NEW,
+        EN_GROUPE
+    }
+    @Enumerated(EnumType.STRING)
+    private ParticipationType participationType;
+
+
+
     public enum Statut {
         EN_ATTENTE,
         APPROUVE,
@@ -48,6 +58,9 @@ public class DemandeJointure {
     @JsonIgnore
     @ManyToOne
     private Tontine tontine;
+
+
+
 
     @JsonIgnore
     @ManyToOne

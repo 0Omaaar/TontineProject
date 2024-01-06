@@ -16,7 +16,8 @@
                         <label for="'participationType' + ${tontine.id}">Type de Participation :</label>
                         <select class="form-control youssef" id="'participationType' + ${tontine.id}" name="participationType">
                             <option value="SEUL">Seul</option>
-                            <option value="EN_GROUPE">En Groupe</option>
+                            <option value="EN_GROUPE_NEW">Nouveau Groupe </option>
+                            <option value="EN_GROUPE">Groupe Existant</option>
                         </select>
                     </div>
                     <div class="form-group cotisationDiv x" id="'cotisationDiv' + ${tontine.id}">
@@ -26,7 +27,7 @@
                             <option value="0.50">50%</option>
                             <option value="0.75">75%</option>
                         </select>
-                    <div class="form-group">
+                    <div class="form-group y">
                         <label>Groupes : </label>
                         <select class="form-control">
                             <option th:each="membre, iStat : ${tontine.getMembreTontines()}" th:if="${membre.groupeUser != null  }" th:text="${membre.groupeUser.nomGroupe}"

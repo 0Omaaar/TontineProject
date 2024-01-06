@@ -129,12 +129,23 @@
     <script>
         $(document).ready(function(){
             $(".x").hide();
+            $(".y").hide();
+
             $(".youssef").on("change",function(){
                 var v = $(this).val();
+
                 if(v == 'EN_GROUPE'){
                     $(".x").show();
-                }else{
+                    $(".y").show();
+
+                }else if(v == 'EN_GROUPE_NEW'){
+
+                    $(".x").show();
+                    $(".y").hide();
+                }
+                else{
                     $(".x").hide();
+                    $(".y").hide();
                 }
             });
         });
