@@ -171,7 +171,7 @@
         <form method="post" action="/updateProfile" th:object="${user}">
             <div class="mb-3 row">
                 <div class="col-sm-2 offset-sm-5 d-flex justify-content-center">
-                    <img src="" alt="Photo de profil" class="img-fluid rounded-circle" width="100">
+                    <img th:src="@{images/user/user.jpeg}" alt="Photo de profil" class="img-fluid rounded-circle" width="100">
                 </div>
             </div>
 
@@ -179,28 +179,28 @@
             <div class="mb-3 row">
                 <label for="input1" class="col-sm-3 col-form-label">Nom Complet : </label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="input1" th:if="${user != null}" th:value="${user.nom_prenom}" name="nom_prenom" >
+                    <input type="text" class="form-control imodifier" id="input1" th:if="${user != null}" th:value="${user.nom_prenom}" name="nom_prenom" disabled >
                 </div>
             </div>
 
             <div class="mb-3 row">
                 <label for="input2" class="col-sm-3 col-form-label">Email :</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" id="input2" th:if="${user != null}" th:value="${user.email}" name="email">
+                    <input type="email" class="form-control imodifier" id="input2" th:if="${user != null}" th:value="${user.email}" name="email" disabled>
                 </div>
             </div>
 
             <div class="mb-3 row">
                 <label for="input3" class="col-sm-3 col-form-label">Telephone :</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="input3" th:if="${user != null}" th:value="${user.numTele}" name="numTele">
+                    <input type="text" class="form-control imodifier" id="input3" th:if="${user != null}" th:value="${user.numTele}" name="numTele" disabled>
                 </div>
             </div>
 
             <div class="mb-3 row">
                 <label for="input4" class="col-sm-3 col-form-label">CIN :</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="input4" th:if="${user != null}" th:value="${user.cin}" name="cin">
+                    <input type="text" class="form-control imodifier" id="input4" th:if="${user != null}" th:value="${user.cin}" name="cin" disabled>
                 </div>
             </div>
 
@@ -224,7 +224,8 @@
 
             <div class="mb-3 row">
                 <div class="col-sm-2 offset-sm-5 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="submit" class="btn  btn-outline-info">Enregistrer</button>
+                    <input type="radio" name="modifier" id="modifier" class="form-control" style="margin-left: 400px; margin-top: 10px" title="Modifier Votre Profil">
                 </div>
             </div>
         </form>
@@ -235,19 +236,33 @@
         <h3 style="font-weight: bolder; color: grey">Liste de vos Tontines</h3>
     </div>
 
-    <div class="container mt-4" th:if="${membres != null}" >
-        <ul th:each="membre, iStat : ${membres}">
-            <li th:text="${membre.dateadhesion} "></li>
-        </ul>
-    </div>
+<!--    <div class="container mt-4" th:if="${membres != null}" >-->
+<!--        <ul th:each="membre, iStat : ${membres}">-->
+<!--            <li th:each="tontine, iStat : ${membre.tontines}" th:text="${tontine.nom}" th:if="${membre.tontines != null}"></li>-->
+<!--        </ul>-->
+ <div class="container mt-4" th:if="${membres != null}">
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th style="color: white">Tontine</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="membre, iStat : ${membres}">
+                <td th:each="tontine, iStat : ${membre.tontines}" th:text="${tontine.nom}" th:if="${membre.tontines != null}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<!--    </div>-->
 
 </div>
 <!--    Nav Section   -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <div class="container-fluid">
-<!--        <a class="navbar-brand" href="/">-->
-<!--            <img src="/images/tontine.jpg" alt="Logo" width="50" height="50">-->
-<!--        </a>-->
         <a class="navbar-brand" href="/">Liste Des Tontines</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -373,6 +388,21 @@
             document.getElementById("mySidebar").classList.remove("close_sidebar");
         }, 400);
     }
+
+    $(document).ready(function () {
+        var enregistrerButton = $('.btn-outline-info');
+
+        $('#modifier').on('click', function () {
+
+            $('.imodifier').prop('disabled', function (i, value) {
+                return !value;
+            });
+
+            enregistrerButton.toggle(!$('.imodifier').prop('disabled'));
+        });
+
+        enregistrerButton.toggle(!$('.imodifier').prop('disabled'));
+    });
 </script>
 </body>
 </html>
