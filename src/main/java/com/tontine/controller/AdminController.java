@@ -64,6 +64,15 @@ public class AdminController {
         return modelAndView;
     }
 
+    @PostMapping("/changer-statut-tontine")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView changerStatut(Tontine tontine, @RequestParam int tontine_id, @RequestParam String statutTontine){
+        Tontine findedTontine = tontineService.findById(tontine_id).orElse(null);
+        findedTontine.setStatutTontine(Tontine.StatutTontine.valueOf(statutTontine));
+        tontineService.save(findedTontine);
+        return new ModelAndView("redirect:/tontines");
+    }
+
     @GetMapping("ajouterTontine")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView ajouterTontine(Model model){

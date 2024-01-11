@@ -1,0 +1,66 @@
+<!-- Modal -->
+<div class="modal fade" th:id="'exampleModalaff' + ${tontine.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="'exampleModalLabel' + ${tontine.id}">Infos Tontine <span style="font-weight: bolder" th:text="${tontine.nom}"/></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Frequence</label>
+                            <input disabled th:value="${tontine.frequence}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Max Membres</label>
+                            <input disabled th:value="${tontine.maxMembre}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Montant Periode</label>
+                            <input disabled th:value="${tontine.montantPeriode}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Type Ordre</label>
+                            <input disabled th:value="${tontine.typeOrdre}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tour Courant</label>
+                            <input disabled th:value="${tontine.tourCourant}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nombre des membres</label>
+                            <input disabled th:value="${tontine.membreTontines.size()}" class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label>Nombre des Places Restantes</label>
+                            <input disabled th:value="${tontine.maxMembre - tontine.membreTontines.size()}"
+                                    class="form-control">
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+
+        </div>
+    </div>
+</div>

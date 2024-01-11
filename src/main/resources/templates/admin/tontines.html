@@ -243,15 +243,19 @@
                                 <td>??</td>
                                 <td th:text="${tontine.statutTontine}"></td>
                                 <td>
-                                    <a href="#" class="btn btn-primary" title="Afficher Tontine"><i class="mdi mdi-eye"></i></a>
-                                    <a href="#" class="btn btn-dark" title="Changer Statut"><i class="mdi mdi-circle-edit-outline"></i></a>
+                                    <a type="button" data-toggle="modal" title="Afficher Details Tontine" th:data-target="'#exampleModalaff' + ${tontine.id}" class="btn btn-primary">
+                                        <span class="mdi mdi-eye"/>
+                                    </a>
+                                    <a type="button" data-toggle="modal" title="Changer Statut Tontine" th:data-target="'#exampleModaledit' + ${tontine.id}" class="btn btn-dark">
+                                        <span class="mdi mdi-circle-edit-outline"/>
+                                    </a>
                                     <button type="button" class="btn btn-danger" title="Supprimer Tontine" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}">
                                         <i class="mdi mdi-delete"></i>
                                     </button>
                                     <a th:href="@{/afficherMembres(tontineId=${tontine.id})}" title="Afficher Les Membres" class="btn btn-secondary"><i class="mdi mdi-wallet-membership"></i></a>
                                 </td>
 
-                    <!--                                Modal-->
+                    <!--                                Modal For Delete -->
                                 <div class="modal fade" th:id="'exampleModal' + ${tontine.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -273,7 +277,11 @@
                                     </div>
                                 </div>
 
+                            <!--Modal For Display Tontine -->
+                                <div th:replace="~{admin/layouts/afficherTontine}"></div>
 
+                                <!--Modal For Tontine Status Changing -->
+                                <div th:replace="~{admin/layouts/changerStatut}"></div>
                             </tr>
                             </tbody>
                         </table>

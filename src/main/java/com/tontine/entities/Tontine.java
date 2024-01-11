@@ -30,7 +30,7 @@ public class Tontine extends Demandetontine{
     }
 
     @Enumerated(EnumType.STRING)
-    private StatutTontine statutTontine;
+    public StatutTontine statutTontine;
 
     @Column(nullable = true)
     private int tourCourant;

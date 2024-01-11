@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
 >
 <head>
     <meta charset="UTF-8">
@@ -354,7 +355,7 @@
                             <th:block th:if="${#authorization.expression('isAuthenticated()')}">
                                 <th:block th:if="${tontine.getMembreTontines().size()} &lt; ${tontine.maxMembre}">
                                     <!-- Show this when the number of members is less than the maximum -->
-                                    <button type="button" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}" class="btn btn-sm btn-flash-border-primary demande">
+                                    <button type="button" data-toggle="modal" th:data-target="'#exampleModal' + ${tontinte.id}" class="btn btn-sm btn-flash-border-primary demande">
                                         Demander Jointure
                                     </button>
                                 </th:block>
