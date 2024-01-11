@@ -2,6 +2,7 @@ package com.tontine.controller;
 
 import com.tontine.entities.*;
 import com.tontine.repository.GroupeUserRepository;
+import com.tontine.repository.UserRepository;
 import com.tontine.service.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.parameters.P;
@@ -38,6 +39,9 @@ public class AdminController {
 
     @Autowired
     private MembreService membreService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private GroupeUserRepository groupeUserRepository;
@@ -259,6 +263,24 @@ public class AdminController {
         return modelAndView;
     }
 
+
+
+    @GetMapping("/utilisateurs")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView utilisateurs(Model model){
+        model.addAttribute("users", userRepository.findAll());
+
+        return new ModelAndView("admin/utilisateurs/index");
+    }
+
+
+    @GetMapping("supprimer-user-{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView supprimerUser(@PathVariable(name = "id") int id){
+        User user = userRepository.findById(id).orElse(null);
+        userRepository.delete(user);
+        return new ModelAndView("redirect:/utilisateurs");
+    }
 
 
     }
