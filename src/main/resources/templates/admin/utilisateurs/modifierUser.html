@@ -7,16 +7,45 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <form method="post" th:action="@{/modifier-user}" th:object="${user}">
+                <div class="modal-body">
+                    <input type="hidden" name="id" th:value="${user.id}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nom Complet </label>
+                                <input type="text" class="form-control" name="nom_prenom" th:value="${user.nom_prenom}">
+                            </div>
 
+                            <div class="form-group">
+                                <label>CIN </label>
+                                <input type="text" class="form-control" name="cin" th:value="${user.cin}">
+                            </div>
 
+                            <div class="form-group">
+                                <label>Email </label>
+                                <input type="email" class="form-control" name="email" th:value="${user.email}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Numero Telephone </label>
+                                <input type="number" class="form-control" name="numTele" th:value="${user.numTele}">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control" th:value="${user.password}">
+                            </div>
+                        </div>
+                    </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                <button type="submit" class="btn btn-primary" >Supprimer</button>
+                <input type="submit" class="btn btn-primary" value="Modifier" >
             </div>
 
+            </form>
         </div>
     </div>
 </div>

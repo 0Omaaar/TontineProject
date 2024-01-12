@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -240,7 +243,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="user, iStat : ${users}">
+                            <tr th:each="user, iStat : ${users}" th:if="${user.roles == 'USER'}">
                                 <td th:text="${user.nom_prenom}"></td>
                                 <td th:text="${user.email}"></td>
                                 <td th:text="${user.cin}"></td>
