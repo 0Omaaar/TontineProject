@@ -222,12 +222,7 @@
                 <!-- Products Inventory -->
                 <div class="card card-default">
                     <div class="card-header">
-                        <h2>Liste des utilisateurs</h2>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-primary"
-                                style="margin-left: 20px;"
-                                data-toggle="modal" title="Ajouter Utilisateur" data-target="#exampleModaladd">Ajouter Utilisateur</button>
+                        <h2>Liste des Groupes</h2>
                     </div>
                     <div class="card-body">
                         <div class="collapse" id="collapse-data-tables">
@@ -235,36 +230,21 @@
                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Nom Complet</th>
-                                <th>Email</th>
-                                <th>CIN</th>
-                                <th>Num Tele</th>
-                                <th>Opérations</th>
+                                <th>Nom Groupe</th>
+                                <th>Membres De Groupe</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="user, iStat : ${users}" th:if="${user.roles == 'USER'}">
-                                <td th:text="${user.nom_prenom}"></td>
-                                <td th:text="${user.email}"></td>
-                                <td th:text="${user.cin}"></td>
-                                <td th:text="${user.numTele}"></td>
+                            <tr th:each="group, iStat : ${groupes}">
+                                <td th:text="${group.nomGroupe}"></td>
                                 <td>
-                                    <a type="button" data-toggle="modal" title="Modifier Utilisateur" th:data-target="'#exampleModaledit' + ${user.id}" class="btn btn-primary">
+                                    <a type="button" data-toggle="modal" title="Afficher Membres de groupe" th:data-target="'#exampleModaleditgroup' + ${group.id}" class="btn btn-info">
                                         <span class="mdi mdi-account-edit"/>
-                                    </a>
-                                    <a type="button" data-toggle="modal" title="Supprimer Utilisateur" th:data-target="'#exampleModaldel' + ${user.id}" class="btn btn-danger">
-                                        <span class="mdi mdi-trash-can-outline"/>
                                     </a>
                                 </td>
 
-                                <!--Modal Pour Ajouter Utilisateur-->
-                                <div th:replace="~{admin/utilisateurs/ajouterUser}"></div>
-
                                 <!--Modal Pour Modifier Utilisateur-->
-                                <div th:replace="~{admin/utilisateurs/modifierUser}"></div>
-
-                                <!--Modal Pour Modifier Utilisateur-->
-                                <div th:replace="~{admin/utilisateurs/supprimerUser}"></div>
+                                <div th:replace="~{admin/utilisateurs/groupes/groupUsers}"></div>
 
                             </tr>
                             </tbody>

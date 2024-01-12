@@ -282,7 +282,42 @@ public class AdminController {
         return new ModelAndView("redirect:/utilisateurs");
     }
 
+    @PostMapping("/modifier-user")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView modifierUser(@ModelAttribute(name = "user") User user, @RequestParam(name = "id") int user_id){
+        User userF = userRepository.findById(user_id).orElse(null);
 
+        if (userF != null) {
+            userF.setEmail(user.getEmail());
+            userF.setCin(user.getCin());
+            userF.setNumTele(user.getNumTele());
+            userF.setPassword(user.getPassword());
+            userF.setNom_prenom(user.getNom_prenom());
+
+            userRepository.save(userF);
+        }
+
+        return new ModelAndView("redirect:/utilisateurs");
     }
+
+    @PostMapping("/ajouter-user")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView ajouterUser(@ModelAttribute(name = "user") User user){
+        userRepository.save(user);
+
+        return new ModelAndView("redirect:/utilisateurs");
+    }
+
+    @GetMapping("/groupes")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView groupes(Model model){
+        model.addAttribute("groupes", groupeUserRepository.findAll());
+
+        return new ModelAndView("admin/utilisateurs/groupes/groupes");
+    }
+
+
+
+}
 
 

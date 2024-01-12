@@ -172,7 +172,7 @@
         <form method="post" action="/updateProfile" th:object="${user}">
             <div class="mb-3 row">
                 <div class="col-sm-2 offset-sm-5 d-flex justify-content-center">
-                    <img th:src="@{images/user/user.jpeg}" alt="Photo de profil" class="img-fluid rounded-circle" width="100">
+<!--                    <img th:src="@{images/user/user.jpeg}" alt="Photo de profil" class="img-fluid rounded-circle" width="100">-->
                 </div>
             </div>
 
@@ -355,7 +355,7 @@
                             <th:block th:if="${#authorization.expression('isAuthenticated()')}">
                                 <th:block th:if="${tontine.getMembreTontines().size()} &lt; ${tontine.maxMembre}">
                                     <!-- Show this when the number of members is less than the maximum -->
-                                    <button type="button" data-toggle="modal" th:data-target="'#exampleModal' + ${tontinte.id}" class="btn btn-sm btn-flash-border-primary demande">
+                                    <button type="button" data-toggle="modal" th:data-target="'#exampleModaldemande' + ${tontine.id}" class="btn btn-sm btn-flash-border-primary demande">
                                         Demander Jointure
                                     </button>
                                 </th:block>
