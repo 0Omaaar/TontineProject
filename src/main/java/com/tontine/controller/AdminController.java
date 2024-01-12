@@ -308,6 +308,14 @@ public class AdminController {
         return new ModelAndView("redirect:/utilisateurs");
     }
 
+    @GetMapping("/groupes")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView groupes(Model model){
+        model.addAttribute("groupes", groupeUserRepository.findAll());
+
+        return new ModelAndView("admin/utilisateurs/groupes/groupes");
+    }
+
 
 
 }
