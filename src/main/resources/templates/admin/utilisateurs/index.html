@@ -219,7 +219,12 @@
                 <!-- Products Inventory -->
                 <div class="card card-default">
                     <div class="card-header">
-                        <h2>Liste des Tontines</h2>
+                        <h2>Liste des utilisateurs</h2>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-primary"
+                                style="margin-left: 20px;"
+                                data-toggle="modal" title="Ajouter Utilisateur" data-target="#exampleModaladd">Ajouter Utilisateur</button>
                     </div>
                     <div class="card-body">
                         <div class="collapse" id="collapse-data-tables">
@@ -227,61 +232,37 @@
                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Nom</th>
-                                <th>Date_Debut</th>
-                                <th>Date_Fin</th>
-                                <th>NbPlacesRestantes</th>
-                                <th>Status</th>
+                                <th>Nom Complet</th>
+                                <th>Email</th>
+                                <th>CIN</th>
+                                <th>Num Tele</th>
                                 <th>Opérations</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="tontine, iStat : ${tontines}">
-                                <td th:text="${tontine.nom}"></td>
-                                <td th:text="${tontine.dateDebut}"></td>
-                                <td th:text="${tontine.dateFin}"></td>
-                                <td>??</td>
-                                <td th:text="${tontine.statutTontine}"></td>
+                            <tr th:each="user, iStat : ${users}">
+                                <td th:text="${user.nom_prenom}"></td>
+                                <td th:text="${user.email}"></td>
+                                <td th:text="${user.cin}"></td>
+                                <td th:text="${user.numTele}"></td>
                                 <td>
-                                    <a type="button" data-toggle="modal" title="Afficher Details Tontine" th:data-target="'#exampleModalaff' + ${tontine.id}" class="btn btn-primary">
-                                        <span class="mdi mdi-eye"/>
+                                    <a type="button" data-toggle="modal" title="Modifier Utilisateur" th:data-target="'#exampleModaledit' + ${user.id}" class="btn btn-primary">
+                                        <span class="mdi mdi-account-edit"/>
                                     </a>
-                                    <a type="button" data-toggle="modal" title="Changer Statut Tontine" th:data-target="'#exampleModaledit' + ${tontine.id}" class="btn btn-dark">
-                                        <span class="mdi mdi-circle-edit-outline"/>
+                                    <a type="button" data-toggle="modal" title="Supprimer Utilisateur" th:data-target="'#exampleModaldel' + ${user.id}" class="btn btn-danger">
+                                        <span class="mdi mdi-trash-can-outline"/>
                                     </a>
-                                    <button type="button" class="btn btn-danger" title="Supprimer Tontine" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}">
-                                        <i class="mdi mdi-delete"></i>
-                                    </button>
-                                    <a th:href="@{/afficherMembres(tontineId=${tontine.id})}" title="Afficher Les Membres" class="btn btn-secondary"><i class="mdi mdi-wallet-membership"></i></a>
                                 </td>
 
-                    <!--                                Modal For Delete -->
-                                <div class="modal fade" th:id="'exampleModal' + ${tontine.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Veuillez Confirmer La Suppression de la Tontine avec le Nom "<b th:text="${tontine.nom}"></b>"
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                                <a th:href="@{/supprimer-tontine-{id}(id=${tontine.id})}" class="btn btn-primary" >Supprimer</a>
-                                            </div>
+                                <!--Modal Pour Ajouter Utilisateur-->
+                                <div th:replace="~{admin/utilisateurs/ajouterUser}"></div>
 
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--Modal Pour Modifier Utilisateur-->
+                                <div th:replace="~{admin/utilisateurs/modifierUser}"></div>
 
-                            <!--Modal For Display Tontine -->
-                                <div th:replace="~{admin/layouts/afficherTontine}"></div>
+                                <!--Modal Pour Modifier Utilisateur-->
+                                <div th:replace="~{admin/utilisateurs/supprimerUser}"></div>
 
-                                <!--Modal For Tontine Status Changing -->
-                                <div th:replace="~{admin/layouts/changerStatut}"></div>
                             </tr>
                             </tbody>
                         </table>

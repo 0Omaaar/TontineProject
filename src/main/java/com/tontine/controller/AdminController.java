@@ -2,6 +2,7 @@ package com.tontine.controller;
 
 import com.tontine.entities.*;
 import com.tontine.repository.GroupeUserRepository;
+import com.tontine.repository.UserRepository;
 import com.tontine.service.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.parameters.P;
@@ -40,6 +41,9 @@ public class AdminController {
     private MembreService membreService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private GroupeUserRepository groupeUserRepository;
 
 
@@ -62,6 +66,15 @@ public class AdminController {
 
         modelAndView.setViewName("admin/tontines");
         return modelAndView;
+    }
+
+    @PostMapping("/changer-statut-tontine")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView changerStatut(Tontine tontine, @RequestParam int tontine_id, @RequestParam String statutTontine){
+        Tontine findedTontine = tontineService.findById(tontine_id).orElse(null);
+        findedTontine.setStatutTontine(Tontine.StatutTontine.valueOf(statutTontine));
+        tontineService.save(findedTontine);
+        return new ModelAndView("redirect:/tontines");
     }
 
     @GetMapping("ajouterTontine")
@@ -250,6 +263,24 @@ public class AdminController {
         return modelAndView;
     }
 
+
+
+    @GetMapping("/utilisateurs")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView utilisateurs(Model model){
+        model.addAttribute("users", userRepository.findAll());
+
+        return new ModelAndView("admin/utilisateurs/index");
+    }
+
+
+    @GetMapping("supprimer-user-{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView supprimerUser(@PathVariable(name = "id") int id){
+        User user = userRepository.findById(id).orElse(null);
+        userRepository.delete(user);
+        return new ModelAndView("redirect:/utilisateurs");
+    }
 
 
     }
