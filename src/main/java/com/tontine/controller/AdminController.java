@@ -7,6 +7,7 @@ import com.tontine.repository.User_GroupeUserRepository;
 import com.tontine.service.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -231,6 +232,7 @@ public class AdminController {
     }
 
     @GetMapping("/accepterDemandeJointure/{id}")
+    @Transactional
     public ModelAndView saveMembre(@PathVariable int id) {
         ModelAndView modelAndView = new ModelAndView();
         DemandeJointure demandeJointure = demandeJointureService.findById(id);
@@ -246,34 +248,40 @@ public class AdminController {
 //        demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
         if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
         {
+            // Create and set up MembreTontine
             MembreTontine membreTontine = new MembreTontine();
-            tontine.getMembreTontines().add(membreTontine);
-
-            Date date = new Date();
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            membreTontine.setDateadhesion(localDate);
+            membreTontine.setDateadhesion(LocalDate.now());
             membreTontine.setUser(demandeJointure.getUser());
             membreTontine.getTontines().add(tontine);
-            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
-//            int nbr =  (int)groupeUserRepository.count();
-//            String nomG = "Groupe" + nbr;
-//            GroupeUser groupeUser = new GroupeUser(nomG);
-            GroupeUser groupeUser = demandeJointure.getGroupeUser();
-            demandeJointure.setGroupeUser(groupeUser);
+
+            // Create and set up GroupeUser
+            int nbr = (int) groupeUserRepository.count();
+            String nomG = "Groupe" + nbr;
+            GroupeUser groupeUser = new GroupeUser(nomG);
+            groupeUser.setMembreTontine(membreTontine);
+
+            // Create and set up User_GroupeUser
             User_GroupeUser userGroupeUser = new User_GroupeUser();
             userGroupeUser.setGroupeUser(groupeUser);
             userGroupeUser.setUser(demandeJointure.getUser());
             userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
-            membreTontine.setGroupeUser(demandeJointure.getGroupeUser());
-            demandeJointure.getUser().getUser_groupeUsers().add(userGroupeUser);
-            groupeUser.setMembreTontine(membreTontine);
-            groupeUser.getUserGroupeUsers().add(userGroupeUser);
+
+            // Set relationships bidirectionally
             membreTontine.setGroupeUser(groupeUser);
-            membreService.save(membreTontine);
-            groupeUserRepository.save(groupeUser);
-            userGroupeUserRepository.save(userGroupeUser); //consider using userGrUsService bean
+            demandeJointure.setGroupeUser(groupeUser);
+            groupeUser.getUserGroupeUsers().add(userGroupeUser);
+
+            // Save entities in the correct order
+            userGroupeUserRepository.save(userGroupeUser);
             userService.saveUsr(demandeJointure.getUser());
+            groupeUserRepository.save(groupeUser);
+            membreService.save(membreTontine);
             tontineService.save(tontine);
+
+            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+            demandeJointureService.saveDemandeJointure(demandeJointure);
+
+            // Set the view and return
             modelAndView.setViewName("redirect:/dashboard");
             return modelAndView;
 
@@ -282,6 +290,8 @@ public class AdminController {
             userGroupeUser.setGroupeUser(demandeJointure.getGroupeUser());
             userGroupeUser.setUser(demandeJointure.getUser());
             userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
+            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+            demandeJointureService.saveDemandeJointure(demandeJointure);
             userGroupeUserRepository.save(userGroupeUser);
             modelAndView.setViewName("redirect:/dashboard");
             return modelAndView;

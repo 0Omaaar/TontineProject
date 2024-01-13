@@ -55,7 +55,7 @@ public class User {
     private List<DemandeJointure> demandeJointures;
 
     @OneToMany(mappedBy = "user")
-    private Collection<User_GroupeUser> User_groupeUsers;
+    private Collection<User_GroupeUser> User_groupeUsers = new ArrayList<>();
 
 
 //    @ManyToMany
@@ -68,5 +68,5 @@ public class User {
 //    private List<GroupeUser> groupeUsers;
 
     @OneToMany(mappedBy = "user")
-    private List<DemandeTontineEntite> demandeTontineEntites;
+    private List<DemandeTontineEntite> demandeTontineEntites = new ArrayList<>();
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,10 +26,10 @@ public class GroupeUser {
     private String nomGroupe;
 
     @OneToMany(mappedBy = "groupeUser")
-    private Collection<DemandeJointure> demandeJointures;
+    private Collection<DemandeJointure> demandeJointures = new ArrayList<>();
 
     @OneToMany(mappedBy = "groupeUser")
-    private Collection<User_GroupeUser> userGroupeUsers;
+    private Collection<User_GroupeUser> userGroupeUsers = new ArrayList<>();
 
     @OneToOne(mappedBy = "groupeUser")
     private MembreTontine membreTontine;

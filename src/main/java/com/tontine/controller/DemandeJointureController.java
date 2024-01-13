@@ -33,7 +33,7 @@ public class DemandeJointureController {
     public ModelAndView saveDemandeJointure(@ModelAttribute("DemandeJointure") DemandeJointure demandeJointure,
 //                                            @RequestParam(name = "participationType", required = false) String participationType,
                                             @RequestParam(name = "cotisation", required = false) Float cotisation,
-                                            @RequestParam(name = "selectedGroupId") int selectedGroupId){
+                                            @RequestParam(name = "selectedGroupId", required = false) Integer selectedGroupId){
 
 
 //        if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
@@ -69,7 +69,6 @@ public class DemandeJointureController {
         demandeJointure.setDate(localDate);
         demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
         demandeJointureService.saveDemandeJointure(demandeJointure);
-
 
         ModelAndView modelAndView = new ModelAndView("redirect:/");
         return modelAndView;
