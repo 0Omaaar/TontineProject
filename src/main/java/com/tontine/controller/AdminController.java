@@ -235,17 +235,26 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         DemandeJointure demandeJointure = demandeJointureService.findById(id);
         Tontine tontine = demandeJointure.getTontine();
-        MembreTontine membreTontine = new MembreTontine();
-        tontine.getMembreTontines().add(membreTontine);
-
-        Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        membreTontine.setDateadhesion(localDate);
-        membreTontine.setUser(demandeJointure.getUser());
-        membreTontine.getTontines().add(tontine);
-        demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+//        MembreTontine membreTontine = new MembreTontine();
+//        tontine.getMembreTontines().add(membreTontine);
+//
+//        Date date = new Date();
+//        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        membreTontine.setDateadhesion(localDate);
+//        membreTontine.setUser(demandeJointure.getUser());
+//        membreTontine.getTontines().add(tontine);
+//        demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
         if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
         {
+            MembreTontine membreTontine = new MembreTontine();
+            tontine.getMembreTontines().add(membreTontine);
+
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            membreTontine.setDateadhesion(localDate);
+            membreTontine.setUser(demandeJointure.getUser());
+            membreTontine.getTontines().add(tontine);
+            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
 //            int nbr =  (int)groupeUserRepository.count();
 //            String nomG = "Groupe" + nbr;
 //            GroupeUser groupeUser = new GroupeUser(nomG);
@@ -267,18 +276,32 @@ public class AdminController {
             tontineService.save(tontine);
             modelAndView.setViewName("redirect:/dashboard");
             return modelAndView;
+
         } else if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
-
-            
+            User_GroupeUser userGroupeUser = new User_GroupeUser();
+            userGroupeUser.setGroupeUser(demandeJointure.getGroupeUser());
+            userGroupeUser.setUser(demandeJointure.getUser());
+            userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
+            userGroupeUserRepository.save(userGroupeUser);
+            modelAndView.setViewName("redirect:/dashboard");
+            return modelAndView;
         }
+        else {
+            MembreTontine membreTontine = new MembreTontine();
+            tontine.getMembreTontines().add(membreTontine);
 
-        membreService.save(membreTontine);
-        tontineService.save(tontine);
-        modelAndView.setViewName("redirect:/dashboard");
-        return modelAndView;
-
-
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            membreTontine.setDateadhesion(localDate);
+            membreTontine.setUser(demandeJointure.getUser());
+            membreTontine.getTontines().add(tontine);
+            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+            membreService.save(membreTontine);
+            tontineService.save(tontine);
+            modelAndView.setViewName("redirect:/dashboard");
+            return modelAndView;
         }
+    }
 
 
 

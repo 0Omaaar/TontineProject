@@ -15,9 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class DemandeJointureController {
@@ -38,21 +36,33 @@ public class DemandeJointureController {
                                             @RequestParam(name = "selectedGroupId") int selectedGroupId){
 
 
-        if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
-        {
+//        if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
+//        {
+//
+//            int nbr =  (int)groupeUserRepository.count() + 1;
+//            String nomG = "Groupe" + nbr;
+//            GroupeUser groupeUser = new GroupeUser(nomG);
+//            groupeUserRepository.save(groupeUser);
+//            demandeJointure.setGroupeUser(groupeUser);
+//
+//        } else
+            if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
 
-            int nbr =  (int)groupeUserRepository.count() + 1;
-            String nomG = "Groupe" + nbr;
-            GroupeUser groupeUser = new GroupeUser(nomG);
-            groupeUserRepository.save(groupeUser);
-            demandeJointure.setGroupeUser(groupeUser);
-        } else if (demandeJointure.getParticipationType().equals("EN_GROUPE_NEW")) {
-            Optional<GroupeUser> groupeUserOptional = groupeUserRepository.findById(selectedGroupId);
-            GroupeUser groupeUser = groupeUserOptional.orElse(null);
-            demandeJointure.setGroupeUser(groupeUser); // groupeId ne s'emregistre pas dans BD
+                Optional<GroupeUser> groupeUserOptional = groupeUserRepository.findById(selectedGroupId);
+                GroupeUser groupeUser = groupeUserOptional.orElse(null);
+                float somme = demandeJointure.getCotisation();
+                List<User_GroupeUser> userGroupeUsers = (List<User_GroupeUser>) userGroupeUserRepository.findUser_GroupeUsersByGroupeUser_Id((int)groupeUser.getId());
+                for(User_GroupeUser userGroupUser : userGroupeUsers ){
+                    somme += userGroupUser.getPourcentageCotisation();
+                }
+                if(somme > 1){
+                    System.out.println(somme);
+                    return new ModelAndView("redirect:/"); // il faut afficher un message que il
+                    // n'est pas possible de joindre ce groupe
+                }
+                demandeJointure.setGroupeUser(groupeUser); // groupeId ne s'emregistre pas dans BD
 
         }
-
 
         Date date = new Date(); // Assuming this is the date you want to set
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
