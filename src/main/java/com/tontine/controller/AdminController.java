@@ -3,6 +3,7 @@ package com.tontine.controller;
 import com.tontine.entities.*;
 import com.tontine.repository.GroupeUserRepository;
 import com.tontine.repository.UserRepository;
+import com.tontine.repository.User_GroupeUserRepository;
 import com.tontine.service.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.parameters.P;
@@ -25,6 +26,12 @@ import java.util.stream.Collectors;
 @RestController
 //@Validated
 public class AdminController {
+
+    @Autowired
+    private User_GroupeUserRepository userGroupeUserRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private DemandeTontineService demandeTontineService;
@@ -126,6 +133,7 @@ public class AdminController {
         if(demandeJointure != null){
             demandeJointure.setStatut(DemandeJointure.Statut.REFUSE);
             demandeJointureService.saveDemandeJointure(demandeJointure);
+
         }
 
         modelAndView.setViewName("redirect:/demandesJointure");
@@ -222,28 +230,55 @@ public class AdminController {
         return modelAndView;
     }
 
-//    @GetMapping("/accepterDemandeJointure/{id}")
-//    public ModelAndView saveMembre(@PathVariable int id) {
-//        DemandeJointure demandeJointure = demandeJointureService.findById(id);
-//        if (demandeJointure.getParticipationType().equals("EN_GROUPE_NEW")) {
-//            ModelAndView modelAndView = new ModelAndView();
-//        }
-//            int nbr = (int) groupeUserRepository.count() + 1;
-//            String nom = "goupe" + nbr;
-//            GroupeUser groupeUser = new GroupeUser(nom);
-//            groupeUserRepository.save(groupeUser);
-//        } else if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
-//            demandeJointure.
-//
-//        }
+    @GetMapping("/accepterDemandeJointure/{id}")
+    public ModelAndView saveMembre(@PathVariable int id) {
+        ModelAndView modelAndView = new ModelAndView();
+        DemandeJointure demandeJointure = demandeJointureService.findById(id);
+        Tontine tontine = demandeJointure.getTontine();
+        MembreTontine membreTontine = new MembreTontine();
+        tontine.getMembreTontines().add(membreTontine);
 
-//            membreService.save(membreTontine);
-//            tontineService.save(tontine);
-//            modelAndView.setViewName("redirect:/dashboard");
-//            return modelAndView;
-//
-//
-//        }
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        membreTontine.setDateadhesion(localDate);
+        membreTontine.setUser(demandeJointure.getUser());
+        membreTontine.getTontines().add(tontine);
+        demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+        if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
+        {
+//            int nbr =  (int)groupeUserRepository.count();
+//            String nomG = "Groupe" + nbr;
+//            GroupeUser groupeUser = new GroupeUser(nomG);
+            GroupeUser groupeUser = demandeJointure.getGroupeUser();
+            demandeJointure.setGroupeUser(groupeUser);
+            User_GroupeUser userGroupeUser = new User_GroupeUser();
+            userGroupeUser.setGroupeUser(groupeUser);
+            userGroupeUser.setUser(demandeJointure.getUser());
+            userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
+            membreTontine.setGroupeUser(demandeJointure.getGroupeUser());
+            demandeJointure.getUser().getUser_groupeUsers().add(userGroupeUser);
+            groupeUser.setMembreTontine(membreTontine);
+            groupeUser.getUserGroupeUsers().add(userGroupeUser);
+            membreTontine.setGroupeUser(groupeUser);
+            membreService.save(membreTontine);
+            groupeUserRepository.save(groupeUser);
+            userGroupeUserRepository.save(userGroupeUser); //consider using userGrUsService bean
+            userService.saveUsr(demandeJointure.getUser());
+            tontineService.save(tontine);
+            modelAndView.setViewName("redirect:/dashboard");
+            return modelAndView;
+        } else if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
+
+            
+        }
+
+        membreService.save(membreTontine);
+        tontineService.save(tontine);
+        modelAndView.setViewName("redirect:/dashboard");
+        return modelAndView;
+
+
+        }
 
 
 

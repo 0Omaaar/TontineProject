@@ -29,7 +29,7 @@
                         </select>
                     <div class="form-group y">
                         <label>Groupes : </label>
-                        <select class="form-control">
+                        <select class="form-control" name="selectedGroupId">
                             <option th:each="membre, iStat : ${tontine.getMembreTontines()}" th:if="${membre.groupeUser != null  }" th:text="${membre.groupeUser.nomGroupe}"
                                   th:value="${membre.groupeUser.id}"></option>
                         </select>

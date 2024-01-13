@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @Entity
+@Transactional
 public class DemandeJointure {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -24,13 +26,17 @@ public class DemandeJointure {
     @Column(nullable = false)
     private LocalDate date;
 
-    public enum ParticipationType {
-        SEUL,
-        EN_GROUPE_NEW,
-        EN_GROUPE
-    }
-    @Enumerated(EnumType.STRING)
-    private ParticipationType participationType;
+    private Float cotisation;
+
+    private String participationType;
+
+//    public enum ParticipationType {
+//        SEUL,
+//        EN_GROUPE_NEW,
+//        EN_GROUPE
+//    }
+//    @Enumerated(EnumType.STRING)
+//    private ParticipationType participationType;
 
 
 
@@ -39,8 +45,6 @@ public class DemandeJointure {
         APPROUVE,
         REFUSE
     }
-
-
     @Enumerated(EnumType.STRING)
     private Statut statut;
 
@@ -58,9 +62,6 @@ public class DemandeJointure {
     @JsonIgnore
     @ManyToOne
     private Tontine tontine;
-
-
-
 
     @JsonIgnore
     @ManyToOne
