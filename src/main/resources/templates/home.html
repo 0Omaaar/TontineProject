@@ -237,20 +237,20 @@
         <h3 style="font-weight: bolder; color: grey">Liste de vos Tontines</h3>
     </div>
 
-<!--    <div class="container mt-4" th:if="${membres != null}" >-->
-<!--        <ul th:each="membre, iStat : ${membres}">-->
-<!--            <li th:each="tontine, iStat : ${membre.tontines}" th:text="${tontine.nom}" th:if="${membre.tontines != null}"></li>-->
-<!--        </ul>-->
  <div class="container mt-4" th:if="${membres != null}">
     <table class="table">
         <thead class="table-dark">
             <tr>
                 <th style="color: white">Tontine</th>
+                <th style="color:white">Tour Courant</th>
+                <th style="color: whitesmoke">Votre Tour</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="membre, iStat : ${membres}">
                 <td th:each="tontine, iStat : ${membre.tontines}" th:text="${tontine.nom}" th:if="${membre.tontines != null}"></td>
+                <td th:each="tontine : ${membre.tontines}" th:text="${tontine.tourCourant}"></td>
+                <td>--</td>
             </tr>
         </tbody>
     </table>
@@ -279,7 +279,7 @@
             <a href="/logout" class="texto">Se deconnecter</a>
             <a href="/dashboard" class="texto" sec:authorize="hasAuthority('ADMIN')">Espace Admin</a>
             <span class="separator">|</span>
-            <a href="/créer-tontine" class="texto">Demander Tontine</a>
+            <button type="button" class="texto" data-toggle="modal" data-target="#modalDemandeTontine">Demander Tontine</button>
             <a th:if="${#authorization.expression('isAuthenticated()')}" href="#" class="openbtn texto" onclick="openNav()" style="color: grey">☰ Profil</a>
             </div>
         </div>
@@ -338,18 +338,8 @@
                         </div>
                         <ol class="widget-49-meeting-points">
                             <li class="widget-49-meeting-item"><b>Max Membres : </b><span th:text="${tontine.maxMembre}"></span></li>
-                            <li class="widget-49-meeting-item"><b>Nombre de Places Restantes : </b><span>3</span></li>
+                            <li class="widget-49-meeting-item"><b>Nombre de Places Restantes : </b><span th:text="${tontine.maxMembre} - ${tontine.getMembreTontines.size()}"></span></li>
                         </ol>
-<!--                        <div class="widget-49-meeting-action" th:if="${#authorization.expression('isAuthenticated()')}">-->
-<!--                            <button type="button" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}" class="btn btn-sm btn-flash-border-primary demande">-->
-<!--                                Demander Jointure-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                        <div class="widget-49-meeting-action" th:if="${#authorization.expression('isAuthenticated()')}">-->
-<!--                            <button type="button" data-toggle="modal" th:data-target="'#exampleModal' + ${tontine.id}" class="btn btn-sm btn-flash-border-primary demande">-->
-<!--                                Demander Jointure-->
-<!--                            </button>-->
-<!--                        </div>-->
 
                         <div class="widget-49-meeting-action">
                             <th:block th:if="${#authorization.expression('isAuthenticated()')}">
@@ -359,10 +349,6 @@
                                         Demander Jointure
                                     </button>
                                 </th:block>
-<!--                                <th:block th:else>-->
-<!--                                    &lt;!&ndash; Show this when the number of members equals the maximum &ndash;&gt;-->
-<!--                                    <p>The maximum number of members has been reached.</p>-->
-<!--                                </th:block>-->
                             </th:block>
                         </div>
 
@@ -370,8 +356,11 @@
                     </div>
                 </div>
             </div>
-            <!--Modal Pour demander une tontine-->
+            <!--Modal Pour demander de joindre tontine-->
             <div th:replace="~{layouts/demanderJointure}"></div>
+
+            <!--Modal De Demande Tontine-->
+            <div th:replace="~{layouts/demanderTontine}"></div>
         </div>
     </div>
 </div>

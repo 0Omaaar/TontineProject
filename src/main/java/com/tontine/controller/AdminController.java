@@ -104,6 +104,7 @@ public class AdminController {
         if (bindingResult.hasErrors()){
             model.addAttribute("errorMessage", "An error occurred during the creation of the Tontine. Please check the entered data.");
             modelAndView.setViewName("redirect:/ajouterTontine");
+            System.out.println(bindingResult);
             return modelAndView;
         }
 
@@ -119,8 +120,27 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         List<DemandeJointure> demandeJointures = demandeJointureService.findAll();
 
-        model.addAttribute("demandes", demandeJointures);
+        List<DemandeJointure> demandesEnAttentes = demandeJointures.stream()
+                .filter(demande -> demande.getStatut() == DemandeJointure.Statut.EN_ATTENTE)
+                        .collect(Collectors.toList());
+
+        model.addAttribute("demandes", demandesEnAttentes);
         modelAndView.setViewName("admin/demandesJointure");
+        return modelAndView;
+    }
+
+    @GetMapping("/demandesJointureTraitees")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView demandesJointureTraitees(Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        List<DemandeJointure> demandeJointures = demandeJointureService.findAll();
+
+        List<DemandeJointure> demandes = demandeJointures.stream()
+                .filter(demande -> demande.getStatut() != DemandeJointure.Statut.EN_ATTENTE)
+                .collect(Collectors.toList());
+
+        model.addAttribute("demandes", demandes);
+        modelAndView.setViewName("admin/demandesJointureTraitees");
         return modelAndView;
     }
 
@@ -237,15 +257,6 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         DemandeJointure demandeJointure = demandeJointureService.findById(id);
         Tontine tontine = demandeJointure.getTontine();
-//        MembreTontine membreTontine = new MembreTontine();
-//        tontine.getMembreTontines().add(membreTontine);
-//
-//        Date date = new Date();
-//        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        membreTontine.setDateadhesion(localDate);
-//        membreTontine.setUser(demandeJointure.getUser());
-//        membreTontine.getTontines().add(tontine);
-//        demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
         if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
         {
             // Create and set up MembreTontine

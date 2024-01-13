@@ -1,0 +1,58 @@
+<div id="modalDemandeTontine" class="modal fade" role="dialog">
+<div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Demander Une Tontine</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form method="post" action="/tontine/demander-tontine">
+        <div class="modal-body">
+                <div class="form-group">
+                    <label for="name">Nom</label>
+                    <input id="name" class="form-control" type="text" name="nom" required>
+                </div>
+                <div class="form-group">
+                    <label >Montant</label>
+                    <input id="montant" class="form-control" type="number" required name="montantPeriode">
+                </div>
+                <div class="form-group">
+                    <label for="max_member">Nombre de membres</label>
+                    <input id="max_member" class="form-control" type="number" required name="maxMembre">
+                </div>
+                <div class="form-group">
+                    <label for="date_debut">Date Debut</label>
+                    <input id="date_debut" class="form-control" type="date" required name="dateDebut">
+                </div>
+                <div class="form-group">
+                    <label >Type d'ordre :</label>
+                    <select class="form-control" name="typeOrdre">
+                        <option th:each="orderType : ${T(com.tontine.entities.Demandetontine.TypeOrdre).values()}"
+                                th:value="${orderType}"
+                                th:text="${orderType}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >Frequence :</label>
+                    <select class="form-control" name="frequence">
+                        <option th:each="frequence : ${T(com.tontine.entities.Demandetontine.Frequence).values()}"
+                                th:value="${frequence}"
+                                th:text="${frequence}"></option>
+                    </select>
+                </div>
+            <input type="hidden" th:name="statutDemande" value="EN_ATTENTE" >
+            <input type="hidden" th:name="user" th:value="${user_id}" >
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fermer</button>
+            <input type="submit" class="btn btn-default" value="Demander">
+        </div>
+        </form>
+
+    </div>
+
+</div>
+</div>

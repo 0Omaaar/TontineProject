@@ -35,12 +35,12 @@ public class Demandetontine {
     private LocalDate dateFin;
 
 
-    private enum TypeOrdre{
+    public enum TypeOrdre{
         ALEATOIRE,
         ORDER
     }
     @Enumerated(EnumType.STRING)
-    private TypeOrdre typeOrdre;
+    public TypeOrdre typeOrdre;
     public enum StatutDemande{
         EN_ATTENTE,
         APPROUVE,

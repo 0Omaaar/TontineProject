@@ -138,12 +138,12 @@
                                     </a>
                                 </li>
 
+
                                 <li >
                                     <a class="sidenav-item-link" href="/demandesTontineRefusees">
                                         <span class="nav-text">Liste des demandes Refusées</span>
                                     </a>
                                 </li>
-
                             </div>
                         </ul>
                     </li>
@@ -225,36 +225,29 @@
                 <!-- Products Inventory -->
                 <div class="card card-default">
                     <div class="card-header">
-                        <h2>Liste des demandes De Tontines Refusées</h2>
+                        <h2>Liste des demandes Jointures Traitees</h2>
                     </div>
                     <div class="card-body">
                         <div class="collapse" id="collapse-data-tables">
                         </div>
-                        <table id="productsTable" class="table table-hover table-product" style="width:100%">
+                        <table id="productsTable" class="table table-hover table-product" style="width:100%" >
                             <thead>
                             <tr>
-                                <th>Nom</th>
-                                <th>Date_Debut</th>
-                                <th>Date_Fin</th>
+                                <th>Tontine</th>
                                 <th>Utilisateur</th>
-                                <th>Frequence</th>
-                                <th>Type Ordre</th>
-                                <th>Membres</th>
-                                <th>Montant</th>
+                                <th>GroupeUtilisateur</th>
+                                <th>Date Demande</th>
                                 <th>Statut</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="demande, iStat : ${demandes}">
-                                <td th:text="${demande.nom}"></td>
-                                <td th:text="${demande.dateDebut}"></td>
-                                <td th:text="${demande.dateFin}"></td>
+                                <td th:text="${demande.tontine.nom}"></td>
                                 <td th:text="${demande.user.nom_prenom}"></td>
-                                <td th:text="${demande.frequence}"></td>
-                                <td th:text="${demande.typeOrdre}"></td>
-                                <td th:text="${demande.maxMembre}"></td>
-                                <td th:text="${demande.montantPeriode}"></td>
-                                <td th:text="${demande.statutDemande}" style="color: red; font-weight: bolder;"></td>
+                                <td th:if="${demande.groupeUser != null}" th:text="${demande.groupeUser.nomGroupe}"></td>
+                                <td th:if="${demande.groupeUser == null}">---</td>
+                                <td th:text="${demande.date}"></td>
+                                <td th:text="${demande.statut}" style="color: red; font-weight: bolder"></td>
                             </tr>
                             </tbody>
                         </table>
