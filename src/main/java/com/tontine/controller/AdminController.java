@@ -82,10 +82,17 @@ public class AdminController {
 
     @PostMapping("/changer-statut-tontine")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView changerStatut(Tontine tontine, @RequestParam int tontine_id, @RequestParam String statutTontine){
-        Tontine findedTontine = tontineService.findById(tontine_id).orElse(null);
-        findedTontine.setStatutTontine(Tontine.StatutTontine.valueOf(statutTontine));
-        tontineService.save(findedTontine);
+    public ModelAndView changerStatut(Tontine tontine, @RequestParam int tontine_id, @RequestParam String statutTontine,
+                                      RedirectAttributes redirectAttributes){
+        try{
+            Tontine findedTontine = tontineService.findById(tontine_id).orElse(null);
+            findedTontine.setStatutTontine(Tontine.StatutTontine.valueOf(statutTontine));
+            tontineService.save(findedTontine);
+            redirectAttributes.addFlashAttribute("successMessage", "Le Statut est Modifié avec succès.");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Erreur Survenue Lors de la modification de statut.");
+        }
         return new ModelAndView("redirect:/tontines");
     }
 
@@ -106,16 +113,14 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()){
-            modelAndView.addObject("errorMessage", "An error occurred during the creation of the Tontine. Please check the entered data.");
+            redirectAttributes.addFlashAttribute("dangerMessage", "An error occurred during the creation of the Tontine. Please check the entered data.");
             modelAndView.setViewName("redirect:/ajouterTontine");
-            System.out.println(bindingResult);
             return modelAndView;
         }
 
         tontineService.save(tontine);
-        redirectAttributes.addFlashAttribute("successMessage", "Dekshi daz mezian");
+        redirectAttributes.addFlashAttribute("successMessage", "Tontine Crée avec succès");
         modelAndView.setViewName("redirect:/tontines");
-
         return modelAndView;
     }
 
@@ -151,18 +156,23 @@ public class AdminController {
 
     @GetMapping("/refuserDemandeJointure/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView refuserDemandeJointure(@PathVariable("id") int id){
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView refuserDemandeJointure(@PathVariable("id") int id, RedirectAttributes redirectAttributes){
+        try {
+            DemandeJointure demandeJointure = demandeJointureService.findById(id);
 
-        DemandeJointure demandeJointure = demandeJointureService.findById(id);
+            if(demandeJointure != null){
+                demandeJointure.setStatut(DemandeJointure.Statut.REFUSE);
+                demandeJointureService.saveDemandeJointure(demandeJointure);
 
-        if(demandeJointure != null){
-            demandeJointure.setStatut(DemandeJointure.Statut.REFUSE);
-            demandeJointureService.saveDemandeJointure(demandeJointure);
+            }
 
+            redirectAttributes.addFlashAttribute("successMessage", "La demande a été refusée avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est survenue lors de refus de Jointure");
         }
 
-        modelAndView.setViewName("redirect:/demandesJointure");
+        ModelAndView modelAndView = new ModelAndView("redirect:/demandesJointure");
         return modelAndView;
     }
 
@@ -202,27 +212,33 @@ public class AdminController {
 
     @GetMapping("/accepterDemande/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView accepterDemande(@PathVariable int id){
+    public ModelAndView accepterDemande(@PathVariable int id, RedirectAttributes redirectAttributes){
         ModelAndView modelAndView = new ModelAndView();
 
-        DemandeTontineEntite demandeTontineEntite = demandeTontineService.findById(id);
-        demandeTontineEntite.setStatutDemande(Demandetontine.StatutDemande.APPROUVE);
-        demandeTontineService.save(demandeTontineEntite);
+        try{
+            DemandeTontineEntite demandeTontineEntite = demandeTontineService.findById(id);
+            demandeTontineEntite.setStatutDemande(Demandetontine.StatutDemande.APPROUVE);
+            demandeTontineService.save(demandeTontineEntite);
 
-        Tontine tontine = new Tontine();
-        tontine.setNom(demandeTontineEntite.getNom());
-        tontine.setDateDebut(demandeTontineEntite.getDateDebut());
-        tontine.setFrequence(demandeTontineEntite.getFrequence());
-        tontine.setMaxMembre(demandeTontineEntite.getMaxMembre());
-        tontine.setMontantPeriode(demandeTontineEntite.getMontantPeriode());
-        tontine.setTypeOrdre(demandeTontineEntite.getTypeOrdre());
-        Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        tontine.setDateApprouveTontine(localDate);
-        tontine.setStatutTontine(Tontine.StatutTontine.EN_ATTENTE);
-        tontine.setTourCourant(0);
-        tontineService.save(tontine);
+            Tontine tontine = new Tontine();
+            tontine.setNom(demandeTontineEntite.getNom());
+            tontine.setDateDebut(demandeTontineEntite.getDateDebut());
+            tontine.setFrequence(demandeTontineEntite.getFrequence());
+            tontine.setMaxMembre(demandeTontineEntite.getMaxMembre());
+            tontine.setMontantPeriode(demandeTontineEntite.getMontantPeriode());
+            tontine.setTypeOrdre(demandeTontineEntite.getTypeOrdre());
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            tontine.setDateApprouveTontine(localDate);
+            tontine.setStatutTontine(Tontine.StatutTontine.EN_ATTENTE);
+            tontine.setTourCourant(0);
+            tontineService.save(tontine);
 
+            redirectAttributes.addFlashAttribute("successMessage", "La demande a été accepté avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une erreur est survenue lors de l'acceptation de la demande");
+        }
 
         modelAndView.setViewName("redirect:/demandesTontine");
         return modelAndView;
@@ -231,14 +247,21 @@ public class AdminController {
 
     @GetMapping("/refuserDemande/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView refuserDemande(@PathVariable int id){
+    public ModelAndView refuserDemande(@PathVariable int id, RedirectAttributes redirectAttributes){
 
-        DemandeTontineEntite demandeTontineEntite = demandeTontineService.findById(id);
-        demandeTontineEntite.setStatutDemande(Demandetontine.StatutDemande.REFUSE);
-        demandeTontineService.save(demandeTontineEntite);
+        try{
+            DemandeTontineEntite demandeTontineEntite = demandeTontineService.findById(id);
+            demandeTontineEntite.setStatutDemande(Demandetontine.StatutDemande.REFUSE);
+            demandeTontineService.save(demandeTontineEntite);
+
+            redirectAttributes.addFlashAttribute("successMessage", "La demande a été refusée avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une erreur est survenue lors de refus de la demande");
+        }
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/demandesTontine");
+        modelAndView.setViewName("redirect:/demandesTontineRefusees");
 
         return modelAndView;
     }
@@ -246,10 +269,17 @@ public class AdminController {
 
     @GetMapping("/supprimer-tontine-{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView supprimerTontine(@PathVariable int id){
-        tontineService.deleteById(id);
+    public ModelAndView supprimerTontine(@PathVariable int id, RedirectAttributes redirectAttributes){
+        try{
+            tontineService.deleteById(id);
 
-        // ajouter traitment de suppression des demandes jointures de cette tontine
+            // ajouter traitment de suppression des demandes jointures de cette tontine
+
+            redirectAttributes.addFlashAttribute("successMessage", "Tontine Supprimée avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Erreur Survenue lors de la suppression de la tontine");
+        }
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/tontines");
@@ -363,7 +393,6 @@ public class AdminController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/membresTontine");
-//        modelAndView.setViewName("membres");
         return modelAndView;
     }
 

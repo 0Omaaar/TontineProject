@@ -1,0 +1,16 @@
+<div id="myAlert" class="alert alert-dismissible alert-success" role="alert" th:if="${successMessage}">
+    <span th:text="${successMessage}" ></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<script>
+    // Wait for the document to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set a timeout to hide the alert after 5 seconds
+        setTimeout(function() {
+            document.getElementById('myAlert').style.display = 'none';
+        }, 5000);
+    });
+</script>
