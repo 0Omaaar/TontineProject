@@ -32,10 +32,11 @@ public class Demandetontine {
 
     private LocalDate dateDebut;
 
+
     private LocalDate dateFin;
 
 
-    private enum TypeOrdre{
+    public enum TypeOrdre{
         ALEATOIRE,
         ORDER
     }
