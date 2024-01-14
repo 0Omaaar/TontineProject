@@ -408,6 +408,7 @@ public class AdminController {
             }
 
             LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * nbrTour) ;
+            tour.setDateTour(dateTour);
 
             tourService.saveTour(tour);
 
