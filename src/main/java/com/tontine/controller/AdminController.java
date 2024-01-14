@@ -287,71 +287,77 @@ public class AdminController {
 
     @GetMapping("/accepterDemandeJointure/{id}")
     @Transactional
-    public ModelAndView saveMembre(@PathVariable int id) {
+    public ModelAndView saveMembre(@PathVariable int id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
-        DemandeJointure demandeJointure = demandeJointureService.findById(id);
-        Tontine tontine = demandeJointure.getTontine();
-        if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
-        {
-            // Create and set up MembreTontine
-            MembreTontine membreTontine = new MembreTontine();
-            membreTontine.setDateadhesion(LocalDate.now());
-            membreTontine.setUser(demandeJointure.getUser());
-            membreTontine.getTontines().add(tontine);
+        try{
+            DemandeJointure demandeJointure = demandeJointureService.findById(id);
+            Tontine tontine = demandeJointure.getTontine();
+            if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
+            {
+                // Create and set up MembreTontine
+                MembreTontine membreTontine = new MembreTontine();
+                membreTontine.setDateadhesion(LocalDate.now());
+                membreTontine.setUser(demandeJointure.getUser());
+                membreTontine.getTontines().add(tontine);
 
-            // Create and set up GroupeUser
-            int nbr = (int) groupeUserRepository.count();
-            String nomG = "Groupe" + nbr;
-            GroupeUser groupeUser = new GroupeUser(nomG);
-            groupeUser.setMembreTontine(membreTontine);
+                // Create and set up GroupeUser
+                int nbr = (int) groupeUserRepository.count();
+                String nomG = "Groupe" + nbr;
+                GroupeUser groupeUser = new GroupeUser(nomG);
+                groupeUser.setMembreTontine(membreTontine);
 
-            // Create and set up User_GroupeUser
-            User_GroupeUser userGroupeUser = new User_GroupeUser();
-            userGroupeUser.setGroupeUser(groupeUser);
-            userGroupeUser.setUser(demandeJointure.getUser());
-            userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
+                // Create and set up User_GroupeUser
+                User_GroupeUser userGroupeUser = new User_GroupeUser();
+                userGroupeUser.setGroupeUser(groupeUser);
+                userGroupeUser.setUser(demandeJointure.getUser());
+                userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
 
-            // Set relationships bidirectionally
-            membreTontine.setGroupeUser(groupeUser);
-            demandeJointure.setGroupeUser(groupeUser);
-            groupeUser.getUserGroupeUsers().add(userGroupeUser);
+                // Set relationships bidirectionally
+                membreTontine.setGroupeUser(groupeUser);
+                demandeJointure.setGroupeUser(groupeUser);
+                groupeUser.getUserGroupeUsers().add(userGroupeUser);
 
-            // Save entities in the correct order
-            userGroupeUserRepository.save(userGroupeUser);
-            userService.saveUsr(demandeJointure.getUser());
-            groupeUserRepository.save(groupeUser);
-            membreService.save(membreTontine);
-            tontineService.save(tontine);
+                // Save entities in the correct order
+                userGroupeUserRepository.save(userGroupeUser);
+                userService.saveUsr(demandeJointure.getUser());
+                groupeUserRepository.save(groupeUser);
+                membreService.save(membreTontine);
+                tontineService.save(tontine);
 
-            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
-            demandeJointureService.saveDemandeJointure(demandeJointure);
+                demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+                demandeJointureService.saveDemandeJointure(demandeJointure);
 
-            //function for creating tour for member
-            createTour(demandeJointure, membreTontine);
-        } else if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
-            User_GroupeUser userGroupeUser = new User_GroupeUser();
-            userGroupeUser.setGroupeUser(demandeJointure.getGroupeUser());
-            userGroupeUser.setUser(demandeJointure.getUser());
-            userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
-            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
-            demandeJointureService.saveDemandeJointure(demandeJointure);
-            userGroupeUserRepository.save(userGroupeUser);
-        }
-        else {
-            MembreTontine membreTontine = new MembreTontine();
-            tontine.getMembreTontines().add(membreTontine);
+                //function for creating tour for member
+                createTour(demandeJointure, membreTontine);
+            } else if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
+                User_GroupeUser userGroupeUser = new User_GroupeUser();
+                userGroupeUser.setGroupeUser(demandeJointure.getGroupeUser());
+                userGroupeUser.setUser(demandeJointure.getUser());
+                userGroupeUser.setPourcentageCotisation(demandeJointure.getCotisation());
+                demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+                demandeJointureService.saveDemandeJointure(demandeJointure);
+                userGroupeUserRepository.save(userGroupeUser);
+            }
+            else {
+                MembreTontine membreTontine = new MembreTontine();
+                tontine.getMembreTontines().add(membreTontine);
 
-            Date date = new Date();
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            membreTontine.setDateadhesion(localDate);
-            membreTontine.setUser(demandeJointure.getUser());
-            membreTontine.getTontines().add(tontine);
-            demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
-            membreService.save(membreTontine);
-            tontineService.save(tontine);
+                Date date = new Date();
+                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                membreTontine.setDateadhesion(localDate);
+                membreTontine.setUser(demandeJointure.getUser());
+                membreTontine.getTontines().add(tontine);
+                demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
+                membreService.save(membreTontine);
+                tontineService.save(tontine);
 
-            //function to create the tour
-            createTour(demandeJointure, membreTontine);
+                //function to create the tour
+                createTour(demandeJointure, membreTontine);
+            }
+            redirectAttributes.addFlashAttribute("successMessage", "La demande de jointure a été accepté avec succès");
+        }catch(Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur Survenue lors de l'acceptation de la demande");
         }
         // Set the view and return
         modelAndView.setViewName("redirect:/dashboard");
@@ -362,7 +368,7 @@ public class AdminController {
         if(demandeJointure.getTontine().getTypeOrdre() == Demandetontine.TypeOrdre.ORDER){
             Tour tour = new Tour();
             tour.setMembreTontine(membreTontine);
-            tour.setNbrTour(demandeJointure.getTontine().getMembreTontines().size() );
+            tour.setNbrTour(demandeJointure.getTontine().getMembreTontines().size());
             int nbrJour;
             if(demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE)
             {
@@ -373,7 +379,7 @@ public class AdminController {
             else {
                 nbrJour = 90;
             }
-            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * demandeJointure.getTontine().getMembreTontines().size() );
+            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * demandeJointure.getTontine().getMembreTontines().size());
             tour.setDateTour(dateTour);
 
             tourService.saveTour(tour);
@@ -381,12 +387,6 @@ public class AdminController {
         else {
             Tour tour = new Tour();
             tour.setMembreTontine(membreTontine);
-
-
-//            Random r = new Random();
-//            int low = 1;
-//            int high = demandeJointure.getTontine().getMaxMembre();
-//            int randomInt = r.nextInt(high - low + 1) + low;
 
             ArrayList<Integer> listTours = new ArrayList<>();
             ArrayList<Tour> Tlist = tourService.findTours();
@@ -463,25 +463,40 @@ public class AdminController {
 
     @GetMapping("supprimer-user-{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView supprimerUser(@PathVariable(name = "id") int id){
-        User user = userRepository.findById(id).orElse(null);
-        userRepository.delete(user);
+    public ModelAndView supprimerUser(@PathVariable(name = "id") int id, RedirectAttributes redirectAttributes){
+        try{
+            User user = userRepository.findById(id).orElse(null);
+            userRepository.delete(user);
+
+            redirectAttributes.addFlashAttribute("successMessage", "L'utilisateur est supprimé avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est Survenue Lors de la Suppression de l'Utilisateur");
+        }
         return new ModelAndView("redirect:/utilisateurs");
     }
 
     @PostMapping("/modifier-user")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView modifierUser(@ModelAttribute(name = "user") User user, @RequestParam(name = "id") int user_id){
-        User userF = userRepository.findById(user_id).orElse(null);
+    public ModelAndView modifierUser(@ModelAttribute(name = "user") User user, @RequestParam(name = "id") int user_id,
+                                     RedirectAttributes redirectAttributes){
+        try{
+            User userF = userRepository.findById(user_id).orElse(null);
 
-        if (userF != null) {
-            userF.setEmail(user.getEmail());
-            userF.setCin(user.getCin());
-            userF.setNumTele(user.getNumTele());
-            userF.setPassword(user.getPassword());
-            userF.setNom_prenom(user.getNom_prenom());
+            if (userF != null) {
+                userF.setEmail(user.getEmail());
+                userF.setCin(user.getCin());
+                userF.setNumTele(user.getNumTele());
+                userF.setPassword(user.getPassword());
+                userF.setNom_prenom(user.getNom_prenom());
 
-            userRepository.save(userF);
+                userRepository.save(userF);
+            }
+
+            redirectAttributes.addFlashAttribute("successMessage", "L'utilisateur est modifé avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est Survenue Lors de la modification de l'Utilisateur");
         }
 
         return new ModelAndView("redirect:/utilisateurs");
@@ -489,8 +504,14 @@ public class AdminController {
 
     @PostMapping("/ajouter-user")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ModelAndView ajouterUser(@ModelAttribute(name = "user") User user){
-        userRepository.save(user);
+    public ModelAndView ajouterUser(@ModelAttribute(name = "user") User user, RedirectAttributes redirectAttributes){
+        try{
+            userRepository.save(user);
+            redirectAttributes.addFlashAttribute("successMessage", "L'utilisateur est ajouté avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est Survenue Lors de l'ajout de l'Utilisateur");
+        }
 
         return new ModelAndView("redirect:/utilisateurs");
     }

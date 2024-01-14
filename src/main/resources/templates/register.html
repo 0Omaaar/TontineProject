@@ -38,24 +38,24 @@
                 <form class="card-body cardbody-color p-lg-5" method="post" action="/user/save" th:object="${User}">
 
                     <div class="mb-3">
-                        <input type="text" class="form-control"  name="nom_prenom" placeholder="Name" autofocus>
+                        <input type="text" class="form-control"  name="nom_prenom" placeholder="Name" autofocus required>
                     </div>
 
                     <div class="mb-3">
                         <input type="email" class="form-control" id="Email" name="email"  aria-describedby="emailHelp"
-                               placeholder="Email" >
+                               placeholder="Email" required>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" class="form-control"  name="cin" placeholder="CIN">
+                        <input type="text" class="form-control"  name="cin" placeholder="CIN" required>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" class="form-control"  name="numTele" placeholder="Phone">
+                        <input type="text" class="form-control"  name="numTele" placeholder="Phone" required>
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" class="form-control" name="password"  id="password" placeholder="Password">
+                        <input type="password" class="form-control" name="password"  id="password" placeholder="Password" required>
                     </div>
                     <input type="hidden" name="roles" value="USER" >
                     <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Create Account</button></div>

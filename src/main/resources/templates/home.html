@@ -244,13 +244,15 @@
                 <th style="color: white">Tontine</th>
                 <th style="color:white">Tour Courant</th>
                 <th style="color: whitesmoke">Votre Tour</th>
+                <th style="color: whitesmoke">Date De Votre Tour</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="membre, iStat : ${membres}">
                 <td th:each="tontine, iStat : ${membre.tontines}" th:text="${tontine.nom}" th:if="${membre.tontines != null}"></td>
                 <td th:each="tontine : ${membre.tontines}" th:text="${tontine.tourCourant}"></td>
-                <td>--</td>
+                <td th:text="${membre.tour.nbrTour}" th:if="${membre.tour != null}"></td>
+                <td th:text="${#temporals.format(membre.tour.dateTour, 'dd MMMM yyyy')}" th:if="${membre.tour != null}"></td>
             </tr>
         </tbody>
     </table>
