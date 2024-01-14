@@ -19,11 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.tontine.controller.AdminController.RandomNumberGenerator.generateUniqueRandomNumber;
 
 @RestController
 //@Validated
@@ -379,7 +378,61 @@ public class AdminController {
 
             tourService.saveTour(tour);
         }
+        else {
+            Tour tour = new Tour();
+            tour.setMembreTontine(membreTontine);
+
+
+//            Random r = new Random();
+//            int low = 1;
+//            int high = demandeJointure.getTontine().getMaxMembre();
+//            int randomInt = r.nextInt(high - low + 1) + low;
+
+            ArrayList<Integer> listTours = new ArrayList<>();
+            ArrayList<Tour> Tlist = tourService.findTours();
+            for(Tour tour1:Tlist){
+                listTours.add(tour1.getNbrTour());
+            }
+            int nbrTour = generateUniqueRandomNumber(1,demandeJointure.getTontine().getMaxMembre(),listTours);
+            tour.setNbrTour(nbrTour);
+
+            int nbrJour;
+            if(demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE)
+            {
+                nbrJour = 7;
+            } else if (demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.MENTUEL) {
+                nbrJour = 30;
+            }
+            else {
+                nbrJour = 90;
+            }
+
+            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * nbrTour) ;
+
+            tourService.saveTour(tour);
+
+        }
+
     }
+
+
+
+    public static class RandomNumberGenerator {
+
+        public static int generateUniqueRandomNumber(int min, int max, ArrayList<Integer> existingNumbers) {
+            Random random = new Random();
+            int randomNumber;
+
+            do {
+                // Generate a random number within the specified range
+                randomNumber = random.nextInt(max - min + 1) + min;
+            } while (existingNumbers.contains(randomNumber));
+
+            return randomNumber;
+        }
+
+    }
+
 
     @GetMapping("afficherMembres")
     public ModelAndView afficherMembres(@RequestParam(name = "tontineId") int tontineId, Model model){
