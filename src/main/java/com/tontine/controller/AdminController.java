@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -53,6 +54,9 @@ public class AdminController {
 
     @Autowired
     private GroupeUserRepository groupeUserRepository;
+
+    @Autowired
+    private TourService tourService;
 
 
     @GetMapping("/dashboard")
@@ -98,17 +102,18 @@ public class AdminController {
     @PostMapping("/saveTontine")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView saveTontine(@ModelAttribute("Tontine") @Valid Tontine tontine, BindingResult bindingResult
-                                                        , Model model){
+                                                        , Model model, RedirectAttributes redirectAttributes){
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()){
-            model.addAttribute("errorMessage", "An error occurred during the creation of the Tontine. Please check the entered data.");
+            modelAndView.addObject("errorMessage", "An error occurred during the creation of the Tontine. Please check the entered data.");
             modelAndView.setViewName("redirect:/ajouterTontine");
             System.out.println(bindingResult);
             return modelAndView;
         }
 
         tontineService.save(tontine);
+        redirectAttributes.addFlashAttribute("successMessage", "Dekshi daz mezian");
         modelAndView.setViewName("redirect:/tontines");
 
         return modelAndView;
@@ -292,10 +297,8 @@ public class AdminController {
             demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
             demandeJointureService.saveDemandeJointure(demandeJointure);
 
-            // Set the view and return
-            modelAndView.setViewName("redirect:/dashboard");
-            return modelAndView;
-
+            //function for creating tour for member
+            createTour(demandeJointure, membreTontine);
         } else if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
             User_GroupeUser userGroupeUser = new User_GroupeUser();
             userGroupeUser.setGroupeUser(demandeJointure.getGroupeUser());
@@ -304,8 +307,6 @@ public class AdminController {
             demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
             demandeJointureService.saveDemandeJointure(demandeJointure);
             userGroupeUserRepository.save(userGroupeUser);
-            modelAndView.setViewName("redirect:/dashboard");
-            return modelAndView;
         }
         else {
             MembreTontine membreTontine = new MembreTontine();
@@ -319,12 +320,36 @@ public class AdminController {
             demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
             membreService.save(membreTontine);
             tontineService.save(tontine);
-            modelAndView.setViewName("redirect:/dashboard");
-            return modelAndView;
+
+            //function to create the tour
+            createTour(demandeJointure, membreTontine);
         }
+        // Set the view and return
+        modelAndView.setViewName("redirect:/dashboard");
+        return modelAndView;
     }
 
+    private void createTour(DemandeJointure demandeJointure, MembreTontine membreTontine){
+        if(demandeJointure.getTontine().getTypeOrdre() == Demandetontine.TypeOrdre.ORDER){
+            Tour tour = new Tour();
+            tour.setMembreTontine(membreTontine);
+            tour.setNbrTour(demandeJointure.getTontine().getMembreTontines().size() );
+            int nbrJour;
+            if(demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE)
+            {
+                nbrJour = 7;
+            } else if (demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.MENTUEL) {
+                nbrJour = 30;
+            }
+            else {
+                nbrJour = 90;
+            }
+            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * demandeJointure.getTontine().getMembreTontines().size() );
+            tour.setDateTour(dateTour);
 
+            tourService.saveTour(tour);
+        }
+    }
 
     @GetMapping("afficherMembres")
     public ModelAndView afficherMembres(@RequestParam(name = "tontineId") int tontineId, Model model){

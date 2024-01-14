@@ -242,7 +242,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="demande, iStat : ${demandes}">
+                            <tr th:each="demande, iStat : ${demandes}" th:if="${demande.getStatut().name() == 'EN_ATTENTE'}">
                                 <td th:text="${demande.tontine.nom}"></td>
                                 <td th:text="${demande.user.nom_prenom}"></td>
                                 <td th:if="${demande.groupeUser != null}" th:text="${demande.groupeUser.nomGroupe}"></td>
