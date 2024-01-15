@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
 >
 <head>
     <meta charset="UTF-8">
@@ -10,6 +11,9 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css" />
+    <!-- Add this in your HTML file -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -292,6 +296,10 @@
 
 <div class="container mt-5">
 
+
+    <div id="liveAlertPlaceholder"></div>
+
+
     <div>
         <form action="/" method="get">
             <h4 class="text-center mb-4">Filtre De Recherche</h4>
@@ -318,7 +326,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-4" th:each="tontine, iStat : ${tontines}">
+        <div class="col-lg-4" th:each="tontine, iStat : ${tontines}" th:if="${tontine.getStatutTontine().name() == 'EN_ATTENTE'}">
             <div class="card card-margin">
                 <div class="card-header no-border">
                     <h5 class="card-title" th:text="${tontine.nom}"></h5>
@@ -338,10 +346,11 @@
                                 <span class="widget-49-meeting-time" th:text="${tontine.frequence}"></span>
                             </div>
                         </div>
-                        <ol class="widget-49-meeting-points">
+                        <ul class="widget-49-meeting-points">
                             <li class="widget-49-meeting-item"><b>Max Membres : </b><span th:text="${tontine.maxMembre}"></span></li>
                             <li class="widget-49-meeting-item"><b>Nombre de Places Restantes : </b><span th:text="${tontine.maxMembre} - ${tontine.getMembreTontines.size()}"></span></li>
-                        </ol>
+                            <li class="widget-49-meeting-item"><b>Type de classement : </b><span th:text="${tontine.getTypeOrdre()}"></span></li>
+                        </ul>
 
                         <div class="widget-49-meeting-action">
                             <th:block th:if="${#authorization.expression('isAuthenticated()')}">
@@ -369,6 +378,46 @@
 
 
 <script>
+
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+    const appendAlert = (message, type) => {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = [
+            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+            `   <div class="text-center" style="font-weight: bolder;"><span>${message}</span></div>`,
+            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+            '</div>'
+        ].join('');
+
+        alertPlaceholder.innerHTML = ''; // Clear existing alerts
+        alertPlaceholder.append(wrapper);
+
+        // Hide the alert after 5 seconds
+        setTimeout(() => {
+            alertPlaceholder.innerHTML = '';
+        }, 5000);
+    }
+
+    // Check for successMessage and trigger alert
+    const successMessage = "[[${successMessage}]]";
+    const dangerMessage = "[[${dangerMessage}]]";
+    if (successMessage) {
+        document.addEventListener('DOMContentLoaded', () => {
+            appendAlert(successMessage, 'success');
+        });
+    }
+
+    if (dangerMessage) {
+        document.addEventListener('DOMContentLoaded', () => {
+            appendAlert(dangerMessage, 'danger');
+        });
+    }
+
+
+
+
+
     function openNav() {
         document.getElementById("mySidebar").classList.remove("hidden");
     }

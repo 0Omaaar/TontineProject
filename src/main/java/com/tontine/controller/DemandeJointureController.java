@@ -12,6 +12,7 @@ import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -33,19 +34,11 @@ public class DemandeJointureController {
     public ModelAndView saveDemandeJointure(@ModelAttribute("DemandeJointure") DemandeJointure demandeJointure,
 //                                            @RequestParam(name = "participationType", required = false) String participationType,
                                             @RequestParam(name = "cotisation", required = false) Float cotisation,
-                                            @RequestParam(name = "selectedGroupId", required = false) Integer selectedGroupId){
+                                            @RequestParam(name = "selectedGroupId", required = false) Integer selectedGroupId,
+                                            RedirectAttributes redirectAttributes){
 
 
-//        if(demandeJointure.getParticipationType().equals("EN_GROUPE_NEW"))
-//        {
-//
-//            int nbr =  (int)groupeUserRepository.count() + 1;
-//            String nomG = "Groupe" + nbr;
-//            GroupeUser groupeUser = new GroupeUser(nomG);
-//            groupeUserRepository.save(groupeUser);
-//            demandeJointure.setGroupeUser(groupeUser);
-//
-//        } else
+        try{
             if (demandeJointure.getParticipationType().equals("EN_GROUPE")) {
 
                 Optional<GroupeUser> groupeUserOptional = groupeUserRepository.findById(selectedGroupId);
@@ -57,19 +50,25 @@ public class DemandeJointureController {
                 }
                 if(somme > 1){
                     System.out.println(somme);
-                    return new ModelAndView("redirect:/"); // il faut afficher un message que il
-                    // n'est pas possible de joindre ce groupe
+                    redirectAttributes.addFlashAttribute("dangerMessage", "Vous Pouvez pas Joindre ce groupe.");
+                    return new ModelAndView("redirect:/");
                 }
-                demandeJointure.setGroupeUser(groupeUser); // groupeId ne s'emregistre pas dans BD
+                demandeJointure.setGroupeUser(groupeUser);
 
+            }
+
+            Date date = new Date(); // Assuming this is the date you want to set
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            demandeJointure.setDate(localDate);
+            demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
+            demandeJointureService.saveDemandeJointure(demandeJointure);
+
+
+            redirectAttributes.addFlashAttribute("successMessage", "Demande De Jointure Envoyée avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur Est Survenue Lors de la Demande de Jointure .");
         }
-
-        Date date = new Date(); // Assuming this is the date you want to set
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        demandeJointure.setDate(localDate);
-        demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
-        demandeJointureService.saveDemandeJointure(demandeJointure);
-
         ModelAndView modelAndView = new ModelAndView("redirect:/");
         return modelAndView;
     }
