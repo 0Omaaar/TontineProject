@@ -36,11 +36,12 @@ body{
 
 .demande{
   border: 1px solid #04c7e0;
+  color: white;
 }
 
 .demande:hover{
-  background-color: #04c7e0;
-  color: white;
+  background-color: #6f42c1;
+  color: white !important;
 }
 
 .login-section {
@@ -2926,8 +2927,8 @@ fieldset:disabled a.btn {
 
 .btn-info {
   color: #ffffff;
-  background-color: #04c7e0;
-  border-color: #04c7e0;
+  background-color: #6f42c1;
+  border-color: #6f42c1;
 }
 .btn-info:hover {
   color: #ffffff;
