@@ -6,6 +6,7 @@ import com.tontine.repository.UserRepository;
 import com.tontine.repository.User_GroupeUserRepository;
 import com.tontine.service.*;
 import jakarta.validation.Valid;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -117,6 +118,19 @@ public class AdminController {
             return modelAndView;
         }
 
+        int nbrJour;
+        if(tontine.getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE)
+        {
+            nbrJour = 7;
+        } else if (tontine.getFrequence() == Demandetontine.Frequence.MENTUEL) {
+            nbrJour = 30;
+        }
+        else {
+            nbrJour = 90;
+        }
+
+
+        tontine.setDateFin(tontine.getDateDebut().plusDays((long) nbrJour * tontine.getMaxMembre()));
         tontineService.save(tontine);
         redirectAttributes.addFlashAttribute("successMessage", "Tontine Crée avec succès");
         modelAndView.setViewName("redirect:/tontines");
@@ -222,6 +236,22 @@ public class AdminController {
             Tontine tontine = new Tontine();
             tontine.setNom(demandeTontineEntite.getNom());
             tontine.setDateDebut(demandeTontineEntite.getDateDebut());
+
+
+            int nbrJour;
+            if(demandeTontineEntite.getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE)
+            {
+                nbrJour = 7;
+            } else if (demandeTontineEntite.getFrequence() == Demandetontine.Frequence.MENTUEL) {
+                nbrJour = 30;
+            }
+            else {
+                nbrJour = 90;
+            }
+
+
+            tontine.setDateFin(demandeTontineEntite.getDateDebut().plusDays((long) nbrJour * demandeTontineEntite.getMaxMembre()));
+            tontine.setDateApprouveTontine(LocalDate.now());
             tontine.setFrequence(demandeTontineEntite.getFrequence());
             tontine.setMaxMembre(demandeTontineEntite.getMaxMembre());
             tontine.setMontantPeriode(demandeTontineEntite.getMontantPeriode());
@@ -435,7 +465,8 @@ public class AdminController {
     }
 
 
-    @GetMapping("afficherMembres")
+    @GetMapping("/afficherMembres")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView afficherMembres(@RequestParam(name = "tontineId") int tontineId, Model model){
 
         Tontine tontine = tontineService.findById(tontineId).orElse(null);

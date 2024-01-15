@@ -23,7 +23,7 @@ public class Demandetontine {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Veuillez Saisir Un Nom Valide !")
+    @NotBlank(message = "Veuillez Saisir Un Nom Valide !") 
     private String nom;
 
     private int montantPeriode;

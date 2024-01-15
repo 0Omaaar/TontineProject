@@ -248,7 +248,7 @@
                                 <td th:text="${tontine.nom}"></td>
                                 <td th:text="${tontine.dateDebut}"></td>
                                 <td th:text="${tontine.dateFin}"></td>
-                                <td>??</td>
+                                <td th:text="${tontine.getMaxMembre()} - ${tontine.getMembreTontines().size()}" th:if="${tontine.getMembreTontines() != null}"></td>
                                 <td th:text="${tontine.statutTontine}"></td>
                                 <td>
                                     <a type="button" data-toggle="modal" title="Afficher Details Tontine" th:data-target="'#exampleModalaff' + ${tontine.id}" class="btn btn-primary">

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 public class CreerTontineController {
@@ -29,33 +30,18 @@ public class CreerTontineController {
     @Autowired
     private UserRepository userRepository;
 
-//    @GetMapping("/créer-tontine")
-//    public ModelAndView demanderTontine(Authentication authentication,
-//                                        Model model){
-//        ModelAndView modelAndView = new ModelAndView();
-//        int user_id = 0;
-//        User authenticated_user = null;
-//
-//        if(authentication != null){
-//            authenticated_user = userRepository.findByEmail(getLoggedInUserDetails().getUsername()).orElse(null);
-//        }
-//
-//        if(authenticated_user != null){
-//            user_id = authenticated_user.getId();
-//        }
-//
-//        model.addAttribute("user_id", user_id);
-//
-//        modelAndView.setViewName("ff");
-//        return modelAndView;
-//    }
 
     @PostMapping("/tontine/demander-tontine")
-    public ModelAndView creerTontine(@ModelAttribute("DemandeTontineEntite") DemandeTontineEntite demandeTontineEntine
-                                    ){
+    public ModelAndView creerTontine(@ModelAttribute("DemandeTontineEntite") DemandeTontineEntite demandeTontineEntine,
+                                     RedirectAttributes redirectAttributes){
         ModelAndView modelAndView = new ModelAndView();
-
-        demanderTontineRepository.save(demandeTontineEntine);
+        try{
+            demanderTontineRepository.save(demandeTontineEntine);
+            redirectAttributes.addFlashAttribute("successMessage", "Demande De Création de tontine envoyée avec succès");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur Est Survenue Lors De la Demande de Création de Tontine.");
+        }
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
