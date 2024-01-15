@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 //@SuperBuilder
@@ -42,5 +43,8 @@ public class Tontine extends Demandetontine{
 
     @OneToMany(mappedBy = "tontine")
     private Collection<DemandeJointure> demandeJointures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tontine")
+    private List<Tour> tourList = new ArrayList<>();
 
 }

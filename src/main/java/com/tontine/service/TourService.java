@@ -19,4 +19,5 @@ public class TourService{
     public ArrayList<Tour> findTours() {
         return (ArrayList<Tour>) tourRepository.findAll();
     }
+
 }

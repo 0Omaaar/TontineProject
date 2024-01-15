@@ -25,4 +25,7 @@ public class Tour {
 
     @OneToOne
     private MembreTontine membreTontine;
+
+    @ManyToOne
+    private Tontine tontine;
 }
