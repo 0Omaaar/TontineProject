@@ -7,15 +7,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
-public abstract class TontineServiceImp implements TontineService{
-
-    @Autowired
-    private TontineRepository tontineRepository;
-
-    public Optional<Tontine> findTontineById(int id){
-        return tontineRepository.findById(id);
-    }
-
-
-}
+//@Service
+//public abstract class TontineServiceImp implements TontineService{
+//
+//    @Autowired
+//    private TontineRepository tontineRepository;
+//
+//    public Optional<Tontine> findTontineById(int id){
+//        return tontineRepository.findById(id);
+//    }
+//
+//
+//}

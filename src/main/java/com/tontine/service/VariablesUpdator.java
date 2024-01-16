@@ -3,23 +3,27 @@ package com.tontine.service;
 import com.tontine.entities.Demandetontine;
 import com.tontine.entities.Tontine;
 import com.tontine.entities.Tour;
+import com.tontine.repository.TontineRepository;
+import com.tontine.repository.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional
 @Service
 public class VariablesUpdator {
 
     @Autowired
-    private TontineService tontineService;
+    private TontineRepository tontineService;
 
     @Autowired
     private TourService tourService;
 
-    @Scheduled(cron = "0 17 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void updateVariable() {
         List<Tontine> tontineList = tontineService.findAll();
         List<Tour> tourList = tourService.findTours();
@@ -28,11 +32,10 @@ public class VariablesUpdator {
 
             if (tontine.getDateDebut().equals(LocalDate.now())) {
                 tontine.setStatutTontine(Tontine.StatutTontine.EN_COURS);
-                tontineService.save(tontine);
+                tontineService.saveAndFlush(tontine);
             } else if (tontine.getDateFin().equals(LocalDate.now())) {
                 tontine.setStatutTontine(Tontine.StatutTontine.TERMINE);
                 tontineService.save(tontine);
-
             }
         }
 
