@@ -74,6 +74,8 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
 
         List<Tontine> tontines = tontineService.findAll();
+        Collections.reverse(tontines);
+
         model.addAttribute("tontines", tontines);
 
         modelAndView.setViewName("admin/tontines");
@@ -86,6 +88,10 @@ public class AdminController {
                                       RedirectAttributes redirectAttributes){
         try{
             Tontine findedTontine = tontineService.findById(tontine_id).orElse(null);
+            if(!findedTontine.getStatutTontine().equals(Tontine.StatutTontine.EN_ATTENTE)){
+                redirectAttributes.addFlashAttribute("dangerMessage", "Vous Pouvez pas modifier le statut de la tontine");
+                return new ModelAndView("redirect:/tontines");
+            }
             findedTontine.setStatutTontine(Tontine.StatutTontine.valueOf(statutTontine));
             tontineService.save(findedTontine);
             redirectAttributes.addFlashAttribute("successMessage", "Le Statut est Modifié avec succès.");
@@ -147,6 +153,8 @@ public class AdminController {
                 .filter(demande -> demande.getStatut() == DemandeJointure.Statut.EN_ATTENTE)
                         .collect(Collectors.toList());
 
+        Collections.reverse(demandesEnAttentes);
+
         model.addAttribute("demandes", demandesEnAttentes);
         modelAndView.setViewName("admin/demandesJointure");
         return modelAndView;
@@ -162,6 +170,8 @@ public class AdminController {
                 .filter(demande -> demande.getStatut() != DemandeJointure.Statut.EN_ATTENTE)
                 .collect(Collectors.toList());
 
+
+        Collections.reverse(demandes);
         model.addAttribute("demandes", demandes);
         modelAndView.setViewName("admin/demandesJointureTraitees");
         return modelAndView;
@@ -201,6 +211,7 @@ public class AdminController {
                                 .collect(Collectors.toList());
 
 
+        Collections.reverse(demandesEnAttente);
         model.addAttribute("demandes", demandesEnAttente);
         modelAndView.setViewName("admin/demandesTontines");
         return modelAndView;
@@ -218,6 +229,7 @@ public class AdminController {
                 .collect(Collectors.toList());
 
 
+        Collections.reverse(demandesRefusees);
         model.addAttribute("demandes", demandesRefusees);
         modelAndView.setViewName("admin/demandesTontineRefusees");
         return modelAndView;
@@ -475,6 +487,7 @@ public class AdminController {
 
         if(tontine != null){
              List<MembreTontine> membreTontines =  (List<MembreTontine>) tontine.getMembreTontines();
+             Collections.reverse(membreTontines);
              model.addAttribute("membresTontine", membreTontines);
         }
 
@@ -488,7 +501,11 @@ public class AdminController {
     @GetMapping("/utilisateurs")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView utilisateurs(Model model){
-        model.addAttribute("users", userRepository.findAll());
+        List<User> users = userRepository.findAll();
+        if(!users.isEmpty()){
+            Collections.reverse(users);
+            model.addAttribute("users", users);
+        }
 
         return new ModelAndView("admin/utilisateurs/index");
     }
@@ -552,7 +569,11 @@ public class AdminController {
     @GetMapping("/groupes")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView groupes(Model model){
-        model.addAttribute("groupes", groupeUserRepository.findAll());
+        List<GroupeUser> groupes = groupeUserRepository.findAll();
+        if(!groupes.isEmpty()){
+            Collections.reverse(groupes);
+            model.addAttribute("groupes", groupes);
+        }
 
         return new ModelAndView("admin/utilisateurs/groupes/groupes");
     }
