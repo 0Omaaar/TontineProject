@@ -28,6 +28,8 @@ public class MembreTontine {
     private LocalDate dateadhesion;
 
 
+
+
 //    @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     private User user;
