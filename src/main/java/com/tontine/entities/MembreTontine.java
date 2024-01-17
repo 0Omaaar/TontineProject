@@ -1,12 +1,10 @@
 package com.tontine.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,6 +26,7 @@ public class MembreTontine {
     private LocalDate dateadhesion;
 
 
+    private Boolean paye;
 
 
 //    @JsonIgnore

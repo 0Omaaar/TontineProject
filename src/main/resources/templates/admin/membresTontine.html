@@ -236,6 +236,7 @@
                                 <th>Nom</th>
                                 <th>Groupe</th>
                                 <th>Date D'adhesion</th>
+                                <th>Payment</th>
                                 <th>Opérations</th>
                             </tr>
                             </thead>
@@ -245,8 +246,11 @@
                                 <td th:if="${membre.groupeUser != null}" th:text="${membre.groupeUser.nomGroupe}"></td>
                                 <td th:if="${membre.groupeUser == null}">-----</td>
                                 <td th:text="${membre.dateadhesion}"></td>
+                                <td th:if="${membre.paye}"><span style="background-color: #0acb8e; border: 1px solid #0acb8e; border-radius: 10px;padding: 10px;color: white ">Payé</span></td>
+                                <td th:if="!${membre.paye}" style="margin-top: 9px;"><span style="background-color: red; border: 1px solid red; border-radius: 10px;padding: 10px;color: white ">Pas Encore Payé</span></td>
                                 <td>
                                     <a href="#" class="btn btn-outline-danger">Supprimer</a>
+                                    <a th:if="!${membre.paye}" class="btn btn-outline-success" style="margin-left: 10px;" th:href="@{/payer/{id}(id=${membre.id})}">Payer</a>
                                 </td>
                             </tr>
                             </tbody>

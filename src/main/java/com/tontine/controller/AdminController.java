@@ -579,6 +579,24 @@ public class AdminController {
     }
 
 
+    @GetMapping("/payer/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView payer(RedirectAttributes redirectAttributes, @PathVariable(name = "id") int id){
+        try{
+            MembreTontine membreTontine = membreService.findById(id).orElse(null);
+            if(membreTontine != null){
+                membreTontine.setPaye(true);
+                membreService.save(membreTontine);
+            }
+
+            redirectAttributes.addFlashAttribute("successMessage", "Le Payment est passé pour ce Membre.");
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est Survenue lors du paiment.");
+        }
+
+        return new ModelAndView("redirect:/tontines");
+    }
 
 }
 
