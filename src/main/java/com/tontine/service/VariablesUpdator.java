@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -27,18 +28,18 @@ public class VariablesUpdator {
     @Autowired
     private MembreService membreService;
 
-    @Scheduled(cron = "0 35 16 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void updateVariable() {
 
         List<Tontine> tontineList = tontineService.findAll();
         List<Tour> tourList = tourService.findTours();
 
         for (Tontine tontine : tontineList) {
+
             long nbM = tontine.getMembreTontines().size();
             if (nbM != tontine.getMaxMembre()) {
                 tontine.setStatutTontine(Tontine.StatutTontine.TERMINE);
                 tontineService.save(tontine);
-                System.out.println(nbM);
             } else{
                 if (tontine.getDateDebut().equals(LocalDate.now())) {
                     tontine.setStatutTontine(Tontine.StatutTontine.EN_COURS);
@@ -53,7 +54,9 @@ public class VariablesUpdator {
 
         for (Tour tour : tourList) {
             int nbrM = tour.getTontine().getMembreTontines().size();
-            if (nbrM != tour.getTontine().getMaxMembre()) {
+            if (nbrM == tour.getTontine().getMaxMembre()) {
+                List<MembreTontine> membresToModify = new ArrayList<>();
+
                 int nbrJour;
                 if (tour.getTontine().getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE) {
                     nbrJour = 7;
@@ -62,20 +65,25 @@ public class VariablesUpdator {
                 } else {
                     nbrJour = 90;
                 }
+
                 LocalDate tourAffectation = tour.getDateTour().minusDays(nbrJour);
                 if (tourAffectation.equals(LocalDate.now())) {
                     Tontine tontine = tour.getTontine();
                     tontine.setTourCourant(Math.toIntExact(tour.getMembreTontine().getId()));
                     tontineService.saveAndFlush(tontine);
+
                     for (MembreTontine membreTontine : tontine.getMembreTontines()) {
-                        membreTontine.setPaye(false);
-                        System.out.println("second for");
-                        membreService.save(membreTontine);
+                        membresToModify.add(membreTontine);
                     }
                 }
-            }
 
+                for (MembreTontine membreTontine : membresToModify) {
+                    membreTontine.setPaye(false);
+                    membreService.save(membreTontine);
+                }
+            }
         }
+
     }
 
 
