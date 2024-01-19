@@ -41,10 +41,10 @@ public class Tontine extends Demandetontine{
     private Collection<MembreTontine> membreTontines = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "tontine")
+    @OneToMany(mappedBy = "tontine", cascade = CascadeType.ALL)
     private Collection<DemandeJointure> demandeJointures = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tontine")
+    @OneToMany(mappedBy = "tontine", cascade = CascadeType.ALL)
     private List<Tour> tourList = new ArrayList<>();
 
 }

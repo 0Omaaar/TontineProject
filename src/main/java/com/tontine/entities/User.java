@@ -48,13 +48,13 @@ public class User {
     @Column(nullable = false)
     private String roles;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MembreTontine> membreTontines = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<DemandeJointure> demandeJointures;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<User_GroupeUser> User_groupeUsers = new ArrayList<>();
 
 
@@ -67,6 +67,6 @@ public class User {
 //    )
 //    private List<GroupeUser> groupeUsers;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<DemandeTontineEntite> demandeTontineEntites = new ArrayList<>();
 }

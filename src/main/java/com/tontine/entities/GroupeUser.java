@@ -25,13 +25,13 @@ public class GroupeUser {
     @NotBlank
     private String nomGroupe;
 
-    @OneToMany(mappedBy = "groupeUser")
+    @OneToMany(mappedBy = "groupeUser", cascade = CascadeType.ALL)
     private Collection<DemandeJointure> demandeJointures = new ArrayList<>();
 
-    @OneToMany(mappedBy = "groupeUser")
+    @OneToMany(mappedBy = "groupeUser", cascade = CascadeType.ALL)
     private Collection<User_GroupeUser> userGroupeUsers = new ArrayList<>();
 
-    @OneToOne(mappedBy = "groupeUser")
+    @OneToOne(mappedBy = "groupeUser", cascade = CascadeType.ALL)
     private MembreTontine membreTontine;
 
     public GroupeUser(String nomGroupe) {

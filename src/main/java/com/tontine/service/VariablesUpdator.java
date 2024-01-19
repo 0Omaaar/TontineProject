@@ -28,7 +28,7 @@ public class VariablesUpdator {
     @Autowired
     private MembreService membreService;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 20 20 * * *")
     public void updateVariable() {
 
         List<Tontine> tontineList = tontineService.findAll();

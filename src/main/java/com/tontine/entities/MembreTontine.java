@@ -30,17 +30,17 @@ public class MembreTontine {
 
 
 //    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private User user;
 
 
     @OneToOne
     private GroupeUser groupeUser;
 
-    @OneToOne(mappedBy = "membreTontine")
+    @OneToOne(mappedBy = "membreTontine", cascade = CascadeType.ALL)
     private Tour tour;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Tontine> tontines = new ArrayList<>( );
 
 }
