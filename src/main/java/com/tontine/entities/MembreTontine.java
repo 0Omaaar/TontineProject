@@ -25,7 +25,6 @@ public class MembreTontine {
 
     private LocalDate dateadhesion;
 
-
     private Boolean paye;
 
 

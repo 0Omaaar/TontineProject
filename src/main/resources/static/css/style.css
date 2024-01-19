@@ -14875,7 +14875,7 @@ table.dataTable thead .sorting {
 }
 .dataTables_paginate.paging_simple_numbers .paginate_button {
   border: 1px solid #e5e9f2 !important;
-  padding: 10px;
+  padding: 0px;
   background: none !important;
   background-color: #ffffff;
   margin-left: 5px;
@@ -14883,7 +14883,7 @@ table.dataTable thead .sorting {
 }
 @media (min-width: 768px) {
   .dataTables_paginate.paging_simple_numbers .paginate_button {
-    padding: 10px 20px;
+    padding: 0px 0px;
   }
 }
 .dataTables_paginate.paging_simple_numbers .paginate_button:hover {
@@ -16015,7 +16015,7 @@ table.dataTable thead .sorting {
 .pagination .page-link {
   color: #8a909d;
   font-size: 0.75rem;
-  padding: 8px 12px;
+  padding: 4px 6px;
 }
 @media (min-width: 992px) {
   .pagination .page-link {

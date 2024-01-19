@@ -17,10 +17,11 @@
 
 
     <link href="plugins/prism/prism.css" rel="stylesheet" />
+    <link href="/DataTables/datatables.min.css" rel="stylesheet">
 
 
-
-    <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!--    <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
 
 
@@ -28,9 +29,11 @@
     <!-- MONO CSS -->
     <link id="main-css-href" rel="stylesheet" href="css/style.css" />
 
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="/DataTables/datatables.min.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <script src="plugins/nprogress/nprogress.js"></script>
 </head>
 
@@ -232,7 +235,7 @@
                     <div class="card-body">
                         <div class="collapse" id="collapse-data-tables">
                         </div>
-                        <table id="productsTable" class="table table-hover table-product" style="width:100%" >
+                        <table id="example" class="table table-hover" style="width:100%" >
                             <thead>
                             <tr>
                                 <th>Tontine</th>
@@ -293,10 +296,8 @@
 <script src="js/custom.js"></script>
 
 
-
-
-<!--  -->
-
-
+<script>
+    new DataTable('#example');
+</script>
 </body>
 </html>

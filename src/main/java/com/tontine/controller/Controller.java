@@ -2,11 +2,14 @@ package com.tontine.controller;
 
 
 
+import com.tontine.entities.DemandeJointure;
 import com.tontine.entities.MembreTontine;
 import com.tontine.entities.Tontine;
 import com.tontine.entities.User;
+import com.tontine.repository.DemandeJointureRepository;
 import com.tontine.repository.TontineRepository;
 import com.tontine.repository.UserRepository;
+import com.tontine.service.DemandeJointureService;
 import com.tontine.service.TontineService;
 //import com.tontine.service.TontineServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,9 @@ public class Controller {
 
     @Autowired
     private TontineService tontineService;
+
+    @Autowired
+    private DemandeJointureRepository demandeJointureRepository;
 
     @GetMapping("/")
     public ModelAndView index(Model model, Authentication authentication
@@ -80,12 +86,38 @@ public class Controller {
             user_id = authenticated_user.getId();
         }
 
+        //display the "annuler la demande" button
+//        List<DemandeJointure> demandeJointures = demandeJointureRepository.findAll();
+//        model.addAttribute("demandesJointures",demandeJointures);
+
         model.addAttribute("tontines", tontines);
         model.addAttribute("user_id", user_id);
         model.addAttribute("nom", nom);
         modelAndView.setViewName("home");
         return modelAndView;
 //        return tontines;
+    }
+
+
+    @GetMapping("/membresTontine")
+    public ModelAndView membresTontine(Model model, Authentication authentication){
+        int user_id = 0;
+        User authenticated_user = null;
+
+        if(authentication != null){
+            authenticated_user = userRepository.findByEmail(getLoggedInUserDetails().getUsername()).orElse(null);
+            List<MembreTontine> membreTontines= authenticated_user.getMembreTontines();
+            model.addAttribute("membres", membreTontines);
+            model.addAttribute("user", authenticated_user);
+        }
+
+        if(authenticated_user != null){
+            user_id = authenticated_user.getId();
+        }
+
+        model.addAttribute("user_id", user_id);
+
+        return new ModelAndView("infosMembresTontine");
     }
 
     @PostMapping("/updateProfile")

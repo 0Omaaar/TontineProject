@@ -30,15 +30,6 @@ public class DemandeJointure {
 
     private String participationType;
 
-//    public enum ParticipationType {
-//        SEUL,
-//        EN_GROUPE_NEW,
-//        EN_GROUPE
-//    }
-//    @Enumerated(EnumType.STRING)
-//    private ParticipationType participationType;
-
-
 
     public enum Statut {
         EN_ATTENTE,
@@ -50,10 +41,6 @@ public class DemandeJointure {
 
     @Column(nullable = true)
     private LocalDate date_approuve;
-
-//    @ManyToOne
-//    private MembreTontine membreTontine;
-
 
     @JsonIgnore
     @ManyToOne
