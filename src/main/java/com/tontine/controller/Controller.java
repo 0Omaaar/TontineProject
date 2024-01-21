@@ -99,8 +99,9 @@ public class Controller {
     }
 
 
-    @GetMapping("/membresTontine")
-    public ModelAndView membresTontine(Model model, Authentication authentication){
+    @GetMapping("/afficherMembresTontine/{id}")
+    public ModelAndView membresTontine(Model model, Authentication authentication,
+                                       @PathVariable(name = "id") int id){
         int user_id = 0;
         User authenticated_user = null;
 
@@ -113,6 +114,12 @@ public class Controller {
 
         if(authenticated_user != null){
             user_id = authenticated_user.getId();
+        }
+
+        Tontine tontine = tontineService.findById(id).orElse(null);
+        if(tontine != null){
+            List<MembreTontine> membreTontines = (List<MembreTontine>) tontine.getMembreTontines();
+            model.addAttribute("membres", membreTontines);
         }
 
         model.addAttribute("user_id", user_id);

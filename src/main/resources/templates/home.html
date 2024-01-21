@@ -130,6 +130,9 @@
                 width: 0;
             }
         }
+
+
+
     </style>
 
     <script>
@@ -164,15 +167,9 @@
 <body>
 <div id="mySidebar" class="sidebar hidden">
     <button class="close_button" onclick="closeNav()">×</button>
-    <div class="container">
+    <div class="container" style=" overflow-y: auto;">
         <br>
         <h3 style="font-weight: bolder; color: grey">Profil</h3>
-    </div>
-
-
-
-
-    <div class="container mt-4">
 
         <form method="post" action="/updateProfile" th:object="${user}">
             <div class="mb-3 row">
@@ -235,15 +232,14 @@
                 </div>
             </div>
         </form>
-    </div>
+<!--    </div>-->
 
-    <div class="container">
+<!--    <div class="container">-->
         <br>
         <h3 style="font-weight: bolder; color: grey">Liste de vos Tontines</h3>
-    </div>
+<!--    </div>-->
 
- <div class="container mt-4" th:if="${membres != null}">
-    <table class="table">
+    <table class="table" th:if="${membres != null}" style="margin-top: 20px;">
         <thead class="table-dark">
             <tr>
                 <th style="color: white">Tontine</th>
@@ -260,14 +256,13 @@
                 <td th:text="${membre.tour.nbrTour}" th:if="${membre.tour != null}"></td>
                 <td th:text="${#temporals.format(membre.tour.dateTour, 'dd MMMM yyyy')}" th:if="${membre.tour != null}"></td>
                 <td>
-                    <a href="#"><span class="fas fa-info-circle btn btn-smoke"></span></a>
+                    <a th:each="tontine : ${membre.tontines}" th:href="@{/afficherMembresTontine/{id}(id=${tontine.id})}"
+                     title="Afficher Details Tontine"><span class="fas fa-info-circle btn btn-smoke"></span></a>
                 </td>
             </tr>
         </tbody>
     </table>
-</div>
-
-
+    </div>
 
 <!--    </div>-->
 

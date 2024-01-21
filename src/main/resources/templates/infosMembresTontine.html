@@ -272,23 +272,21 @@
     <div style="margin-top: 70px;">
         <table id="example" class="table table-striped table-light" style="width:100%">
             <thead>
-            <tr>
-                <th>#</th>
-                <th>Date D'adhesion</th>
-                <th>Group</th>
-                <th>Nom Membre</th>
-                <th>Payment</th>
-            </tr>
+                <tr>
+                    <th>Date D'adhesion</th>
+                    <th>Group</th>
+                    <th>Nom Membre</th>
+                    <th>Payment</th>
+                </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>ddd</td>
-                    <td>ddd</td>
-                    <td>ddd</td>
-                    <td>ddd</td>
-                    <td>ddd</td>
+                <tr th:each="membre, iStat : ${membres}">
+                    <td th:text="${membre.dateadhesion}"></td>
+                    <td th:text="${membre.groupeUser != null ? membre.groupUser.nomGroupe : '-----'}"></td>
+                    <td th:text="${membre.user.nom_prenom}"></td>
+                    <td th:if="${membre.paye}"><span style="background-color: #0acb8e; border: 1px solid #0acb8e; border-radius: 10px;padding: 10px;color: white; margin-top: 10px;">Payé</span></td>
+                    <td th:if="!${membre.paye}" style="margin-top: 9px;"><span style="background-color: red; border: 1px solid red; border-radius: 10px;padding: 10px;color: white; margin-top: 10px;">Pas Encore Payé</span></td>
                 </tr>
-
             </tbody>
         </table>
     </div>
