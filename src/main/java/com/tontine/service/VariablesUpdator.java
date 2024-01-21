@@ -26,7 +26,7 @@ public class VariablesUpdator {
     private TourService tourService;
 
     @Autowired
-    private MembreService membreService;
+    private MembreServiceImp membreServiceImp;
 
     @Scheduled(cron = "0 20 20 * * *")
     public void updateVariable() {
@@ -79,7 +79,7 @@ public class VariablesUpdator {
 
                 for (MembreTontine membreTontine : membresToModify) {
                     membreTontine.setPaye(false);
-                    membreService.save(membreTontine);
+                    membreServiceImp.saveMembre(membreTontine);
                 }
             }
         }

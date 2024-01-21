@@ -47,7 +47,7 @@ public class AdminController {
 
 
     @Autowired
-    private MembreService membreService;
+    private MembreServiceImp membreServiceImp;
 
     @Autowired
     private UserRepository userRepository;
@@ -328,7 +328,7 @@ public class AdminController {
     }
 
     @GetMapping("/accepterDemandeJointure/{id}")
-    @Transactional
+//    @Transactional
     public ModelAndView saveMembre(@PathVariable int id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         try{
@@ -363,7 +363,7 @@ public class AdminController {
                 userGroupeUserRepository.save(userGroupeUser);
                 userService.saveUsr(demandeJointure.getUser());
                 groupeUserRepository.save(groupeUser);
-                membreService.save(membreTontine);
+                membreServiceImp.saveMembre(membreTontine);
                 tontineService.save(tontine);
 
                 demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
@@ -390,7 +390,7 @@ public class AdminController {
                 membreTontine.setUser(demandeJointure.getUser());
                 membreTontine.getTontines().add(tontine);
                 demandeJointure.setStatut(DemandeJointure.Statut.APPROUVE);
-                membreService.save(membreTontine);
+                membreServiceImp.saveMembre(membreTontine);
                 tontineService.save(tontine);
 
                 //function to create the tour
@@ -410,7 +410,11 @@ public class AdminController {
         if(demandeJointure.getTontine().getTypeOrdre() == Demandetontine.TypeOrdre.ORDER){
             Tour tour = new Tour();
             tour.setMembreTontine(membreTontine);
-            tour.setNbrTour(demandeJointure.getTontine().getMembreTontines().size());
+            if(demandeJointure.getTontine().getMembreTontines().isEmpty()){
+                tour.setNbrTour(1);
+            }else{
+                tour.setNbrTour(demandeJointure.getTontine().getMembreTontines().size());
+            }
             int nbrJour;
             if(demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE)
             {
@@ -494,6 +498,22 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/membresTontine");
         return modelAndView;
+    }
+
+    @GetMapping("supprimer-membre-{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView supprimerMembre(@PathVariable(name = "id") int id, RedirectAttributes redirectAttributes){
+
+        try {
+            membreServiceImp.deleteMembre(membreServiceImp.findMembreById(id));
+            redirectAttributes.addFlashAttribute("successMessage", "Le membre est supprimé avec succès");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est Survenue Lors de la Suppression du membre");
+        }
+
+        return new ModelAndView("redirect:/tontines");
     }
 
 
@@ -583,10 +603,10 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView payer(RedirectAttributes redirectAttributes, @PathVariable(name = "id") int id){
         try{
-            MembreTontine membreTontine = membreService.findById(id).orElse(null);
+            MembreTontine membreTontine = membreServiceImp.findMembreById(id);
             if(membreTontine != null){
                 membreTontine.setPaye(true);
-                membreService.save(membreTontine);
+                membreServiceImp.saveMembre(membreTontine);
             }
 
             redirectAttributes.addFlashAttribute("successMessage", "Le Payment est passé pour ce Membre.");
