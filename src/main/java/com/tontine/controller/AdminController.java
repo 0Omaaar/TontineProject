@@ -356,13 +356,13 @@ public class AdminController {
 
                 // Set relationships bidirectionally
                 membreTontine.setGroupeUser(groupeUser);
-                demandeJointure.setGroupeUser(groupeUser);
+//                demandeJointure.setGroupeUser(groupeUser);
                 groupeUser.getUserGroupeUsers().add(userGroupeUser);
 
                 // Save entities in the correct order
-                userGroupeUserRepository.save(userGroupeUser);
-                userService.saveUsr(demandeJointure.getUser());
                 groupeUserRepository.save(groupeUser);
+                userService.saveUsr(demandeJointure.getUser());
+                userGroupeUserRepository.save(userGroupeUser);
                 membreServiceImp.saveMembre(membreTontine);
                 tontineService.save(tontine);
 
