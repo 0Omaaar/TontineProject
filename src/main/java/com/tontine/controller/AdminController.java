@@ -360,8 +360,8 @@ public class AdminController {
                 groupeUser.getUserGroupeUsers().add(userGroupeUser);
 
                 // Save entities in the correct order
-                groupeUserRepository.save(groupeUser);
                 userService.saveUsr(demandeJointure.getUser());
+                groupeUserRepository.save(groupeUser);
                 userGroupeUserRepository.save(userGroupeUser);
                 membreServiceImp.saveMembre(membreTontine);
                 tontineService.save(tontine);
