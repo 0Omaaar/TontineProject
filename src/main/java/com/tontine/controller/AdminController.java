@@ -328,7 +328,7 @@ public class AdminController {
     }
 
     @GetMapping("/accepterDemandeJointure/{id}")
-//    @Transactional
+    @Transactional
     public ModelAndView saveMembre(@PathVariable int id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         try{
@@ -356,7 +356,7 @@ public class AdminController {
 
                 // Set relationships bidirectionally
                 membreTontine.setGroupeUser(groupeUser);
-//                demandeJointure.setGroupeUser(groupeUser);
+                demandeJointure.setGroupeUser(groupeUser);
                 groupeUser.getUserGroupeUsers().add(userGroupeUser);
 
                 // Save entities in the correct order
@@ -410,7 +410,8 @@ public class AdminController {
         if(demandeJointure.getTontine().getTypeOrdre() == Demandetontine.TypeOrdre.ORDER){
             Tour tour = new Tour();
             tour.setMembreTontine(membreTontine);
-            if(demandeJointure.getTontine().getMembreTontines().isEmpty()){
+            if(demandeJointure.getTontine().getMembreTontines() == null){
+                System.out.println("aloo");
                 tour.setNbrTour(1);
             }else{
                 tour.setNbrTour(demandeJointure.getTontine().getMembreTontines().size());
