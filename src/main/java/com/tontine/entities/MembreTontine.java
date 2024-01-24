@@ -37,7 +37,7 @@ public class MembreTontine {
     @OneToOne
     private GroupeUser groupeUser;
 
-    @OneToOne(mappedBy = "membreTontine", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "membreTontine", cascade = CascadeType.REMOVE)
     private Tour tour;
 
     @ManyToMany(fetch = FetchType.EAGER)
