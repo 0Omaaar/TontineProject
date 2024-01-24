@@ -8,6 +8,7 @@ import com.tontine.repository.GroupeUserRepository;
 import com.tontine.repository.User_GroupeUserRepository;
 import com.tontine.service.DemandeJointureService;
 import com.tontine.service.DemandeJointureServiceImp;
+import com.tontine.service.EmailService;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class DemandeJointureController {
 
     @Autowired
     private User_GroupeUserRepository userGroupeUserRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/demander-jointure")
     public ModelAndView saveDemandeJointure(@ModelAttribute("DemandeJointure") DemandeJointure demandeJointure,
@@ -70,6 +74,11 @@ public class DemandeJointureController {
             redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur Est Survenue Lors de la Demande de Jointure .");
         }
         ModelAndView modelAndView = new ModelAndView("redirect:/");
+
+
+        //sending mail to admin
+        emailService.sendSimpleMessage("elkhotriomarpro@gmail.com", "Test Subject", "Test Text");
+
         return modelAndView;
     }
 
