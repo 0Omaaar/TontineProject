@@ -28,4 +28,11 @@ public class Tour {
 
     @ManyToOne
     private Tontine tontine;
+
+    public Tour(LocalDate dateTour, int nbrTour, MembreTontine membreTontine, Tontine tontine){
+        this.dateTour = dateTour;
+        this.nbrTour = nbrTour;
+        this.membreTontine = membreTontine;
+        this.tontine = tontine;
+    }
 }

@@ -37,14 +37,14 @@ public class Tontine extends Demandetontine{
     private int tourCourant;
 
 //    @JsonIgnore
-    @ManyToMany(mappedBy = "tontines", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "tontines", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Collection<MembreTontine> membreTontines = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "tontine", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tontine", cascade = CascadeType.REMOVE)
     private Collection<DemandeJointure> demandeJointures = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tontine", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tontine", cascade = CascadeType.REMOVE)
     private List<Tour> tourList = new ArrayList<>();
 
 }

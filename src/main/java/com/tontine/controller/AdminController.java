@@ -237,6 +237,7 @@ public class AdminController {
 
     @GetMapping("/accepterDemande/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
+    @Transactional
     public ModelAndView accepterDemande(@PathVariable int id, RedirectAttributes redirectAttributes){
         ModelAndView modelAndView = new ModelAndView();
 
@@ -406,18 +407,16 @@ public class AdminController {
         return modelAndView;
     }
 
-    private void createTour(DemandeJointure demandeJointure, MembreTontine membreTontine){
-        if(demandeJointure.getTontine().getTypeOrdre() == Demandetontine.TypeOrdre.ORDER){
-            Tour tour = new Tour();
-            tour.setMembreTontine(membreTontine);
-            if(demandeJointure.getTontine().getMembreTontines() == null){
-                System.out.println("aloo");
-                tour.setNbrTour(1);
-            }else{
-                tour.setNbrTour(demandeJointure.getTontine().getMembreTontines().size());
-            }
+    public void createTour(DemandeJointure demandeJointure, MembreTontine membreTontine){
+        if(demandeJointure.getTontine().getTypeOrdre().equals(Demandetontine.TypeOrdre.ORDER)){
+//            if(demandeJointure.getTontine().getMembreTontines() == null){
+//                System.out.println("aloo");
+//                tour.setNbrTour(1);
+//            }else{
+//                tour.setNbrTour();
+//            }
             int nbrJour;
-            if(demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.HEBDOMADAIRE)
+            if(demandeJointure.getTontine().getFrequence().equals( Demandetontine.Frequence.HEBDOMADAIRE))
             {
                 nbrJour = 7;
             } else if (demandeJointure.getTontine().getFrequence() == Demandetontine.Frequence.MENTUEL) {
@@ -426,10 +425,10 @@ public class AdminController {
             else {
                 nbrJour = 90;
             }
-            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * demandeJointure.getTontine().getMembreTontines().size());
-            tour.setDateTour(dateTour);
-            tour.setTontine(demandeJointure.getTontine());
 
+            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * demandeJointure.getTontine().getMembreTontines().size());
+            int nbrTr = demandeJointure.getTontine().getTourList().size() + 1;
+            Tour tour = new Tour(dateTour, nbrTr, membreTontine, demandeJointure.getTontine() );
             tourService.saveTour(tour);
         }
         else {
