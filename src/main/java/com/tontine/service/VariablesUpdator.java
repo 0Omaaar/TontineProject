@@ -28,7 +28,10 @@ public class VariablesUpdator {
     @Autowired
     private MembreServiceImp membreServiceImp;
 
-    @Scheduled(cron = "0 20 20 * * *")
+    @Autowired
+    private EmailService emailService;
+
+    @Scheduled(cron = "0 19  19 * * *")
     public void updateVariable() {
 
         List<Tontine> tontineList = tontineService.findAll();
@@ -69,7 +72,17 @@ public class VariablesUpdator {
                 LocalDate tourAffectation = tour.getDateTour().minusDays(nbrJour);
                 if (tourAffectation.equals(LocalDate.now())) {
                     Tontine tontine = tour.getTontine();
-                    tontine.setTourCourant(Math.toIntExact(tour.getMembreTontine().getId()));
+                    tontine.setTourCourant((int) tour.getMembreTontine().getId()-1);   //-1
+
+                    //email traitment
+                    String message = "<p>Bonjour,</p>"
+                            + "<p>C'est votre tour pour tontine avec le Nom : <strong>" + tour.getTontine().getNom() + "</strong>.</p>"
+                            + "Pour accéder à votre compte, veuillez cliquer sur le lien ci-dessous:<br/>"
+                            + "<a href=\"http://localhost:9090/\">Accéder à la page d'accueil</a></p>";
+
+                    emailService.sendSimpleMessage("elkhotriomarpro@gmail.com", "Tour-"+tour.getTontine().getNom(), message);
+
+
                     tontineService.saveAndFlush(tontine);
 
                     for (MembreTontine membreTontine : tontine.getMembreTontines()) {
