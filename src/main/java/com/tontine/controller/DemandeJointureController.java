@@ -76,7 +76,6 @@ public class DemandeJointureController {
         ModelAndView modelAndView = new ModelAndView("redirect:/");
 
 
-        //sending mail to admin
         emailService.sendSimpleMessage("elkhotriomarpro@gmail.com", "Test Subject", "Test Text");
 
         return modelAndView;
