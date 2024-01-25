@@ -87,7 +87,7 @@ public class AdminController {
     public ModelAndView changerStatut(Tontine tontine, @RequestParam int tontine_id, @RequestParam String statutTontine,
                                       RedirectAttributes redirectAttributes){
         try{
-            Tontine findedTontine = tontineService.findById(tontine_id).orElse(null);
+            Tontine findedTontine = tontineService.findById(tontine_id);
             if(!findedTontine.getStatutTontine().equals(Tontine.StatutTontine.EN_ATTENTE)){
                 redirectAttributes.addFlashAttribute("dangerMessage", "Vous Pouvez pas modifier le statut de la tontine");
                 return new ModelAndView("redirect:/tontines");
@@ -489,7 +489,7 @@ public class AdminController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView afficherMembres(@RequestParam(name = "tontineId") int tontineId, Model model){
 
-        Tontine tontine = tontineService.findById(tontineId).orElse(null);
+        Tontine tontine = tontineService.findById(tontineId);
 
         if(tontine != null){
              List<MembreTontine> membreTontines =  (List<MembreTontine>) tontine.getMembreTontines();

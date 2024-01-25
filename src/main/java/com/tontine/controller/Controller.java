@@ -116,7 +116,7 @@ public class Controller {
             user_id = authenticated_user.getId();
         }
 
-        Tontine tontine = tontineService.findById(id).orElse(null);
+        Tontine tontine = tontineService.findById(id);
         if(tontine != null){
             List<MembreTontine> membreTontines = (List<MembreTontine>) tontine.getMembreTontines();
             model.addAttribute("membres", membreTontines);

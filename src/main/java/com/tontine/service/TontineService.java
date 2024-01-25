@@ -19,6 +19,22 @@ public class TontineService {
         return tontineRepository.findAll(Sort.by(Sort.Direction.ASC, field));
     }
 
+    public Tontine findById(int id){
+        return tontineRepository.findById(id).orElse(null);
+    }
+
+    public Tontine save(Tontine tontine){
+        return tontineRepository.save(tontine);
+    }
+
+    public List<Tontine> findAll(){
+        return tontineRepository.findAll();
+    }
+
+    public void deleteById(int id){
+        tontineRepository.deleteById(id);
+    }
+
 
 
 

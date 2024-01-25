@@ -61,14 +61,24 @@ public class DemandeJointureController {
 
             }
 
-            Date date = new Date(); // Assuming this is the date you want to set
+            Date date = new Date();
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             demandeJointure.setDate(localDate);
             demandeJointure.setStatut(DemandeJointure.Statut.EN_ATTENTE);
             demandeJointureService.saveDemandeJointure(demandeJointure);
 
+            String message = "<p>Bonjour,</p>"
+                    + "<p>Une nouvelle demande de jointure a été soumise pour la tontine : <strong>" + demandeJointure.getTontine().getNom() + "</strong>.</p>"
+                    + "<p>Demandeur : " + demandeJointure.getUser().getNom_prenom() + "</p>"
+                    + "<p>Date de la demande : " + demandeJointure.getDate() + "</p>"
+                    + "<p>Veuillez traiter cette demande dès que possible.</p>"
+                    + "Pour accéder à votre page de gestion des demandes, veuillez cliquer sur le lien ci-dessous:<br/>"
+                    + "<a href=\"http://localhost:9090/demandesJointure\">Accéder à la page de gestion</a></p>";
+
+            emailService.sendSimpleMessage("elkhotriomarpro@gmail.com", "Demande de Jointure - " + demandeJointure.getTontine().getNom(), message);
 
             redirectAttributes.addFlashAttribute("successMessage", "Demande De Jointure Envoyée avec succès");
+
         }catch (Exception e){
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur Est Survenue Lors de la Demande de Jointure .");
@@ -76,7 +86,6 @@ public class DemandeJointureController {
         ModelAndView modelAndView = new ModelAndView("redirect:/");
 
 
-        emailService.sendSimpleMessage("elkhotriomarpro@gmail.com", "Test Subject", "Test Text");
 
         return modelAndView;
     }
