@@ -31,7 +31,7 @@ public class VariablesUpdator {
     @Autowired
     private EmailService emailService;
 
-    @Scheduled(cron = "0 19 19 * * *")
+    @Scheduled(cron = "0 11 22 * * *")
     public void updateVariable() {
 
         List<Tontine> tontineList = tontineService.findAll();
@@ -44,10 +44,15 @@ public class VariablesUpdator {
                 tontine.setStatutTontine(Tontine.StatutTontine.TERMINE);
                 tontineService.save(tontine);
             } else{
+
                 if (tontine.getDateDebut().equals(LocalDate.now())) {
+                    // test tour_courant_suivant // plusDays(7)
+
                     tontine.setStatutTontine(Tontine.StatutTontine.EN_COURS);
                     tontineService.saveAndFlush(tontine);
                 } else if (tontine.getDateFin().equals(LocalDate.now())) {
+                    // test tour_courant_suivant // plusDays(7)
+
                     tontine.setStatutTontine(Tontine.StatutTontine.TERMINE);
                     tontineService.saveAndFlush(tontine);
                 }
@@ -70,9 +75,14 @@ public class VariablesUpdator {
                 }
 
                 LocalDate tourAffectation = tour.getDateTour().minusDays(nbrJour);
+                // test tour_courant_suivant // plusDays(7)
                 if (tourAffectation.equals(LocalDate.now())) {
                     Tontine tontine = tour.getTontine();
-                    tontine.setTourCourant((int) tour.getMembreTontine().getId()-1);   //-1
+                    if(tontine.getTypeOrdre() == Demandetontine.TypeOrdre.ORDER){
+                        tontine.setTourCourant((int) tour.getMembreTontine().getId()-1);   //-1
+                    }else{
+                        tontine.setTourCourant((int) tour.getMembreTontine().getId());
+                    }
 
                     //email traitment
                     String message = "<p>Bonjour,</p>"
@@ -80,7 +90,7 @@ public class VariablesUpdator {
                             + "Pour accéder à votre compte, veuillez cliquer sur le lien ci-dessous:<br/>"
                             + "<a href=\"http://localhost:9090/\">Accéder à la page d'accueil</a></p>";
 
-                    emailService.sendSimpleMessage("elkhotriomarpro@gmail.com", "Tour-"+tour.getTontine().getNom(), message);
+                    emailService.sendSimpleMessage(tour.getMembreTontine().getUser().getEmail(), "Tour-"+tour.getTontine().getNom(), message);
 
 
                     tontineService.saveAndFlush(tontine);
