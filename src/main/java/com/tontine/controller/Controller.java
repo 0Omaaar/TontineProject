@@ -12,6 +12,7 @@ import com.tontine.repository.UserRepository;
 import com.tontine.service.DemandeJointureService;
 import com.tontine.service.TontineService;
 //import com.tontine.service.TontineServiceImp;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,8 +21,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -128,14 +131,21 @@ public class Controller {
     }
 
     @PostMapping("/updateProfile")
-    public ModelAndView updateProfile(Authentication authentication, User user, Model model){
+    public ModelAndView updateProfile(Authentication authentication, User user, Model model,
+                                      RedirectAttributes redirectAttributes){
         ModelAndView modelAndView = new ModelAndView("redirect:/");
-        User userFinded = userRepository.findByEmail(getLoggedInUserDetails().getUsername()).orElse(null);
-        userFinded.setCin(user.getCin());
-        userFinded.setEmail(user.getEmail());
-        userFinded.setNom_prenom(user.getNom_prenom());
-        userFinded.setNumTele(user.getNumTele());
-        userRepository.save(userFinded);
+        try{
+            User userFinded = userRepository.findByEmail(getLoggedInUserDetails().getUsername()).orElse(null);
+            userFinded.setCin(user.getCin());
+            userFinded.setEmail(user.getEmail());
+            userFinded.setNom_prenom(user.getNom_prenom());
+            userFinded.setNumTele(user.getNumTele());
+            userRepository.save(userFinded);
+            redirectAttributes.addFlashAttribute("successMessage", "Votre profil est modifié avec succès");
+        }catch(Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est survenue lors de modification de votre profil.");
+        }
 
         return modelAndView;
     }
@@ -155,9 +165,22 @@ public class Controller {
     }
 
     @PostMapping("/user/save")
-    public ModelAndView saveUSer(@ModelAttribute("User") User ourUser){
-        ourUser.setPassword(passwordEncoder.encode(ourUser.getPassword()));
-        User result = userRepository.save(ourUser);
+    public ModelAndView saveUSer(@ModelAttribute("User") @Valid User ourUser,
+                                 RedirectAttributes redirectAttributes,
+                                 BindingResult bindingResult){
+        try{
+            if(bindingResult.hasErrors()){
+                redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est survenue lors de création de votre Compte.");
+                return new ModelAndView("redirect:/register");
+            }
+            ourUser.setPassword(passwordEncoder.encode(ourUser.getPassword()));
+            User result = userRepository.save(ourUser);
+            redirectAttributes.addFlashAttribute("successMessage", "Votre Compte est crée avec succès");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("dangerMessage", "Une Erreur est survenue lors de création de votre Compte.");
+        }
 
         ModelAndView modelAndView = new ModelAndView("redirect:/login");
 

@@ -1,6 +1,7 @@
 package com.tontine.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,16 +27,19 @@ public class Demandetontine {
     @NotBlank(message = "Veuillez Saisir Un Nom Valide !") 
     private String nom;
 
+//    @NotBlank
     private int montantPeriode;
 
+//    @NotBlank
     private int maxMembre;
 
+//    @NotBlank
+    @FutureOrPresent
     private LocalDate dateDebut;
-
 
     private LocalDate dateFin;
 
-
+    @NotBlank
     public enum TypeOrdre{
         ALEATOIRE,
         ORDER

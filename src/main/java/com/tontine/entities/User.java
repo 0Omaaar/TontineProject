@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,7 @@ public class User {
 
     @NotBlank
     @Column(length = 10, nullable = false, unique = true)
+    @NumberFormat
     private String numTele;
 
     @NotBlank
