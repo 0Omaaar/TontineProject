@@ -31,7 +31,7 @@ public class VariablesUpdator {
     @Autowired
     private EmailService emailService;
 
-    @Scheduled(cron = "0 19  19 * * *")
+    @Scheduled(cron = "0 19 19 * * *")
     public void updateVariable() {
 
         List<Tontine> tontineList = tontineService.findAll();

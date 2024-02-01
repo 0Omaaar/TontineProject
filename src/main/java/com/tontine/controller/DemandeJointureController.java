@@ -85,8 +85,6 @@ public class DemandeJointureController {
         }
         ModelAndView modelAndView = new ModelAndView("redirect:/");
 
-
-
         return modelAndView;
     }
 

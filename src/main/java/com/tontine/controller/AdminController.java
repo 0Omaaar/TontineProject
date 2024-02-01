@@ -315,8 +315,6 @@ public class AdminController {
         try{
             tontineService.deleteById(id);
 
-            // ajouter traitment de suppression des demandes jointures de cette tontine
-
             redirectAttributes.addFlashAttribute("successMessage", "Tontine Supprimée avec succès");
         }catch (Exception e){
             e.printStackTrace();
