@@ -147,7 +147,7 @@ public class MembreServiceImp {
                 nbrJour = 90;
             }
 
-            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour * demandeJointure.getTontine().getTourList().size());
+            LocalDate dateTour = demandeJointure.getTontine().getDateDebut().plusDays((long) nbrJour *(demandeJointure.getTontine().getTourList().size()+1));
             int nbrTr = demandeJointure.getTontine().getTourList().size() + 1;
             Tour tour = new Tour(dateTour, nbrTr, membreTontine, demandeJointure.getTontine() );
             tourService.saveTour(tour);

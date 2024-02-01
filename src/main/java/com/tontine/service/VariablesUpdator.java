@@ -31,7 +31,7 @@ public class VariablesUpdator {
     @Autowired
     private EmailService emailService;
 
-    @Scheduled(cron = "0 11 22 * * *")
+    @Scheduled(cron = "0 28 0 * * *")
     public void updateVariable() {
 
         List<Tontine> tontineList = tontineService.findAll();
@@ -46,7 +46,7 @@ public class VariablesUpdator {
             } else{
 
                 if (tontine.getDateDebut().equals(LocalDate.now())) {
-                    // test tour_courant_suivant // plusDays(7)
+//                     test tour_courant_suivant // plusDays(7)
 
                     tontine.setStatutTontine(Tontine.StatutTontine.EN_COURS);
                     tontineService.saveAndFlush(tontine);
@@ -79,7 +79,7 @@ public class VariablesUpdator {
                 if (tourAffectation.equals(LocalDate.now())) {
                     Tontine tontine = tour.getTontine();
                     if(tontine.getTypeOrdre() == Demandetontine.TypeOrdre.ORDER){
-                        tontine.setTourCourant((int) tour.getMembreTontine().getId()-1);   //-1
+                        tontine.setTourCourant((int) tour.getMembreTontine().getId());   //-1
                     }else{
                         tontine.setTourCourant((int) tour.getMembreTontine().getId());
                     }
